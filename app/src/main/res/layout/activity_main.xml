@@ -23,35 +23,20 @@
 
     <Button
         android:id="@+id/button_bigOne"
-        app:cornerRadius="@dimen/cornerRadius"
         android:text="@string/search_name"
         app:icon="@drawable/ic_search"
-        app:iconGravity="textStart"
-        app:iconPadding="16dp"
-        app:iconSize="17dp"
-        app:iconTint="@color/main_text"
         style="@style/main_buttonstyle" />
 
     <Button
         android:id="@+id/button_bigTwo"
-        app:cornerRadius="@dimen/cornerRadius"
         android:text="@string/medialibrary_name"
         app:icon="@drawable/ic_medialibrary"
-        app:iconGravity="textStart"
-        app:iconPadding="16dp"
-        app:iconSize="17dp"
-        app:iconTint="@color/main_text"
         style="@style/main_buttonstyle"/>
 
     <Button
         android:id="@+id/button_bigThree"
-        app:cornerRadius="@dimen/cornerRadius"
         android:text="@string/settings_name"
         app:icon="@drawable/ic_settings"
-        app:iconGravity="textStart"
-        app:iconPadding="16dp"
-        app:iconSize="17dp"
-        app:iconTint="@color/main_text"
         style="@style/main_buttonstyle"/>
 
 

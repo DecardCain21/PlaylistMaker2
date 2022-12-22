@@ -48,7 +48,7 @@
     </style>
 
     <style name="activity_search_ic">
-        <item name="android:background">"@drawable/ic_search_grey"</item>
+        <item name="tint">@color/main_hint_color</item>
     </style>
 
     <style name="activity_search_et_text">

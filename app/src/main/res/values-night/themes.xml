@@ -49,10 +49,11 @@
     </style>
 
     <style name="activity_search_ic">
-        <item name="android:background">"@drawable/ic_search"</item>
+        <item name="tint">@color/main_primary_night</item>
     </style>
 
     <style name="activity_search_et_text">
+        <item name="android:textColor">@color/main_primary_night</item>
         <item name="android:textColorHint">@color/main_primary_night</item>
     </style>
 
