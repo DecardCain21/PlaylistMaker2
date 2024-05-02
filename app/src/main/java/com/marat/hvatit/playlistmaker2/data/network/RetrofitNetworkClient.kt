@@ -10,9 +10,9 @@ import com.marat.hvatit.playlistmaker2.data.dto.TrackSearchRequest
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
-class RetrofitNetworkClient(private val context: Context) : NetworkClient {
+class RetrofitNetworkClient(private val context: Context,private val appleBaseUrl : String) : NetworkClient {
 
-    private val appleBaseUrl = "https://itunes.apple.com"
+
 
     private val retrofit =
         Retrofit.Builder()
@@ -23,7 +23,7 @@ class RetrofitNetworkClient(private val context: Context) : NetworkClient {
     private val appleService = retrofit.create(AppleMusicApiService::class.java)
     override fun doRequest(dto: Any): Response {
         if (dto is TrackSearchRequest) {
-            if (isConnected() == false) {
+            if (!isConnected()) {
                 return Response().apply { resultCode = -1 }
             }
             val resp = appleService.search(dto.expression).execute()

@@ -2,7 +2,7 @@ package com.marat.hvatit.playlistmaker2.data
 
 import com.marat.hvatit.playlistmaker2.data.dto.TrackSearchRequest
 import com.marat.hvatit.playlistmaker2.data.dto.TrackSearchResponse
-import com.marat.hvatit.playlistmaker2.domain.api.TrackRepository
+import com.marat.hvatit.playlistmaker2.domain.api.repository.TrackRepository
 import com.marat.hvatit.playlistmaker2.domain.models.Track
 import com.marat.hvatit.playlistmaker2.presentation.utils.Resource
 

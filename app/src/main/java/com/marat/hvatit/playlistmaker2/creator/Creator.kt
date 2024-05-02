@@ -4,24 +4,25 @@ import android.content.Context
 import android.content.SharedPreferences
 import com.google.gson.Gson
 import com.marat.hvatit.playlistmaker2.common.GlideHelperImpl
-import com.marat.hvatit.playlistmaker2.data.AudioPlayerRepositoryImpl
 import com.marat.hvatit.playlistmaker2.data.TrackRepositoryImpl
-import com.marat.hvatit.playlistmaker2.data.dataSource.HistoryPref
-import com.marat.hvatit.playlistmaker2.data.dataSource.HistoryPrefImpl
+import com.marat.hvatit.playlistmaker2.data.dataSource.HistoryStorage
+import com.marat.hvatit.playlistmaker2.data.dataSource.HistoryStorageImpl
 import com.marat.hvatit.playlistmaker2.data.dto.JsonParserImpl
 import com.marat.hvatit.playlistmaker2.data.network.RetrofitNetworkClient
 import com.marat.hvatit.playlistmaker2.domain.api.AudioPlayerCallback
-import com.marat.hvatit.playlistmaker2.domain.api.AudioPlayerInteractor
-import com.marat.hvatit.playlistmaker2.domain.api.MainInteractor
-import com.marat.hvatit.playlistmaker2.domain.api.SettingsInteractor
-import com.marat.hvatit.playlistmaker2.domain.api.TrackInteractor
-import com.marat.hvatit.playlistmaker2.domain.api.TrackRepository
+import com.marat.hvatit.playlistmaker2.domain.api.JsonParser
+import com.marat.hvatit.playlistmaker2.domain.api.interactors.AudioPlayerInteractor
+import com.marat.hvatit.playlistmaker2.domain.api.interactors.MainInteractor
+import com.marat.hvatit.playlistmaker2.domain.api.interactors.SettingsInteractor
+import com.marat.hvatit.playlistmaker2.domain.api.interactors.TrackInteractor
+import com.marat.hvatit.playlistmaker2.domain.api.repository.TrackRepository
 import com.marat.hvatit.playlistmaker2.domain.impl.AudioPlayerInteractorImpl
 import com.marat.hvatit.playlistmaker2.domain.impl.MainInteractorImpl
 import com.marat.hvatit.playlistmaker2.domain.impl.SettingsInteractorImpl
 import com.marat.hvatit.playlistmaker2.domain.impl.TrackInteractorImpl
-import com.marat.hvatit.playlistmaker2.domain.models.SaveStack
+import com.marat.hvatit.playlistmaker2.domain.models.SaveTrackRepository
 import com.marat.hvatit.playlistmaker2.domain.models.Track
+import com.marat.hvatit.playlistmaker2.presentation.audioplayer.AudioPlayerControllerImpl
 import com.marat.hvatit.playlistmaker2.presentation.settings.IntentNavigator
 import com.marat.hvatit.playlistmaker2.presentation.settings.IntentNavigatorImpl
 import com.marat.hvatit.playlistmaker2.presentation.utils.GlideHelper
@@ -30,8 +31,15 @@ object Creator {
 
     private const val KEY_CART = "cart"
 
+    private const val APPLE_BASE_URL = "https://itunes.apple.com"
+
     private fun getTrackRepository(): TrackRepository {
-        return TrackRepositoryImpl(RetrofitNetworkClient(PlaylistMakerApp.applicationContext()))
+        return TrackRepositoryImpl(
+            RetrofitNetworkClient(
+                PlaylistMakerApp.applicationContext(),
+                APPLE_BASE_URL
+            )
+        )
     }
 
     fun provideTrackInteractor(): TrackInteractor {
@@ -42,10 +50,10 @@ object Creator {
         priviewUrl: String,
         callback: AudioPlayerCallback
     ): AudioPlayerInteractor {
-        return AudioPlayerInteractorImpl(AudioPlayerRepositoryImpl(priviewUrl, callback))
+        return AudioPlayerInteractorImpl(AudioPlayerControllerImpl(priviewUrl, callback))
     }
 
-    fun provideJsonParser(): JsonParserImpl {
+    fun provideJsonParser(): JsonParser {
         return JsonParserImpl(provideGson())
     }
 
@@ -53,8 +61,8 @@ object Creator {
         return GlideHelperImpl()
     }
 
-    fun provideSaveStack(size: Int): SaveStack<Track> {
-        return SaveStack<Track>(size, provideHistoryTracks())
+    fun provideSaveStack(size: Int): SaveTrackRepository<Track> {
+        return SaveTrackRepository<Track>(size, provideHistoryTracks())
     }
 
     fun provideSettingsInteractor(): SettingsInteractor {
@@ -69,8 +77,8 @@ object Creator {
         return IntentNavigatorImpl(context)
     }
 
-    private fun provideHistoryTracks(): HistoryPref {
-        return HistoryPrefImpl(
+    private fun provideHistoryTracks(): HistoryStorage {
+        return HistoryStorageImpl(
             PlaylistMakerApp.applicationContext(), provideSharedPref(),
             provideGson()
         )

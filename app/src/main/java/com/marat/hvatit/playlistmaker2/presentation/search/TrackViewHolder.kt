@@ -10,12 +10,12 @@ import com.marat.hvatit.playlistmaker2.presentation.utils.GlideHelper
 import java.text.SimpleDateFormat
 import java.util.Locale
 
-class TrackViewHolder(itemView: View, private val glide: GlideHelper) : RecyclerView.ViewHolder(itemView) {
+class TrackViewHolder(itemView: View, private val glide: GlideHelper) :
+    RecyclerView.ViewHolder(itemView) {
     private val trackName: TextView
     private val artistName: TextView
     private val trackTime: TextView
     private val trackImage: ImageView
-    private val roundedCornersImage: Int = 10
     private val simpleDateFormat: SimpleDateFormat =
         SimpleDateFormat("mm:ss", Locale.getDefault())
 
@@ -31,9 +31,12 @@ class TrackViewHolder(itemView: View, private val glide: GlideHelper) : Recycler
         trackName.text = model.trackName
         artistName.text = model.artistName
         trackTime.text = dateFormat(model.trackTimeMills)
-        glide.setImage(itemView.context,model,roundedCornersImage,trackImage)
+        glide.setImage(
+            context = itemView.context,
+            url = model.artworkUrl100.replaceAfterLast('/', "512x512bb.jpg"),
+            actplayerCover = trackImage
+        )
     }
-
 
 
     private fun dateFormat(trackTime: String): String {

@@ -1,4 +1,4 @@
-package com.marat.hvatit.playlistmaker2.domain.api
+package com.marat.hvatit.playlistmaker2.domain.api.interactors
 
 interface SettingsInteractor {
 

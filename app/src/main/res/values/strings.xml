@@ -24,5 +24,7 @@
     <string name="actplayer_year">Год</string>
     <string name="actplayer_genre">Жанр</string>
     <string name="actplayer_country">Страна</string>
+    <string name="default_timer">00:30</string>
+    <string name="isDone_timer">00:00</string>
 
 </resources>

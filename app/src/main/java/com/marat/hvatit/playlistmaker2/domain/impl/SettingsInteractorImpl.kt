@@ -1,15 +1,15 @@
 package com.marat.hvatit.playlistmaker2.domain.impl
 
-import com.marat.hvatit.playlistmaker2.data.dataSource.HistoryPref
-import com.marat.hvatit.playlistmaker2.domain.api.SettingsInteractor
+import com.marat.hvatit.playlistmaker2.data.dataSource.HistoryStorage
+import com.marat.hvatit.playlistmaker2.domain.api.interactors.SettingsInteractor
 
-class SettingsInteractorImpl(private val historyPref: HistoryPref) : SettingsInteractor {
+class SettingsInteractorImpl(private val historyStorage: HistoryStorage) : SettingsInteractor {
     override fun getPrefTheme(): Boolean {
-        return historyPref.getUserTheme()
+        return historyStorage.getUserTheme()
     }
 
     override fun editPrefTheme(value: Boolean) {
-        historyPref.editDefaultTheme(value)
+        historyStorage.editDefaultTheme(value)
     }
 
 

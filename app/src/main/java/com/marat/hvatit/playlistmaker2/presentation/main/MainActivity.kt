@@ -23,24 +23,34 @@ class MainActivity : AppCompatActivity() {
             this,
             MainViewModel.getViewModelFactory(interactor)
         )[MainViewModel::class.java]
-
         setThemePref()
-        val buttonSearch = findViewById<Button>(R.id.button_bigOne)
-        buttonSearch.setOnClickListener {
-            SearchActivity.getIntent(this@MainActivity, this.getString(R.string.android)).apply {
+        initButtonSearch()
+        initButtonMediaLib()
+        initButtonSettings()
+
+    }
+
+    private fun initButtonSettings() {
+        val buttonSettings = findViewById<Button>(R.id.button_bigThree)
+        buttonSettings.setOnClickListener {
+            SettingsActivity.getIntent(this@MainActivity, this.getString(R.string.android)).apply {
                 startActivity(this)
             }
         }
-        //................................................................................
+    }
+
+    private fun initButtonMediaLib() {
         val buttonMedialib = findViewById<Button>(R.id.button_bigTwo)
         buttonMedialib.setOnClickListener {
             val medialibIntent = Intent(this, MedialibraryActivity::class.java)
             startActivity(medialibIntent)
         }
-        //................................................................................
-        val buttonSettings = findViewById<Button>(R.id.button_bigThree)
-        buttonSettings.setOnClickListener {
-            SettingsActivity.getIntent(this@MainActivity, this.getString(R.string.android)).apply {
+    }
+
+    private fun initButtonSearch() {
+        val buttonSearch = findViewById<Button>(R.id.button_bigOne)
+        buttonSearch.setOnClickListener {
+            SearchActivity.getIntent(this@MainActivity, this.getString(R.string.android)).apply {
                 startActivity(this)
             }
         }

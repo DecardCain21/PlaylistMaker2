@@ -1,11 +1,11 @@
 package com.marat.hvatit.playlistmaker2.domain.impl
 
 
-import com.marat.hvatit.playlistmaker2.domain.api.AudioPlayerInteractor
-import com.marat.hvatit.playlistmaker2.domain.api.AudioPlayerRepository
+import com.marat.hvatit.playlistmaker2.domain.api.interactors.AudioPlayerInteractor
+import com.marat.hvatit.playlistmaker2.presentation.audioplayer.AudioPlayerController
 import com.marat.hvatit.playlistmaker2.presentation.audioplayer.MediaPlayerState
 
-class AudioPlayerInteractorImpl(private val audioPlayerImpl: AudioPlayerRepository) :
+class AudioPlayerInteractorImpl(private val audioPlayerImpl: AudioPlayerController) :
     AudioPlayerInteractor {
 
     override fun playbackControl(): MediaPlayerState {
