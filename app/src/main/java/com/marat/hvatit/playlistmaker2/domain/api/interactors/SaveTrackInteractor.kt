@@ -7,7 +7,7 @@ interface SaveTrackInteractor {
     val tracks: List<Track>
     fun addSaveSongs(item: Track)
 
-    fun getSaveTracks() : List<Track>
+    fun getSaveTracks(): List<Track>
 
     fun saveTracksToCache()
 

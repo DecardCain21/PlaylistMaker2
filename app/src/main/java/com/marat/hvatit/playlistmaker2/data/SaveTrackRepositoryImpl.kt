@@ -5,7 +5,10 @@ import com.marat.hvatit.playlistmaker2.domain.api.repository.SaveTrackRepository
 import com.marat.hvatit.playlistmaker2.domain.models.Track
 import java.util.Stack
 
-class SaveTrackRepositoryImpl(private val maxSize: Int, private val historyStorage: HistoryStorage):SaveTrackRepository {
+class SaveTrackRepositoryImpl(
+    private val maxSize: Int,
+    private val historyStorage: HistoryStorage
+) : SaveTrackRepository {
 
     // внутреннее состояние треков
     private val _tracks: Stack<Track> = Stack()

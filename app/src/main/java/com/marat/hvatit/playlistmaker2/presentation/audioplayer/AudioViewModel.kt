@@ -48,7 +48,7 @@ class AudioViewModel(private val interactor: AudioPlayerInteractor) : ViewModel(
         interactor.destroyPlayer()
     }
 
-    fun trackIsDone(){
+    fun trackIsDone() {
         stopTimer()
         loadingLiveData.postValue(MediaPlayerState.Paused)
     }
@@ -62,6 +62,7 @@ class AudioViewModel(private val interactor: AudioPlayerInteractor) : ViewModel(
     private fun stopTimer() {
         handler.removeCallbacks(timerRunnable)
     }
+
     companion object {
         fun getViewModelFactory(interactor: AudioPlayerInteractor): ViewModelProvider.Factory =
             viewModelFactory {

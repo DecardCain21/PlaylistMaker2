@@ -25,7 +25,6 @@ class SearchViewModel(
     private var loadingLiveData = MutableLiveData(searchState)
 
 
-
     fun getLoadingLiveData(): LiveData<SearchState> = loadingLiveData
 
     fun changeState(newState: SearchState) {
@@ -52,10 +51,6 @@ class SearchViewModel(
 
     fun addSaveSongs(item: Track) {
         trackRepository.addSaveSongs(item)
-        /*if (trackRepository.searchId(item)) {
-            trackRepository.remove(item)
-        }
-        trackRepository.pushElement(item)*/
         if (loadingLiveData.value is SearchState.StartState) {
             setSavedTracks()
         }
@@ -63,12 +58,10 @@ class SearchViewModel(
 
     fun saveTracksToCache() {
         trackRepository.saveTracksToCache()
-        //this.trackRepository.onDestroyStack()
     }
 
     fun clearSaveStack() {
         trackRepository.clearSaveStack()
-        //trackRepository.clear()
         saveTracksToCache()
     }
 

@@ -19,7 +19,7 @@ class SettingsActivity : AppCompatActivity() {
     private lateinit var viewModel: SettingsViewModel
     private val interactor = Creator.provideSettingsInteractor()
     private val intentNavigator = Creator.provideIntentNavigator(this)
-    private lateinit var buttonSwitchTheme : SwitchCompat
+    private lateinit var buttonSwitchTheme: SwitchCompat
 
     companion object {
         fun getIntent(context: Context, message: String): Intent {

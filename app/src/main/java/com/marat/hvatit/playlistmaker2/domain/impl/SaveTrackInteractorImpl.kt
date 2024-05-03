@@ -4,7 +4,8 @@ import com.marat.hvatit.playlistmaker2.domain.api.interactors.SaveTrackInteracto
 import com.marat.hvatit.playlistmaker2.domain.api.repository.SaveTrackRepository
 import com.marat.hvatit.playlistmaker2.domain.models.Track
 
-class SaveTrackInteractorImpl(val saveTrackRepositoryImpl: SaveTrackRepository) : SaveTrackInteractor{
+class SaveTrackInteractorImpl(val saveTrackRepositoryImpl: SaveTrackRepository) :
+    SaveTrackInteractor {
     override val tracks: List<Track>
         get() = saveTrackRepositoryImpl.tracks
 

@@ -10,8 +10,8 @@ import com.marat.hvatit.playlistmaker2.data.dto.TrackSearchRequest
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
-class RetrofitNetworkClient(private val context: Context,private val appleBaseUrl : String) : NetworkClient {
-
+class RetrofitNetworkClient(private val context: Context, private val appleBaseUrl: String) :
+    NetworkClient {
 
 
     private val retrofit =

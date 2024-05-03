@@ -40,8 +40,6 @@ class SearchActivity : AppCompatActivity() {
     private val interactor = creator.provideTrackInteractor()
     private val interactorsavetracks = creator.provideSaveTrackInteractor()
     private val gson = creator.provideJsonParser()
-    //private lateinit var saveSongStack: SaveTrackRepositoryImpl<Track>
-
 
     private val trackListAdapter = TrackListAdapter()
 
@@ -82,10 +80,8 @@ class SearchActivity : AppCompatActivity() {
         val buttonClear: ImageButton = findViewById(R.id.buttonClear)
         val recyclerSongList = findViewById<RecyclerView>(R.id.songlist)
         initViews()
-        //...............................................................
         recyclerSongList.layoutManager = LinearLayoutManager(this)
         recyclerSongList.adapter = trackListAdapter
-        //saveSongStack = creator.provideSaveTrackRepository(10)
         viewModel = ViewModelProvider(
             this,
             SearchViewModel.getViewModelFactory(interactor, interactorsavetracks)
@@ -159,7 +155,7 @@ class SearchActivity : AppCompatActivity() {
 
     }
 
-    private fun initViews(){
+    private fun initViews() {
         historyText = findViewById(R.id.messagehistory)
         clearHistory = findViewById(R.id.clearhistory)
         progressBar = findViewById(R.id.progressBar)

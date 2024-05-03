@@ -35,21 +35,14 @@ object Creator {
 
     private const val APPLE_BASE_URL = "https://itunes.apple.com"
 
-    private fun getTrackRepository(): TrackRepository {
-        return TrackRepositoryImpl(
-            RetrofitNetworkClient(
-                PlaylistMakerApp.applicationContext(),
-                APPLE_BASE_URL
-            )
-        )
-    }
+    private const val STORY_TRACK_SIZE = 10
 
     fun provideTrackInteractor(): TrackInteractor {
-        return TrackInteractorImpl(getTrackRepository())
+        return TrackInteractorImpl(provideTrackRepository())
     }
 
-    fun provideSaveTrackInteractor() : SaveTrackInteractor{
-        return SaveTrackInteractorImpl(provideSaveTrackRepository(10))
+    fun provideSaveTrackInteractor(): SaveTrackInteractor {
+        return SaveTrackInteractorImpl(provideSaveTrackRepository(STORY_TRACK_SIZE))
     }
 
     fun provideAudioPlayer(
@@ -67,10 +60,6 @@ object Creator {
         return GlideHelperImpl()
     }
 
-    fun provideSaveTrackRepository(size: Int): SaveTrackRepository {
-        return SaveTrackRepositoryImpl(size, provideHistoryTracks())
-    }
-
     fun provideSettingsInteractor(): SettingsInteractor {
         return SettingsInteractorImpl(provideHistoryTracks())
     }
@@ -81,6 +70,19 @@ object Creator {
 
     fun provideIntentNavigator(context: Context): IntentNavigator {
         return IntentNavigatorImpl(context)
+    }
+
+    private fun provideTrackRepository(): TrackRepository {
+        return TrackRepositoryImpl(
+            RetrofitNetworkClient(
+                PlaylistMakerApp.applicationContext(),
+                APPLE_BASE_URL
+            )
+        )
+    }
+
+    private fun provideSaveTrackRepository(size: Int): SaveTrackRepository {
+        return SaveTrackRepositoryImpl(size, provideHistoryTracks())
     }
 
     private fun provideHistoryTracks(): HistoryStorage {

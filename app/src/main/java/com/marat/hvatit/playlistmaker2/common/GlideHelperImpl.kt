@@ -15,7 +15,6 @@ class GlideHelperImpl : GlideHelper {
         actplayerCover: ImageView,
         roundedCornersImage: Int,
     ) {
-        //song.artworkUrl100.replaceAfterLast('/', "512x512bb.jpg")
         Glide.with(context)
             .load(url)
             .placeholder(R.drawable.placeholder)

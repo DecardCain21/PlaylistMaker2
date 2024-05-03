@@ -27,6 +27,7 @@ class AudioPlayerControllerImpl(
             is MediaPlayerState.Paused -> {
                 startPlayer()
             }
+
             is MediaPlayerState.Playing -> {
                 pausePlayer()
             }

@@ -12,13 +12,12 @@ class TrackListAdapter(
     var saveTrackListener: SaveTrackListener? = null
     private val creator: Creator = Creator
 
-    private var tracklist : List<Track> = emptyList()
-
+    private var tracklist: List<Track> = emptyList()
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TrackViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.search_cell, parent, false)
-        return TrackViewHolder(view as ViewGroup,creator.provideGlideHelper())
+        return TrackViewHolder(view as ViewGroup, creator.provideGlideHelper())
     }
 
     override fun getItemCount() = tracklist.size
@@ -31,9 +30,8 @@ class TrackListAdapter(
         }
     }
 
-    fun update(trackList : List<Track>){
+    fun update(trackList: List<Track>) {
         this.tracklist = trackList
-        //notifyDataSetChanged()
     }
 
     fun interface SaveTrackListener {

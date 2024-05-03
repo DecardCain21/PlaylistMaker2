@@ -1,10 +1,6 @@
 package com.marat.hvatit.playlistmaker2.presentation.audioplayer
 
-
-/*enum class MediaPlayerState {
-    STATE_DEFAULT, STATE_PREPARED, STATE_PLAYING, STATE_PAUSED
-}*/
-sealed interface MediaPlayerState{
+sealed interface MediaPlayerState {
 
     object Default : MediaPlayerState
 

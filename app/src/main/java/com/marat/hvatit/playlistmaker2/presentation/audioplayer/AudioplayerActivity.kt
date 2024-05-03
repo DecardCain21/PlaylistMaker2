@@ -68,7 +68,7 @@ class AudioplayerActivity : AppCompatActivity(),
             Track::class.java
         )/*fromJson(song, Track::class.java)*/
         priviewUrl = result.previewUrl
-        Log.e("previewUrl","${result.previewUrl}")
+        Log.e("previewUrl", "${result.previewUrl}")
         interactor = creator.provideAudioPlayer(priviewUrl, this)
         viewModel = ViewModelProvider(
             this,

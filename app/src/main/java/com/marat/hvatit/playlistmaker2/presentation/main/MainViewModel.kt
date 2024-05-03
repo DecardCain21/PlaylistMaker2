@@ -12,6 +12,7 @@ class MainViewModel(private val interactor: MainInteractor) : ViewModel() {
     fun isDarkMode(): Boolean {
         return interactor.getPrefTheme()
     }
+
     companion object {
         fun getViewModelFactory(interactor: MainInteractor): ViewModelProvider.Factory =
             viewModelFactory {

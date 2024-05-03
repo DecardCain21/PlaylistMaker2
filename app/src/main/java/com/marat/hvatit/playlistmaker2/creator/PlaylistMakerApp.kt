@@ -3,7 +3,7 @@ package com.marat.hvatit.playlistmaker2.creator
 import android.app.Application
 import android.content.Context
 
-class PlaylistMakerApp: Application() {
+class PlaylistMakerApp : Application() {
 
     init {
         instance = this
@@ -12,7 +12,7 @@ class PlaylistMakerApp: Application() {
     companion object {
         private var instance: PlaylistMakerApp? = null
 
-        fun applicationContext() : Context {
+        fun applicationContext(): Context {
             return instance!!.applicationContext
         }
     }
