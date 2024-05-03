@@ -16,8 +16,12 @@ class SearchViewModel(
     private val interactor: TrackInteractor, private var trackRepository: SaveTrackRepository<Track>
 ) : ViewModel() {
 
-    private var searchState: SearchState =
+    private var searchState: SearchState = if (trackRepository.tracks.isEmpty()) {
+        SearchState.ClearState
+    } else {
         SearchState.StartState(trackRepository.tracks)
+    }
+    /*SearchState.StartState(trackRepository.tracks)*/
 
     private var loadingLiveData = MutableLiveData(searchState)
 
