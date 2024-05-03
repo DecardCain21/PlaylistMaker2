@@ -33,7 +33,7 @@ class SearchViewModel(
 
 
     fun search(query: String) {
-        searchState = SearchState.Download
+        loadingLiveData.postValue(SearchState.Download)
         interactor.searchTrack(query, object : TrackInteractor.TrackConsumer {
             override fun consume(foundTrack: List<Track>?, errorMessage: String?) {
                 if (foundTrack != null) {
