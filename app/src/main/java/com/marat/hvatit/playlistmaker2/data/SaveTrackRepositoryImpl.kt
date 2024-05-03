@@ -1,29 +1,31 @@
-package com.marat.hvatit.playlistmaker2.domain.models
+package com.marat.hvatit.playlistmaker2.data
 
 import com.marat.hvatit.playlistmaker2.data.dataSource.HistoryStorage
+import com.marat.hvatit.playlistmaker2.domain.api.repository.SaveTrackRepository
+import com.marat.hvatit.playlistmaker2.domain.models.Track
 import java.util.Stack
 
-class SaveTrackRepository<T>(private val maxSize: Int, private val historyStorage: HistoryStorage) {
+class SaveTrackRepositoryImpl(private val maxSize: Int, private val historyStorage: HistoryStorage):SaveTrackRepository {
 
     // внутреннее состояние треков
     private val _tracks: Stack<Track> = Stack()
 
-    val tracks: List<Track>
+    override val tracks: List<Track>
         get() = _tracks
 
     init {
         _tracks.addAll(historyStorage.trackList)
     }
 
-    fun remove(item: Track) {
+    override fun remove(item: Track) {
         _tracks.remove(item)
     }
 
-    fun clear() {
+    override fun clear() {
         _tracks.clear()
     }
 
-    fun pushElement(item: Track) {
+    override fun pushElement(item: Track) {
         if (_tracks.size >= maxSize) {
             _tracks.removeAt(_tracks.size - 1)
         }
@@ -32,7 +34,7 @@ class SaveTrackRepository<T>(private val maxSize: Int, private val historyStorag
     }
 
 
-    fun searchId(item: Track): Boolean {
+    override fun searchId(item: Track): Boolean {
         for (i in _tracks) {
             if (i.trackId == item.trackId) {
                 return true
@@ -41,12 +43,8 @@ class SaveTrackRepository<T>(private val maxSize: Int, private val historyStorag
         return false
     }
 
-    fun onDestroyStack() {
+    override fun onDestroyStack() {
         saveItemsToCache(_tracks)
-    }
-
-    fun getItemsFromCache(): List<Track>? {
-        return historyStorage.trackList
     }
 
     private fun saveItemsToCache(newItems: List<Track>) {

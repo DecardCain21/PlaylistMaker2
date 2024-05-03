@@ -25,8 +25,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.marat.hvatit.playlistmaker2.R
 import com.marat.hvatit.playlistmaker2.creator.Creator
-import com.marat.hvatit.playlistmaker2.domain.models.SaveTrackRepository
-import com.marat.hvatit.playlistmaker2.domain.models.Track
 import com.marat.hvatit.playlistmaker2.presentation.audioplayer.AudioplayerActivity
 
 
@@ -40,8 +38,9 @@ class SearchActivity : AppCompatActivity() {
 
     private val creator: Creator = Creator
     private val interactor = creator.provideTrackInteractor()
+    private val interactorsavetracks = creator.provideSaveTrackInteractor()
     private val gson = creator.provideJsonParser()
-    private lateinit var saveSongStack: SaveTrackRepository<Track>
+    //private lateinit var saveSongStack: SaveTrackRepositoryImpl<Track>
 
 
     private val trackListAdapter = TrackListAdapter()
@@ -86,10 +85,10 @@ class SearchActivity : AppCompatActivity() {
         //...............................................................
         recyclerSongList.layoutManager = LinearLayoutManager(this)
         recyclerSongList.adapter = trackListAdapter
-        saveSongStack = creator.provideSaveStack(10)
+        //saveSongStack = creator.provideSaveTrackRepository(10)
         viewModel = ViewModelProvider(
             this,
-            SearchViewModel.getViewModelFactory(interactor, saveSongStack)
+            SearchViewModel.getViewModelFactory(interactor, interactorsavetracks)
         )[SearchViewModel::class.java]
         //get(SearchViewModel::class.java)
 
