@@ -35,10 +35,9 @@
         app:layout_constraintTop_toBottomOf="@id/back">
 
         <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="14dp"
+            android:layout_height="14dp"
             android:layout_marginStart="13dp"
-            android:layout_weight="1"
             android:src="@drawable/ic_search" />
 
         <EditText
@@ -49,11 +48,11 @@
 
         <ImageButton
             android:id="@+id/buttonClear"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="10dp"
-            android:layout_weight="1"
-            android:background="@drawable/ic_baseline_clear_24"
+            android:layout_width="12dp"
+            android:layout_height="12dp"
+            android:layout_marginEnd="12dp"
+            android:scaleType="centerCrop"
+            android:background="@drawable/button_clear"
             android:visibility="gone" />
 
 

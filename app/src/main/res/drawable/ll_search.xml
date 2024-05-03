@@ -6,7 +6,7 @@
         android:width="3dp"
         android:color="?attr/colorPrimaryVariant"
          />
-    <corners android:radius="4dp" />
+    <corners android:radius="@dimen/activity_search_inputcorner" />
     <padding
         android:bottom="0dp"
         android:left="0dp"

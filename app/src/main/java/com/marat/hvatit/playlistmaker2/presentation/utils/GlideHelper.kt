@@ -14,6 +14,9 @@ interface GlideHelper {
 
     companion object{
 
+        fun String.addQuality():String{
+            return this.replaceAfterLast('/', "512x512bb.jpg")
+        }
         const val DEFAULT_CORNER_RADIUS = 10
     }
 

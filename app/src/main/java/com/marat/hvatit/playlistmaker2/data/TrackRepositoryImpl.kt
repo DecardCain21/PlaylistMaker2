@@ -20,13 +20,13 @@ class TrackRepositoryImpl(private val networkClient: NetworkClient) : TrackRepos
                         it.trackId,
                         it.trackName,
                         it.artistName,
-                        it.trackTimeMills,
+                        it.trackTimeMillis,
                         it.artworkUrl100,
                         it.country,
                         it.genre,
                         it.year ?: "0",
                         it.album,
-                        it.priviewUrl ?: "0"
+                        it.previewUrl ?: "0"
                     )
                 })
             }

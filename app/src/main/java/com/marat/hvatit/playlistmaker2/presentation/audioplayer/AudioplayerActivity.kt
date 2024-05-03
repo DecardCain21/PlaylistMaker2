@@ -15,6 +15,7 @@ import com.marat.hvatit.playlistmaker2.creator.Creator
 import com.marat.hvatit.playlistmaker2.domain.api.AudioPlayerCallback
 import com.marat.hvatit.playlistmaker2.domain.api.interactors.AudioPlayerInteractor
 import com.marat.hvatit.playlistmaker2.domain.models.Track
+import com.marat.hvatit.playlistmaker2.presentation.utils.GlideHelper.Companion.addQuality
 import java.text.SimpleDateFormat
 import java.util.Locale
 
@@ -30,7 +31,6 @@ class AudioplayerActivity : AppCompatActivity(),
 
 
     private lateinit var actplayerCover: ImageView
-
     private lateinit var countryvalue: TextView
     private lateinit var genrevalue: TextView
     private lateinit var yearvalue: TextView
@@ -40,11 +40,7 @@ class AudioplayerActivity : AppCompatActivity(),
     private lateinit var trackName: TextView
     private lateinit var buttonPlay: ImageButton
     private lateinit var priviewTimer: TextView
-
-    //private var playerState = MediaPlayerState.STATE_DEFAULT
-
     private lateinit var priviewUrl: String
-
 
     private val creator: Creator = Creator
     private lateinit var interactor: AudioPlayerInteractor
@@ -71,7 +67,8 @@ class AudioplayerActivity : AppCompatActivity(),
             song.toString(),
             Track::class.java
         )/*fromJson(song, Track::class.java)*/
-        priviewUrl = result.priviewUrl
+        priviewUrl = result.previewUrl
+        Log.e("previewUrl","${result.previewUrl}")
         interactor = creator.provideAudioPlayer(priviewUrl, this)
         viewModel = ViewModelProvider(
             this,
@@ -117,10 +114,10 @@ class AudioplayerActivity : AppCompatActivity(),
     private fun setTextContent(song: Track) {
         glide.setImage(
             context = this,
-            url = song.artworkUrl100,
+            url = song.artworkUrl100.addQuality(),
             actplayerCover = actplayerCover
         )
-        durationvalue.text = simpleDateFormat.format(song.trackTimeMills.toLong())
+        durationvalue.text = simpleDateFormat.format(song.trackTimeMillis.toLong())
         artistName.text = song.artistName
         trackName.text = song.trackName
         countryvalue.text = song.country

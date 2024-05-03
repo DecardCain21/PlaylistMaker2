@@ -9,5 +9,6 @@
     <dimen name="tv_marginStart">28dp</dimen>
     <dimen name="tv_marginTop">17dp</dimen>
     <dimen name="text_size_cell">13sp</dimen>
+    <dimen name="activity_search_inputcorner">8dp</dimen>
 
 </resources>

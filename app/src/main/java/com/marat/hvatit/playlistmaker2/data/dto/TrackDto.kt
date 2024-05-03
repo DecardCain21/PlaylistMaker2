@@ -2,12 +2,16 @@ package com.marat.hvatit.playlistmaker2.data.dto
 
 import com.google.gson.annotations.SerializedName
 
-data class TrackDto(
+class TrackDto(
+    @SerializedName("trackId")
     val trackId: String,
+    @SerializedName("trackName")
     val trackName: String,
+    @SerializedName("artistName")
     val artistName: String,
     @SerializedName("trackTimeMillis")
-    val trackTimeMills: String,
+    val trackTimeMillis: String,
+    @SerializedName("artworkUrl100")
     val artworkUrl100: String,
     @SerializedName("country")
     val country: String,
@@ -18,5 +22,5 @@ data class TrackDto(
     @SerializedName("collectionName")
     val album: String,
     @SerializedName("previewUrl")
-    val priviewUrl: String
+    val previewUrl: String
 )

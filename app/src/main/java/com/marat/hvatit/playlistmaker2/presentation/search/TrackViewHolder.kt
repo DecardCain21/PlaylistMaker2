@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.marat.hvatit.playlistmaker2.R
 import com.marat.hvatit.playlistmaker2.domain.models.Track
 import com.marat.hvatit.playlistmaker2.presentation.utils.GlideHelper
+import com.marat.hvatit.playlistmaker2.presentation.utils.GlideHelper.Companion.addQuality
 import java.text.SimpleDateFormat
 import java.util.Locale
 
@@ -30,10 +31,10 @@ class TrackViewHolder(itemView: View, private val glide: GlideHelper) :
     fun bind(model: Track) {
         trackName.text = model.trackName
         artistName.text = model.artistName
-        trackTime.text = dateFormat(model.trackTimeMills)
+        trackTime.text = dateFormat(model.trackTimeMillis)
         glide.setImage(
             context = itemView.context,
-            url = model.artworkUrl100.replaceAfterLast('/', "512x512bb.jpg"),
+            url = model.artworkUrl100.addQuality(),
             actplayerCover = trackImage
         )
     }
