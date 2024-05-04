@@ -24,7 +24,7 @@ import com.marat.hvatit.playlistmaker2.domain.impl.MainInteractorImpl
 import com.marat.hvatit.playlistmaker2.domain.impl.SaveTrackInteractorImpl
 import com.marat.hvatit.playlistmaker2.domain.impl.SettingsInteractorImpl
 import com.marat.hvatit.playlistmaker2.domain.impl.TrackInteractorImpl
-import com.marat.hvatit.playlistmaker2.presentation.audioplayer.AudioPlayerControllerImpl
+import com.marat.hvatit.playlistmaker2.presentation.audioplayer.controller.AudioPlayerControllerImpl
 import com.marat.hvatit.playlistmaker2.presentation.settings.IntentNavigator
 import com.marat.hvatit.playlistmaker2.presentation.settings.IntentNavigatorImpl
 import com.marat.hvatit.playlistmaker2.presentation.utils.GlideHelper
@@ -42,7 +42,7 @@ object Creator {
     }
 
     fun provideSaveTrackInteractor(): SaveTrackInteractor {
-        return SaveTrackInteractorImpl(provideSaveTrackRepository(STORY_TRACK_SIZE))
+        return SaveTrackInteractorImpl(provideSaveTrackRepository())
     }
 
     fun provideAudioPlayer(
@@ -81,8 +81,8 @@ object Creator {
         )
     }
 
-    private fun provideSaveTrackRepository(size: Int): SaveTrackRepository {
-        return SaveTrackRepositoryImpl(size, provideHistoryTracks())
+    private fun provideSaveTrackRepository(): SaveTrackRepository {
+        return SaveTrackRepositoryImpl(STORY_TRACK_SIZE, provideHistoryTracks())
     }
 
     private fun provideHistoryTracks(): HistoryStorage {

@@ -1,26 +1,29 @@
-package com.marat.hvatit.playlistmaker2.presentation.audioplayer
+package com.marat.hvatit.playlistmaker2.presentation.audioplayer.controller
 
 import android.media.MediaPlayer
+import android.util.Log
 import com.marat.hvatit.playlistmaker2.domain.api.AudioPlayerCallback
+import com.marat.hvatit.playlistmaker2.presentation.audioplayer.AudioPlayerController
+import com.marat.hvatit.playlistmaker2.presentation.audioplayer.MediaPlayerState
 import java.text.SimpleDateFormat
 import java.util.Locale
 
 class AudioPlayerControllerImpl(
-    private val priviewUrl: String,
+    private val previewUrl: String,
     private val activityCallBack: AudioPlayerCallback
-) :
-    AudioPlayerController {
+) : AudioPlayerController {
 
 
-    private var mediaPlayer = MediaPlayer()
+    private val mediaPlayer = MediaPlayer()
     private var playerState: MediaPlayerState = MediaPlayerState.Default
+
     override fun stateControl(): MediaPlayerState {
         when (playerState) {
-            MediaPlayerState.Default -> {
-                preparePlayer(priviewUrl)
+            is MediaPlayerState.Default -> {
+                preparePlayer(previewUrl)
             }
 
-            MediaPlayerState.Prepared -> {
+            is MediaPlayerState.Prepared -> {
                 startPlayer()
             }
 
@@ -32,6 +35,7 @@ class AudioPlayerControllerImpl(
                 pausePlayer()
             }
         }
+        Log.e("MediaState","stateControl():$playerState")
         return playerState
     }
 
@@ -40,6 +44,7 @@ class AudioPlayerControllerImpl(
         mediaPlayer.prepareAsync()
         mediaPlayer.setOnPreparedListener {
             playerState = MediaPlayerState.Prepared
+            activityCallBack.playerPrepared()
         }
     }
 
@@ -59,6 +64,8 @@ class AudioPlayerControllerImpl(
     }
 
     override fun getCurrentTime(): String {
+        //Log.e("MediaState", "getCurrentTime:${this.mediaPlayer.currentPosition}")
+        Log.e("MediaState", "getCurrentTime,mediaplayer hashcode${mediaPlayer.hashCode()}")
         return SimpleDateFormat("mm:ss", Locale.getDefault()).format(mediaPlayer.currentPosition)
     }
 

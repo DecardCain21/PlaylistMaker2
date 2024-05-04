@@ -84,8 +84,8 @@ class AudioplayerActivity : AppCompatActivity(),
         }
 
         buttonPlay.isEnabled = false
-        viewModel.playbackControl()
 
+        viewModel.playbackControl()
         buttonPlay.setOnClickListener {
             viewModel.playbackControl()
         }
@@ -129,26 +129,23 @@ class AudioplayerActivity : AppCompatActivity(),
 
     override fun onPause() {
         super.onPause()
-        viewModel.stopPlayer()
+        viewModel.onPausePlayer()
         buttonPlay.setBackgroundResource(R.drawable.button_play)
     }
 
     override fun onDestroy() {
         super.onDestroy()
-        viewModel.destroyPlayer()
+        viewModel.onDestroyPlayer()
     }
 
     private fun uiControl(state: MediaPlayerState) {
         when (state) {
-
             MediaPlayerState.Default -> {
                 buttonPlay.setBackgroundResource(R.drawable.button_play)
-                buttonPlay.isEnabled = true
             }
 
-            is MediaPlayerState.Paused -> {
+            MediaPlayerState.Paused -> {
                 buttonPlay.setBackgroundResource(R.drawable.button_play)
-                Log.e("MediaState", "is MediaPlayerState.Paused")
             }
 
             is MediaPlayerState.Playing -> {
@@ -158,12 +155,19 @@ class AudioplayerActivity : AppCompatActivity(),
 
             MediaPlayerState.Prepared -> {
                 buttonPlay.setBackgroundResource(R.drawable.button_play)
+                /*buttonPlay.isEnabled = true*/
             }
+
         }
     }
 
     override fun trackIsDone() {
         viewModel.trackIsDone()
         priviewTimer.text = getString(R.string.isDone_timer)
+    }
+
+    override fun playerPrepared() {
+        buttonPlay.isEnabled = true
+        Log.e("MediaState", "is playerPrepared()")
     }
 }

@@ -14,36 +14,33 @@ import com.marat.hvatit.playlistmaker2.domain.api.interactors.AudioPlayerInterac
 class AudioViewModel(private val interactor: AudioPlayerInteractor) : ViewModel() {
 
     private var playerState: MediaPlayerState = MediaPlayerState.Default
-    private var currentState: MediaPlayerState? = MediaPlayerState.Default
+
+    /*private var currentState: MediaPlayerState = MediaPlayerState.Prepared*/
     private var loadingLiveData = MutableLiveData(playerState)
 
     private val handler = Handler(Looper.getMainLooper())
-    private val timerRunnable: Runnable = Runnable { updateTimer() }
+    private val timerRunnable: Runnable = Runnable { startTimer() }
 
 
     fun getLoadingLiveData(): LiveData<MediaPlayerState> = loadingLiveData
 
     fun playbackControl() {
-        currentState = interactor.playbackControl()
-        loadingLiveData.postValue(currentState)
-        if (currentState is MediaPlayerState.Playing) {
-            updateTimer()
+        loadingLiveData.value = interactor.playbackControl()
+        Log.e("MediaState", "loadingLiveData:${loadingLiveData.value}")
+        if (loadingLiveData.value is MediaPlayerState.Playing) {
+            startTimer()
         } else {
             stopTimer()
         }
     }
 
-    private fun refreshTime() {
-        loadingLiveData.postValue(MediaPlayerState.Playing(interactor.updateTimer()))
-    }
-
-    fun stopPlayer() {
+    fun onPausePlayer() {
         stopTimer()
         interactor.stopPlayer()
         loadingLiveData.postValue(MediaPlayerState.Paused)
     }
 
-    fun destroyPlayer() {
+    fun onDestroyPlayer() {
         stopTimer()
         interactor.destroyPlayer()
     }
@@ -53,14 +50,18 @@ class AudioViewModel(private val interactor: AudioPlayerInteractor) : ViewModel(
         loadingLiveData.postValue(MediaPlayerState.Paused)
     }
 
-    private fun updateTimer() {
-        Log.e("MediaState", "updateTimer")
-        refreshTime()
+    private fun startTimer() {
+        handler.removeCallbacks(timerRunnable)
+        //loadingLiveData.postValue(MediaPlayerState.Playing(interactor.updateTimer()))
+        loadingLiveData.value = MediaPlayerState.Playing(interactor.updateTimer())
+        Log.e("MediaState", "startTimer():${loadingLiveData.value}")
         handler.postDelayed(timerRunnable, 1000L)
     }
 
     private fun stopTimer() {
         handler.removeCallbacks(timerRunnable)
+        //loadingLiveData.postValue(MediaPlayerState.Paused)
+        loadingLiveData.value = MediaPlayerState.Paused
     }
 
     companion object {

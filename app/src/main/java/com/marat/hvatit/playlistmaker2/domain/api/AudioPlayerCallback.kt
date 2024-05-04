@@ -4,4 +4,6 @@ interface AudioPlayerCallback {
 
     fun trackIsDone()
 
+    fun playerPrepared()
+
 }
