@@ -25,7 +25,9 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.marat.hvatit.playlistmaker2.R
 import com.marat.hvatit.playlistmaker2.creator.Creator
+import com.marat.hvatit.playlistmaker2.domain.api.interactors.TrackInteractor
 import com.marat.hvatit.playlistmaker2.presentation.audioplayer.AudioplayerActivity
+import org.koin.android.ext.android.inject
 
 
 const val EDITTEXT_TEXT = "EDITTEXT_TEXT"
@@ -37,7 +39,8 @@ class SearchActivity : AppCompatActivity() {
 
 
     private val creator: Creator = Creator
-    private val interactor = creator.provideTrackInteractor()
+    //private val interactor = creator.provideTrackInteractor()
+    private val interactor : TrackInteractor by inject()
     private val interactorsavetracks = creator.provideSaveTrackInteractor()
     private val gson = creator.provideJsonParser()
 

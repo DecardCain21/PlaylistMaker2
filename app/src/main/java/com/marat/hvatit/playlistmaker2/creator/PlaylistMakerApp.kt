@@ -2,11 +2,22 @@ package com.marat.hvatit.playlistmaker2.creator
 
 import android.app.Application
 import android.content.Context
+import com.marat.hvatit.playlistmaker2.di.dataModule
+import org.koin.android.ext.koin.androidContext
+import org.koin.core.context.GlobalContext.startKoin
 
 class PlaylistMakerApp : Application() {
 
     init {
         instance = this
+    }
+
+    override fun onCreate() {
+        super.onCreate()
+        startKoin{
+            androidContext(this@PlaylistMakerApp)
+            modules(dataModule)
+        }
     }
 
     companion object {

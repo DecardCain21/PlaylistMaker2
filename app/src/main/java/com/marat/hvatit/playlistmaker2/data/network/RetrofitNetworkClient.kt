@@ -7,20 +7,12 @@ import android.os.Build
 import com.marat.hvatit.playlistmaker2.data.NetworkClient
 import com.marat.hvatit.playlistmaker2.data.dto.Response
 import com.marat.hvatit.playlistmaker2.data.dto.TrackSearchRequest
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
 
-class RetrofitNetworkClient(private val context: Context, private val appleBaseUrl: String) :
+class RetrofitNetworkClient(
+    private val appleService: AppleMusicApiService,
+    private val context: Context
+) :
     NetworkClient {
-
-
-    private val retrofit =
-        Retrofit.Builder()
-            .baseUrl(appleBaseUrl)
-            .addConverterFactory(GsonConverterFactory.create())
-            .build()
-
-    private val appleService = retrofit.create(AppleMusicApiService::class.java)
     override fun doRequest(dto: Any): Response {
         if (dto is TrackSearchRequest) {
             if (!isConnected()) {

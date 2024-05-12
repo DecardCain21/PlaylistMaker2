@@ -5,25 +5,20 @@ import android.content.SharedPreferences
 import com.google.gson.Gson
 import com.marat.hvatit.playlistmaker2.common.GlideHelperImpl
 import com.marat.hvatit.playlistmaker2.data.SaveTrackRepositoryImpl
-import com.marat.hvatit.playlistmaker2.data.TrackRepositoryImpl
 import com.marat.hvatit.playlistmaker2.data.dataSource.HistoryStorage
 import com.marat.hvatit.playlistmaker2.data.dataSource.HistoryStorageImpl
 import com.marat.hvatit.playlistmaker2.data.dto.JsonParserImpl
-import com.marat.hvatit.playlistmaker2.data.network.RetrofitNetworkClient
 import com.marat.hvatit.playlistmaker2.domain.api.AudioPlayerCallback
 import com.marat.hvatit.playlistmaker2.domain.api.JsonParser
 import com.marat.hvatit.playlistmaker2.domain.api.interactors.AudioPlayerInteractor
 import com.marat.hvatit.playlistmaker2.domain.api.interactors.MainInteractor
 import com.marat.hvatit.playlistmaker2.domain.api.interactors.SaveTrackInteractor
 import com.marat.hvatit.playlistmaker2.domain.api.interactors.SettingsInteractor
-import com.marat.hvatit.playlistmaker2.domain.api.interactors.TrackInteractor
 import com.marat.hvatit.playlistmaker2.domain.api.repository.SaveTrackRepository
-import com.marat.hvatit.playlistmaker2.domain.api.repository.TrackRepository
 import com.marat.hvatit.playlistmaker2.domain.impl.AudioPlayerInteractorImpl
 import com.marat.hvatit.playlistmaker2.domain.impl.MainInteractorImpl
 import com.marat.hvatit.playlistmaker2.domain.impl.SaveTrackInteractorImpl
 import com.marat.hvatit.playlistmaker2.domain.impl.SettingsInteractorImpl
-import com.marat.hvatit.playlistmaker2.domain.impl.TrackInteractorImpl
 import com.marat.hvatit.playlistmaker2.presentation.audioplayer.controller.AudioPlayerControllerImpl
 import com.marat.hvatit.playlistmaker2.presentation.settings.IntentNavigator
 import com.marat.hvatit.playlistmaker2.presentation.settings.IntentNavigatorImpl
@@ -37,9 +32,9 @@ object Creator {
 
     private const val STORY_TRACK_SIZE = 10
 
-    fun provideTrackInteractor(): TrackInteractor {
+    /*fun provideTrackInteractor(): TrackInteractor {
         return TrackInteractorImpl(provideTrackRepository())
-    }
+    }*/
 
     fun provideSaveTrackInteractor(): SaveTrackInteractor {
         return SaveTrackInteractorImpl(provideSaveTrackRepository())
@@ -72,14 +67,13 @@ object Creator {
         return IntentNavigatorImpl(context)
     }
 
-    private fun provideTrackRepository(): TrackRepository {
+    /*private fun provideTrackRepository(): TrackRepository {
         return TrackRepositoryImpl(
             RetrofitNetworkClient(
-                PlaylistMakerApp.applicationContext(),
-                APPLE_BASE_URL
+                PlaylistMakerApp.applicationContext()
             )
         )
-    }
+    }*/
 
     private fun provideSaveTrackRepository(): SaveTrackRepository {
         return SaveTrackRepositoryImpl(STORY_TRACK_SIZE, provideHistoryTracks())
