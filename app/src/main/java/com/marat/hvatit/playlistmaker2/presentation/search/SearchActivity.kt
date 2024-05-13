@@ -20,14 +20,13 @@ import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isGone
 import androidx.core.view.isVisible
-import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.marat.hvatit.playlistmaker2.R
-import com.marat.hvatit.playlistmaker2.creator.Creator
-import com.marat.hvatit.playlistmaker2.domain.api.interactors.TrackInteractor
+import com.marat.hvatit.playlistmaker2.domain.impl.JsonParserImpl
 import com.marat.hvatit.playlistmaker2.presentation.audioplayer.AudioplayerActivity
 import org.koin.android.ext.android.inject
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 
 const val EDITTEXT_TEXT = "EDITTEXT_TEXT"
@@ -37,12 +36,9 @@ class SearchActivity : AppCompatActivity() {
 
     private var saveEditText: String = "error"
 
-
-    private val creator: Creator = Creator
-    //private val interactor = creator.provideTrackInteractor()
-    private val interactor : TrackInteractor by inject()
-    private val interactorsavetracks = creator.provideSaveTrackInteractor()
-    private val gson = creator.provideJsonParser()
+    private val gsonParser : JsonParserImpl by inject()
+    //JsonParserImpl
+    private val viewModel by viewModel<SearchViewModel>()
 
     private val trackListAdapter = TrackListAdapter()
 
@@ -70,10 +66,8 @@ class SearchActivity : AppCompatActivity() {
         Runnable { searchText?.let { viewModel.search(it) } }
 
     private var isClickAllowed = true
+
     private val handler = Handler(Looper.getMainLooper())
-
-    private lateinit var viewModel: SearchViewModel
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -85,11 +79,6 @@ class SearchActivity : AppCompatActivity() {
         initViews()
         recyclerSongList.layoutManager = LinearLayoutManager(this)
         recyclerSongList.adapter = trackListAdapter
-        viewModel = ViewModelProvider(
-            this,
-            SearchViewModel.getViewModelFactory(interactor, interactorsavetracks)
-        )[SearchViewModel::class.java]
-        //get(SearchViewModel::class.java)
 
         viewModel.getLoadingLiveData().observe(this) { searchState ->
             runOnUiThread {
@@ -145,7 +134,7 @@ class SearchActivity : AppCompatActivity() {
                 viewModel.addSaveSongs(it)
                 AudioplayerActivity.getIntent(this@SearchActivity, this.getString(R.string.android))
                     .apply {
-                        putExtra("Track", gson.objectToJson(it)/*toJson(it)*/)
+                        putExtra("Track", gsonParser.objectToJson(it)/*toJson(it)*/)
                         startActivity(this)
                     }
             }

@@ -7,7 +7,7 @@ import com.marat.hvatit.playlistmaker2.common.GlideHelperImpl
 import com.marat.hvatit.playlistmaker2.data.SaveTrackRepositoryImpl
 import com.marat.hvatit.playlistmaker2.data.dataSource.HistoryStorage
 import com.marat.hvatit.playlistmaker2.data.dataSource.HistoryStorageImpl
-import com.marat.hvatit.playlistmaker2.data.dto.JsonParserImpl
+import com.marat.hvatit.playlistmaker2.domain.impl.JsonParserImpl
 import com.marat.hvatit.playlistmaker2.domain.api.AudioPlayerCallback
 import com.marat.hvatit.playlistmaker2.domain.api.JsonParser
 import com.marat.hvatit.playlistmaker2.domain.api.interactors.AudioPlayerInteractor
@@ -86,7 +86,7 @@ object Creator {
         )
     }
 
-    private fun provideSharedPref(): SharedPreferences {
+    fun provideSharedPref(): SharedPreferences {
         return PlaylistMakerApp.applicationContext()
             .getSharedPreferences(KEY_CART, Context.MODE_PRIVATE)
     }
