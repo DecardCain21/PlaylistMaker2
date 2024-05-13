@@ -23,7 +23,7 @@ import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.marat.hvatit.playlistmaker2.R
-import com.marat.hvatit.playlistmaker2.domain.impl.JsonParserImpl
+import com.marat.hvatit.playlistmaker2.data.JsonParserImpl
 import com.marat.hvatit.playlistmaker2.presentation.audioplayer.AudioplayerActivity
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel

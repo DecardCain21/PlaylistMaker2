@@ -8,17 +8,14 @@ import android.widget.LinearLayout
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.appcompat.widget.SwitchCompat
-import androidx.lifecycle.ViewModelProvider
 import com.marat.hvatit.playlistmaker2.R
-import com.marat.hvatit.playlistmaker2.creator.Creator
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 private const val TAG = "SettingsActivity"
 
 
 class SettingsActivity : AppCompatActivity() {
-    private lateinit var viewModel: SettingsViewModel
-    private val interactor = Creator.provideSettingsInteractor()
-    private val intentNavigator = Creator.provideIntentNavigator(this)
+    private val viewModel by viewModel<SettingsViewModel>()
     private lateinit var buttonSwitchTheme: SwitchCompat
 
     companion object {
@@ -43,10 +40,6 @@ class SettingsActivity : AppCompatActivity() {
         buttonSupport.setOnClickListener { viewModel.createIntent(ActionFilter.SUPPORT) }
         buttonUserAgreement.setOnClickListener { viewModel.createIntent(ActionFilter.USERAGREEMENT) }
         //.....................................................
-        viewModel = ViewModelProvider(
-            this, SettingsViewModel.getViewModelFactory(interactor, intentNavigator)
-        )[SettingsViewModel::class.java]
-
 
         buttonBack.setOnClickListener {
             onBackPressed()

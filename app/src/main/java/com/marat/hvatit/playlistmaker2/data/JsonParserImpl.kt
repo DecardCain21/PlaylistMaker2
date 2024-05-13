@@ -1,4 +1,4 @@
-package com.marat.hvatit.playlistmaker2.domain.impl
+package com.marat.hvatit.playlistmaker2.data
 
 import com.google.gson.Gson
 import com.marat.hvatit.playlistmaker2.domain.api.JsonParser
