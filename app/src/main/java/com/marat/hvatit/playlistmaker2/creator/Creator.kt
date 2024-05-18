@@ -7,13 +7,9 @@ import com.marat.hvatit.playlistmaker2.common.GlideHelperImpl
 import com.marat.hvatit.playlistmaker2.data.JsonParserImpl
 import com.marat.hvatit.playlistmaker2.data.dataSource.HistoryStorage
 import com.marat.hvatit.playlistmaker2.data.dataSource.HistoryStorageImpl
-import com.marat.hvatit.playlistmaker2.domain.api.AudioPlayerCallback
 import com.marat.hvatit.playlistmaker2.domain.api.JsonParser
-import com.marat.hvatit.playlistmaker2.domain.api.interactors.AudioPlayerInteractor
 import com.marat.hvatit.playlistmaker2.domain.api.interactors.MainInteractor
-import com.marat.hvatit.playlistmaker2.domain.impl.AudioPlayerInteractorImpl
 import com.marat.hvatit.playlistmaker2.domain.impl.MainInteractorImpl
-import com.marat.hvatit.playlistmaker2.presentation.audioplayer.controller.AudioPlayerControllerImpl
 import com.marat.hvatit.playlistmaker2.presentation.utils.GlideHelper
 
 object Creator {
@@ -25,12 +21,12 @@ object Creator {
     private const val STORY_TRACK_SIZE = 10
 
 
-    fun provideAudioPlayer(
+    /*fun provideAudioPlayer(
         priviewUrl: String,
         callback: AudioPlayerCallback
     ): AudioPlayerInteractor {
         return AudioPlayerInteractorImpl(AudioPlayerControllerImpl(priviewUrl, callback))
-    }
+    }*/
 
     fun provideJsonParser(): JsonParser {
         return JsonParserImpl(provideGson())

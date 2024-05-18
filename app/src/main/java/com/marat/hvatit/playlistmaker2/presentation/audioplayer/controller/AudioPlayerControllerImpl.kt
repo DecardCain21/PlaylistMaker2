@@ -8,23 +8,32 @@ import com.marat.hvatit.playlistmaker2.presentation.audioplayer.MediaPlayerState
 import java.text.SimpleDateFormat
 import java.util.Locale
 
-class AudioPlayerControllerImpl(
-    private val previewUrl: String,
-    private val activityCallBack: AudioPlayerCallback
-) : AudioPlayerController {
+class AudioPlayerControllerImpl : AudioPlayerController {
 
+    private val _activityCallBack: AudioPlayerCallback?
+        get() = activityCallBack
+
+    override var activityCallBack: AudioPlayerCallback? = null
+
+    private val _previewUrl
+        get() = previewUrl
+
+    override var previewUrl: String? = null
 
     private val mediaPlayer = MediaPlayer()
+
     private var playerState: MediaPlayerState = MediaPlayerState.Default
 
     override fun stateControl(): MediaPlayerState {
         when (playerState) {
+
             is MediaPlayerState.Default -> {
-                preparePlayer(previewUrl)
+                _previewUrl?.let { preparePlayer(it) }
             }
 
             is MediaPlayerState.Prepared -> {
                 startPlayer()
+                //playerState = MediaPlayerState.Paused
             }
 
             is MediaPlayerState.Paused -> {
@@ -34,8 +43,12 @@ class AudioPlayerControllerImpl(
             is MediaPlayerState.Playing -> {
                 pausePlayer()
             }
+
+            is MediaPlayerState.Completed -> {
+                startPlayer()
+            }
         }
-        Log.e("MediaState","stateControl():$playerState")
+        Log.e("MediaState", "stateControl():$playerState")
         return playerState
     }
 
@@ -44,7 +57,7 @@ class AudioPlayerControllerImpl(
         mediaPlayer.prepareAsync()
         mediaPlayer.setOnPreparedListener {
             playerState = MediaPlayerState.Prepared
-            activityCallBack.playerPrepared()
+            _activityCallBack?.playerPrepared()
         }
     }
 
@@ -53,8 +66,8 @@ class AudioPlayerControllerImpl(
         playerState = MediaPlayerState.Playing(getCurrentTime())
         mediaPlayer.setOnCompletionListener {
             mediaPlayer.seekTo(0)
-            playerState = MediaPlayerState.Prepared
-            activityCallBack.trackIsDone()
+            playerState = MediaPlayerState.Completed()
+            _activityCallBack?.trackIsDone()
         }
     }
 
@@ -65,7 +78,7 @@ class AudioPlayerControllerImpl(
 
     override fun getCurrentTime(): String {
         //Log.e("MediaState", "getCurrentTime:${this.mediaPlayer.currentPosition}")
-        Log.e("MediaState", "getCurrentTime,mediaplayer hashcode${mediaPlayer.hashCode()}")
+        //Log.e("MediaState", "getCurrentTime,mediaplayer hashcode${mediaPlayer.hashCode()}")
         return SimpleDateFormat("mm:ss", Locale.getDefault()).format(mediaPlayer.currentPosition)
     }
 

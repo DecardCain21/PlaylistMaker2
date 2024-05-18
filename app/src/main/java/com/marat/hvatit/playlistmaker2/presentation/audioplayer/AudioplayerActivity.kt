@@ -3,27 +3,24 @@ package com.marat.hvatit.playlistmaker2.presentation.audioplayer
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.ViewModelProvider
 import com.marat.hvatit.playlistmaker2.R
 import com.marat.hvatit.playlistmaker2.creator.Creator
-import com.marat.hvatit.playlistmaker2.domain.api.AudioPlayerCallback
-import com.marat.hvatit.playlistmaker2.domain.api.interactors.AudioPlayerInteractor
 import com.marat.hvatit.playlistmaker2.domain.models.Track
 import com.marat.hvatit.playlistmaker2.presentation.utils.GlideHelper.Companion.addQuality
+import org.koin.androidx.viewmodel.ext.android.viewModel
+import org.koin.core.parameter.parametersOf
 import java.text.SimpleDateFormat
 import java.util.Locale
 
 
 private const val TAG = "AudioplayerActivity"
 
-class AudioplayerActivity : AppCompatActivity(),
-    AudioPlayerCallback {
+class AudioplayerActivity : AppCompatActivity() {
 
     private lateinit var intent: Intent
     private val simpleDateFormat: SimpleDateFormat =
@@ -40,13 +37,15 @@ class AudioplayerActivity : AppCompatActivity(),
     private lateinit var trackName: TextView
     private lateinit var buttonPlay: ImageButton
     private lateinit var priviewTimer: TextView
-    private lateinit var priviewUrl: String
+    private var priviewUrl: String = ""
 
     private val creator: Creator = Creator
-    private lateinit var interactor: AudioPlayerInteractor
     private val gson = creator.provideJsonParser()
     private val glide = creator.provideGlideHelper()
-    private lateinit var viewModel: AudioViewModel
+
+    private val viewModel: AudioViewModel by viewModel {
+        parametersOf(priviewUrl)
+    }
 
 
     companion object {
@@ -63,18 +62,8 @@ class AudioplayerActivity : AppCompatActivity(),
         setContentView(R.layout.activity_audioplayer)
         intent = getIntent()
         val song = intent.getStringExtra("Track")
-        val result: Track = gson.jsonToObject(
-            song.toString(),
-            Track::class.java
-        )/*fromJson(song, Track::class.java)*/
+        val result: Track = gson.jsonToObject(song.toString(), Track::class.java)
         priviewUrl = result.previewUrl
-        Log.e("previewUrl", "${result.previewUrl}")
-        interactor = creator.provideAudioPlayer(priviewUrl, this)
-        viewModel = ViewModelProvider(
-            this,
-            AudioViewModel.getViewModelFactory(interactor)
-        )[AudioViewModel::class.java]
-        //..............................................................
         initViews()
         setTextContent(result)
 
@@ -140,11 +129,11 @@ class AudioplayerActivity : AppCompatActivity(),
 
     private fun uiControl(state: MediaPlayerState) {
         when (state) {
-            MediaPlayerState.Default -> {
+            is MediaPlayerState.Default -> {
                 buttonPlay.setBackgroundResource(R.drawable.button_play)
             }
 
-            MediaPlayerState.Paused -> {
+            is MediaPlayerState.Paused -> {
                 buttonPlay.setBackgroundResource(R.drawable.button_play)
             }
 
@@ -153,21 +142,15 @@ class AudioplayerActivity : AppCompatActivity(),
                 priviewTimer.text = state.currentTime
             }
 
-            MediaPlayerState.Prepared -> {
+            is MediaPlayerState.Prepared -> {
                 buttonPlay.setBackgroundResource(R.drawable.button_play)
-                /*buttonPlay.isEnabled = true*/
+                buttonPlay.isEnabled = true
             }
 
+            is MediaPlayerState.Completed -> {
+                buttonPlay.setBackgroundResource(R.drawable.button_play)
+                priviewTimer.text = state.currentTime
+            }
         }
-    }
-
-    override fun trackIsDone() {
-        viewModel.trackIsDone()
-        priviewTimer.text = getString(R.string.isDone_timer)
-    }
-
-    override fun playerPrepared() {
-        buttonPlay.isEnabled = true
-        Log.e("MediaState", "is playerPrepared()")
     }
 }

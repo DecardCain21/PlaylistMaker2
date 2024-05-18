@@ -6,21 +6,23 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.viewmodel.initializer
-import androidx.lifecycle.viewmodel.viewModelFactory
+import com.marat.hvatit.playlistmaker2.domain.api.AudioPlayerCallback
 import com.marat.hvatit.playlistmaker2.domain.api.interactors.AudioPlayerInteractor
 
-class AudioViewModel(private val interactor: AudioPlayerInteractor) : ViewModel() {
+class AudioViewModel(previewUrl: String, private val interactor: AudioPlayerInteractor) :
+    ViewModel(),
+    AudioPlayerCallback {
 
     private var playerState: MediaPlayerState = MediaPlayerState.Default
-
-    /*private var currentState: MediaPlayerState = MediaPlayerState.Prepared*/
     private var loadingLiveData = MutableLiveData(playerState)
 
     private val handler = Handler(Looper.getMainLooper())
     private val timerRunnable: Runnable = Runnable { startTimer() }
 
+    init {
+        interactor.setPreviewUrl(previewUrl)
+        interactor.setCallback(this)
+    }
 
     fun getLoadingLiveData(): LiveData<MediaPlayerState> = loadingLiveData
 
@@ -45,14 +47,8 @@ class AudioViewModel(private val interactor: AudioPlayerInteractor) : ViewModel(
         interactor.destroyPlayer()
     }
 
-    fun trackIsDone() {
-        stopTimer()
-        loadingLiveData.postValue(MediaPlayerState.Paused)
-    }
-
     private fun startTimer() {
         handler.removeCallbacks(timerRunnable)
-        //loadingLiveData.postValue(MediaPlayerState.Playing(interactor.updateTimer()))
         loadingLiveData.value = MediaPlayerState.Playing(interactor.updateTimer())
         Log.e("MediaState", "startTimer():${loadingLiveData.value}")
         handler.postDelayed(timerRunnable, 1000L)
@@ -60,17 +56,16 @@ class AudioViewModel(private val interactor: AudioPlayerInteractor) : ViewModel(
 
     private fun stopTimer() {
         handler.removeCallbacks(timerRunnable)
-        //loadingLiveData.postValue(MediaPlayerState.Paused)
         loadingLiveData.value = MediaPlayerState.Paused
     }
 
-    companion object {
-        fun getViewModelFactory(interactor: AudioPlayerInteractor): ViewModelProvider.Factory =
-            viewModelFactory {
-                initializer {
-                    AudioViewModel(interactor)
-                }
-            }
+    override fun trackIsDone() {
+        stopTimer()
+        loadingLiveData.postValue(MediaPlayerState.Completed())
+    }
+
+    override fun playerPrepared() {
+        loadingLiveData.value = MediaPlayerState.Prepared
     }
 
 }

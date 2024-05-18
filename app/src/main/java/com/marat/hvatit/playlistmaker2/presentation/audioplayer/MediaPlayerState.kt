@@ -10,4 +10,6 @@ sealed interface MediaPlayerState {
 
     object Paused : MediaPlayerState
 
+    data class Completed(val currentTime: String = "00:00") : MediaPlayerState
+
 }
