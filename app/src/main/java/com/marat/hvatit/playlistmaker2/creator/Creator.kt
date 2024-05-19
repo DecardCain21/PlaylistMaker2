@@ -20,14 +20,6 @@ object Creator {
 
     private const val STORY_TRACK_SIZE = 10
 
-
-    /*fun provideAudioPlayer(
-        priviewUrl: String,
-        callback: AudioPlayerCallback
-    ): AudioPlayerInteractor {
-        return AudioPlayerInteractorImpl(AudioPlayerControllerImpl(priviewUrl, callback))
-    }*/
-
     fun provideJsonParser(): JsonParser {
         return JsonParserImpl(provideGson())
     }

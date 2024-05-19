@@ -5,24 +5,19 @@ import android.os.Bundle
 import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
-import androidx.lifecycle.ViewModelProvider
 import com.marat.hvatit.playlistmaker2.R
-import com.marat.hvatit.playlistmaker2.creator.Creator
 import com.marat.hvatit.playlistmaker2.presentation.medialibrary.MedialibraryActivity
 import com.marat.hvatit.playlistmaker2.presentation.search.SearchActivity
 import com.marat.hvatit.playlistmaker2.presentation.settings.SettingsActivity
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class MainActivity : AppCompatActivity() {
-    private val interactor = Creator.provideMainInteractor()
-    private lateinit var viewModel: MainViewModel
+    private val viewModel by viewModel<MainViewModel>()
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        viewModel = ViewModelProvider(
-            this,
-            MainViewModel.getViewModelFactory(interactor)
-        )[MainViewModel::class.java]
         setThemePref()
         initButtonSearch()
         initButtonMediaLib()

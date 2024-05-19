@@ -36,9 +36,9 @@ val dataModule = module {
         HistoryStorageImpl(androidContext(),Creator.provideSharedPref(),get())
     }
 
-    //single <JsonParser>{JsonParserImpl(get())  }
-
     single{
         JsonParserImpl(get())
     } bind JsonParser::class
+
+
 }
