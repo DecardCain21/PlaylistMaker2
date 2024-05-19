@@ -9,9 +9,11 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import com.marat.hvatit.playlistmaker2.R
-import com.marat.hvatit.playlistmaker2.creator.Creator
+import com.marat.hvatit.playlistmaker2.data.JsonParserImpl
 import com.marat.hvatit.playlistmaker2.domain.models.Track
+import com.marat.hvatit.playlistmaker2.presentation.utils.GlideHelper
 import com.marat.hvatit.playlistmaker2.presentation.utils.GlideHelper.Companion.addQuality
+import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
 import java.text.SimpleDateFormat
@@ -39,9 +41,9 @@ class AudioplayerActivity : AppCompatActivity() {
     private lateinit var priviewTimer: TextView
     private var priviewUrl: String = ""
 
-    private val creator: Creator = Creator
-    private val gson = creator.provideJsonParser()
-    private val glide = creator.provideGlideHelper()
+    private val gsonParser : JsonParserImpl by inject()
+    private val glide : GlideHelper by inject()
+
 
     private val viewModel: AudioViewModel by viewModel {
         parametersOf(priviewUrl)
@@ -62,7 +64,7 @@ class AudioplayerActivity : AppCompatActivity() {
         setContentView(R.layout.activity_audioplayer)
         intent = getIntent()
         val song = intent.getStringExtra("Track")
-        val result: Track = gson.jsonToObject(song.toString(), Track::class.java)
+        val result: Track = gsonParser.jsonToObject(song.toString(), Track::class.java)
         priviewUrl = result.previewUrl
         initViews()
         setTextContent(result)

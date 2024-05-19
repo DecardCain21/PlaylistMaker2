@@ -7,6 +7,7 @@ import com.marat.hvatit.playlistmaker2.domain.api.repository.TrackRepository
 import org.koin.dsl.module
 
 private const val STORY_TRACK_SIZE = 10
+
 val repositoryModule = module {
 
     single<TrackRepository> {

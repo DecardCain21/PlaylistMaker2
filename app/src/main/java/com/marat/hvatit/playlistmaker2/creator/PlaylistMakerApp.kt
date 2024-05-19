@@ -5,6 +5,7 @@ import android.content.Context
 import com.marat.hvatit.playlistmaker2.di.dataModule
 import com.marat.hvatit.playlistmaker2.di.interactorModule
 import com.marat.hvatit.playlistmaker2.di.repositoryModule
+import com.marat.hvatit.playlistmaker2.di.utilModule
 import com.marat.hvatit.playlistmaker2.di.viewModelModule
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.context.GlobalContext.startKoin
@@ -19,7 +20,7 @@ class PlaylistMakerApp : Application() {
         super.onCreate()
         startKoin{
             androidContext(this@PlaylistMakerApp)
-            modules(dataModule, repositoryModule, interactorModule, viewModelModule)
+            modules(dataModule, repositoryModule, interactorModule, viewModelModule, utilModule)
         }
     }
 
