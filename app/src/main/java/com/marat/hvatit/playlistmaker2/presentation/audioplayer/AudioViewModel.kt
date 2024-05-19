@@ -27,8 +27,14 @@ class AudioViewModel(previewUrl: String, private val interactor: AudioPlayerInte
     fun getLoadingLiveData(): LiveData<MediaPlayerState> = loadingLiveData
 
     fun playbackControl() {
-        loadingLiveData.value = interactor.playbackControl()
-        Log.e("MediaState", "loadingLiveData:${loadingLiveData.value}")
+        var result = interactor.playbackControl()
+        if (result is MediaPlayerState.Disconnected){
+            loadingLiveData.postValue(interactor.playbackControl())
+            // установка значения LiveData из фонового потока
+        }
+        loadingLiveData.value = result
+        //установка значения LiveData из текущего потока
+        //Log.e("MediaState", "loadingLiveData:${loadingLiveData.value}")
         if (loadingLiveData.value is MediaPlayerState.Playing) {
             startTimer()
         } else {

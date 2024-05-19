@@ -1,7 +1,12 @@
 package com.marat.hvatit.playlistmaker2.presentation.audioplayer.controller
 
+import android.content.Context
 import android.media.MediaPlayer
+import android.net.ConnectivityManager
+import android.net.NetworkCapabilities
+import android.os.Build
 import android.util.Log
+import com.marat.hvatit.playlistmaker2.creator.PlaylistMakerApp
 import com.marat.hvatit.playlistmaker2.domain.api.AudioPlayerCallback
 import com.marat.hvatit.playlistmaker2.presentation.audioplayer.AudioPlayerController
 import com.marat.hvatit.playlistmaker2.presentation.audioplayer.MediaPlayerState
@@ -47,17 +52,25 @@ class AudioPlayerControllerImpl : AudioPlayerController {
             is MediaPlayerState.Completed -> {
                 startPlayer()
             }
+
+            is MediaPlayerState.Disconnected -> {
+                //nothing
+            }
         }
         Log.e("MediaState", "stateControl():$playerState")
         return playerState
     }
 
     private fun preparePlayer(url: String) {
-        mediaPlayer.setDataSource(url)
-        mediaPlayer.prepareAsync()
-        mediaPlayer.setOnPreparedListener {
-            playerState = MediaPlayerState.Prepared
-            _activityCallBack?.playerPrepared()
+        if (isConnected()) {
+            mediaPlayer.setDataSource(url)
+            mediaPlayer.prepareAsync()
+            mediaPlayer.setOnPreparedListener {
+                playerState = MediaPlayerState.Prepared
+                _activityCallBack?.playerPrepared()
+            }
+        } else {
+            playerState = MediaPlayerState.Disconnected("error")
         }
     }
 
@@ -88,5 +101,26 @@ class AudioPlayerControllerImpl : AudioPlayerController {
 
     override fun pauseActivity() {
         pausePlayer()
+    }
+
+    private fun isConnected(): Boolean {
+        val connectivityManager = PlaylistMakerApp.applicationContext().getSystemService(
+            Context.CONNECTIVITY_SERVICE
+        ) as ConnectivityManager
+
+        val capabilities = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            connectivityManager.getNetworkCapabilities(connectivityManager.activeNetwork)
+        } else {
+            //если версия меньше 23
+            return false
+        }
+        if (capabilities != null) {
+            when {
+                capabilities.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR) -> return true
+                capabilities.hasTransport(NetworkCapabilities.TRANSPORT_WIFI) -> return true
+                capabilities.hasTransport(NetworkCapabilities.TRANSPORT_ETHERNET) -> return true
+            }
+        }
+        return false
     }
 }

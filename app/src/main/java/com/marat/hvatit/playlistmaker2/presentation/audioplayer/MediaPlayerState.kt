@@ -12,4 +12,6 @@ sealed interface MediaPlayerState {
 
     data class Completed(val currentTime: String = "00:00") : MediaPlayerState
 
+    data class Disconnected(val message : String) : MediaPlayerState
+
 }

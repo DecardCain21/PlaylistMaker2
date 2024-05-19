@@ -7,6 +7,7 @@ import android.view.View
 import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.marat.hvatit.playlistmaker2.R
 import com.marat.hvatit.playlistmaker2.data.JsonParserImpl
@@ -152,6 +153,10 @@ class AudioplayerActivity : AppCompatActivity() {
             is MediaPlayerState.Completed -> {
                 buttonPlay.setBackgroundResource(R.drawable.button_play)
                 priviewTimer.text = state.currentTime
+            }
+
+            is MediaPlayerState.Disconnected -> {
+                Toast.makeText(this,"Disconnect_problem",Toast.LENGTH_LONG).show()
             }
         }
     }
