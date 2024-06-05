@@ -35,6 +35,10 @@ android {
         enabled = true
     }
 
+    buildFeatures {
+        viewBinding true
+    }
+
     namespace 'com.marat.hvatit.playlistmaker2'
 }
 

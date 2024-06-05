@@ -21,4 +21,5 @@ class GlideHelperImpl : GlideHelper {
             .transform(RoundedCorners(roundedCornersImage))
             .into(actplayerCover)
     }
+    //из глайда можно вытянуть битмап
 }
