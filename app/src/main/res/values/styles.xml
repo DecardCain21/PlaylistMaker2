@@ -11,12 +11,10 @@
     </style>
 
     <style name="s_maintext">
-        <item name="android:textSize">22sp</item>
         <item name="android:textColor">#1A1B22</item>
     </style>
 
     <style name="s_secondarytext">
-        <item name="android:textSize">14sp</item>
         <item name="android:textColor">#000000</item>
     </style>
 
@@ -42,6 +40,21 @@
         <item name="android:layout_height">@dimen/activity_settings_llheight</item>
         <item name="android:gravity">center</item>
         <item name="android:background">?selectableItemBackground</item>
+    </style>
+
+    <style name="medialib_activity_tabs">
+        <item name="android:textSize">14sp</item>
+        <item name="tabTextColor">?attr/medialib_color</item>
+        <item name="tabIndicatorColor"></item>
+        <item name="fontFamily">@font/ys_display_medium</item>
+    </style>
+
+    <style name="medialib_head">
+        <item name="android:textColor">?attr/act_search_placeholder</item>
+    </style>
+
+    <style name="fragment_placeholder_text">
+        <item name="android:textColor">?attr/medialib_color</item>
     </style>
 
 

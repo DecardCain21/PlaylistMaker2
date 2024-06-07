@@ -2,4 +2,5 @@
 <resources>
     <attr name="act_search_placeholder" />
     <attr name="act_search_update" />
+    <attr name="medialib_color"/>
 </resources>

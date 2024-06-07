@@ -29,7 +29,6 @@ class FeaturedTracksFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.number1.text = "1"
     }
 
 }

@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.tabs.TabLayoutMediator
+import com.marat.hvatit.playlistmaker2.R
 import com.marat.hvatit.playlistmaker2.databinding.ActivityMedialibraryBinding
 import org.koin.core.component.getScopeName
 
@@ -22,8 +23,8 @@ class MedialibraryActivity : AppCompatActivity() {
         tabMediator = TabLayoutMediator(binding.tabLayout,binding.viewPager){
             tab,position->
             when(position){
-                0->tab.text = "Избранные треки"
-                1->tab.text = "Плейлисты"
+                0->tab.text = getString(R.string.featured_trucks)
+                1->tab.text = getString(R.string.playlists)
             }
         }
         tabMediator.attach()

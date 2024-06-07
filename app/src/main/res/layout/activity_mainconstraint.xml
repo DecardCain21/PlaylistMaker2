@@ -53,6 +53,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/search_name"
+        android:textSize="22sp"
         android:textAppearance="@style/s_maintext" />
 
     <androidx.constraintlayout.helper.widget.Flow
@@ -80,6 +81,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/medialibrary_name"
+        android:textSize="22sp"
         android:textAppearance="@style/s_maintext" />
 
     <androidx.constraintlayout.helper.widget.Flow
@@ -107,6 +109,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/settings_name"
+        android:textSize="22sp"
         android:textAppearance="@style/s_maintext" />
 
 

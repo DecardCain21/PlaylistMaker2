@@ -14,6 +14,7 @@
         <!-- Customize your theme here. -->
         <item name="act_search_placeholder">@color/white</item>
         <item name="act_search_update">@color/pale_black</item>
+        <item name="medialib_color">@color/white</item>
     </style>
 
     <style name="activity_settings_head">

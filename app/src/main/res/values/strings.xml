@@ -26,5 +26,9 @@
     <string name="actplayer_country">Страна</string>
     <string name="default_timer">00:30</string>
     <string name="isDone_timer">00:00</string>
+    <string name="featured_trucks">Избранные треки</string>
+    <string name="playlists">Плейлисты</string>
+    <string name="medialibrary_is_empty">Ваша медиатека пуста</string>
+    <string name="playlists_is_empty">Вы не создали\nни одного плейлиста</string>
 
 </resources>
