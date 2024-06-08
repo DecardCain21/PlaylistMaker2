@@ -6,17 +6,24 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.marat.hvatit.playlistmaker2.databinding.PlaylistsFragmentBinding
+import org.koin.androidx.viewmodel.ext.android.viewModel
+import org.koin.core.parameter.parametersOf
 
 class PlaylistsFragment : Fragment() {
     companion object {
-        private const val NUMBER = "number"
+        private const val TESTSTRING = "Android"
 
-        fun newInstance(number: Int) = PlaylistsFragment().apply {
+        fun newInstance(str: String) = PlaylistsFragment().apply {
             arguments = Bundle().apply {
-                putInt(NUMBER, number)
+                putString(TESTSTRING, str)
             }
         }
     }
+
+    private val featuredPlaylistsViewModel: PlaylistsViewModel by viewModel {
+        parametersOf(requireArguments().getString(TESTSTRING))
+    }
+
     private lateinit var binding: PlaylistsFragmentBinding
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -26,6 +33,7 @@ class PlaylistsFragment : Fragment() {
         binding = PlaylistsFragmentBinding.inflate(inflater, container, false)
         return binding.root
     }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
     }

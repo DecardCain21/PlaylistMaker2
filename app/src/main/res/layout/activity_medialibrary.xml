@@ -42,8 +42,11 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/medialib_tittle"
-        app:tabIndicator="@drawable/medialib_indicator"
+        app:tabIndicator="@drawable/medialib_indicator_test"
         app:tabIndicatorFullWidth="false"
+        app:tabPaddingStart="16dp"
+        app:tabPaddingEnd="16dp"
+        app:tabIndicatorHeight="2dp"
         app:tabMode="fixed"
         app:tabTextAppearance="@style/medialib_activity_tabs" />
 
