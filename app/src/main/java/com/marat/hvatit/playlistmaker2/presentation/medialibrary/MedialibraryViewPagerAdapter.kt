@@ -6,6 +6,7 @@ import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.Lifecycle
 import androidx.viewpager2.adapter.FragmentStateAdapter
 
+
 class MedialibraryViewPagerAdapter(fragmentManager: FragmentManager, lifecycle: Lifecycle) :
     FragmentStateAdapter(fragmentManager, lifecycle) {
     override fun getItemCount(): Int {
@@ -15,8 +16,9 @@ class MedialibraryViewPagerAdapter(fragmentManager: FragmentManager, lifecycle: 
     override fun createFragment(position: Int): Fragment {
         Log.e("viewPagerMedialib", "i m here")
         return when (position) {
-            0 -> FeaturedTracksFragment()
-            else -> PlaylistsFragment()
+            0 -> FeaturedTracksFragment.newInstance("str")
+            1 -> PlaylistsFragment.newInstance("str")
+            else -> PlaylistsFragment.newInstance("str")
         }
     }
 }

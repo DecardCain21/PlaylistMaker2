@@ -13,7 +13,7 @@ class FeaturedTracksFragment : Fragment() {
     companion object {
         private const val TESTSTRING = "Android"
 
-        fun newInstance(str: String) = PlaylistsFragment().apply {
+        fun newInstance(str: String) = FeaturedTracksFragment().apply {
             arguments = Bundle().apply {
                 putString(TESTSTRING, str)
             }
