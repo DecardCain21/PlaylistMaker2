@@ -17,7 +17,7 @@ class MedialibraryViewPagerAdapter(fragmentManager: FragmentManager, lifecycle: 
         Log.e("viewPagerMedialib", "i m here")
         return when (position) {
             0 -> FeaturedTracksFragment.newInstance("str")
-            1 -> PlaylistsFragment.newInstance("str")
+            1 -> PlaylistsFragment.newInstance("Android")
             else -> PlaylistsFragment.newInstance("str")
         }
     }

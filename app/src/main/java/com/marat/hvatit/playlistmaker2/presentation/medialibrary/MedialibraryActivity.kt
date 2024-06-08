@@ -2,6 +2,7 @@ package com.marat.hvatit.playlistmaker2.presentation.medialibrary
 
 import android.os.Bundle
 import android.util.Log
+import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.tabs.TabLayoutMediator
 import com.marat.hvatit.playlistmaker2.R
@@ -12,6 +13,7 @@ class MedialibraryActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMedialibraryBinding
     private lateinit var tabMediator: TabLayoutMediator
+    private lateinit var buttonBack : Button
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -29,6 +31,8 @@ class MedialibraryActivity : AppCompatActivity() {
         }
         tabMediator.attach()
         Log.e("viewPagerMedialib","${tabMediator.getScopeName()}")
+        binding.back.setOnClickListener { onBackPressed() }
+
 
     }
 

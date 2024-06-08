@@ -11,7 +11,7 @@ import org.koin.core.parameter.parametersOf
 
 class PlaylistsFragment : Fragment() {
     companion object {
-        private const val TESTSTRING = "Android"
+        private const val TESTSTRING = "Android1"
 
         fun newInstance(str: String) = PlaylistsFragment().apply {
             arguments = Bundle().apply {
