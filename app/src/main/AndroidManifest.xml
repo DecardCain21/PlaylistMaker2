@@ -26,7 +26,7 @@
             android:name=".presentation.search.SearchFragment"
             android:exported="false" />-->
         <activity
-            android:name=".presentation.medialibrary.MedialibraryActivity"
+            android:name=".presentation.medialibrary.MedialibraryFragment"
             android:exported="false" />
         <activity
             android:name=".presentation.HostActivity"

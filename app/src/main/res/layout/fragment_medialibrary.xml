@@ -4,10 +4,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".presentation.medialibrary.MedialibraryActivity">
+    tools:context=".presentation.medialibrary.MedialibraryFragment">
 
     <TextView
-        android:id="@+id/medialib_tittle"
+        android:id="@+id/tittle"
         style="@style/medialib_head"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -41,7 +41,7 @@
         android:layout_marginTop="32dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/medialib_tittle"
+        app:layout_constraintTop_toBottomOf="@id/tittle"
         app:tabIndicator="@drawable/medialib_indicator_test"
         app:tabIndicatorFullWidth="false"
         app:tabPaddingStart="16dp"

@@ -6,7 +6,7 @@ import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import com.marat.hvatit.playlistmaker2.R
-import com.marat.hvatit.playlistmaker2.presentation.medialibrary.MedialibraryActivity
+import com.marat.hvatit.playlistmaker2.presentation.medialibrary.MedialibraryFragment
 import com.marat.hvatit.playlistmaker2.presentation.search.SearchFragment
 import com.marat.hvatit.playlistmaker2.presentation.settings.SettingsFragment
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -37,7 +37,7 @@ class MainActivity : AppCompatActivity() {
     private fun initButtonMediaLib() {
         val buttonMedialib = findViewById<Button>(R.id.button_bigTwo)
         buttonMedialib.setOnClickListener {
-            val medialibIntent = Intent(this, MedialibraryActivity::class.java)
+            val medialibIntent = Intent(this, MedialibraryFragment::class.java)
             startActivity(medialibIntent)
         }
     }
