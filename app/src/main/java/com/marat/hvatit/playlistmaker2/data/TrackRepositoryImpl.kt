@@ -24,9 +24,9 @@ class TrackRepositoryImpl(private val networkClient: NetworkClient) : TrackRepos
                         it.artworkUrl100,
                         it.country,
                         it.genre,
-                        it.year ?: "0",
+                        it.year ,
                         it.album,
-                        it.previewUrl ?: "0"
+                        it.previewUrl
                     )
                 })
             }

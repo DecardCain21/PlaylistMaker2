@@ -17,6 +17,10 @@ class MedialibraryFragment : Fragment() {
     private val binding
         get() = _binding!!
 
+    companion object {
+        fun newInstance() = MedialibraryFragment()
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -29,7 +33,7 @@ class MedialibraryFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.viewPager.adapter = MedialibraryViewPagerAdapter(parentFragmentManager, lifecycle)
+        binding.viewPager.adapter = MedialibraryViewPagerAdapter(childFragmentManager, lifecycle)
         tabMediator = TabLayoutMediator(binding.tabLayout, binding.viewPager) { tab, position ->
             when (position) {
                 0 -> tab.text = getString(R.string.featured_trucks)
