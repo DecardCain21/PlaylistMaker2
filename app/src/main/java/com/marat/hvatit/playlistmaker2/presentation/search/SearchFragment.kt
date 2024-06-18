@@ -8,22 +8,20 @@ import android.os.Handler
 import android.os.Looper
 import android.text.Editable
 import android.text.TextWatcher
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
-import android.widget.EditText
 import android.widget.ImageButton
-import android.widget.ImageView
-import android.widget.ProgressBar
-import android.widget.TextView
 import androidx.annotation.RequiresApi
-import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isGone
 import androidx.core.view.isVisible
+import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.marat.hvatit.playlistmaker2.R
 import com.marat.hvatit.playlistmaker2.data.JsonParserImpl
+import com.marat.hvatit.playlistmaker2.databinding.FragmentSearchBinding
 import com.marat.hvatit.playlistmaker2.presentation.audioplayer.AudioplayerActivity
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -32,22 +30,20 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 const val EDITTEXT_TEXT = "EDITTEXT_TEXT"
 private const val TAG = "SearchActivity"
 
-class SearchActivity : AppCompatActivity() {
+class SearchFragment : Fragment() {
+    private var _binding: FragmentSearchBinding? = null
+    private val binding
+        get() = _binding!!
+
 
     private var saveEditText: String = "error"
 
-    private val gsonParser : JsonParserImpl by inject()
+    private val gsonParser: JsonParserImpl by inject()
+
     //JsonParserImpl
     private val viewModel by viewModel<SearchViewModel>()
 
     private val trackListAdapter = TrackListAdapter()
-
-    private lateinit var placeholder: ImageView
-    private lateinit var texterror: TextView
-    private lateinit var buttonupdate: ImageButton
-    private lateinit var historyText: TextView
-    private lateinit var clearHistory: ImageButton
-    private lateinit var progressBar: ProgressBar
 
     companion object {
 
@@ -55,7 +51,7 @@ class SearchActivity : AppCompatActivity() {
         private const val SEARCH_DEBOUNCE_DELAY = 2000L
 
         fun getIntent(context: Context, message: String): Intent {
-            return Intent(context, SearchActivity::class.java).apply {
+            return Intent(context, SearchFragment::class.java).apply {
                 putExtra(TAG, message)
             }
         }
@@ -69,28 +65,31 @@ class SearchActivity : AppCompatActivity() {
 
     private val handler = Handler(Looper.getMainLooper())
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_search)
-        val editText = findViewById<EditText>(R.id.editText)
-        val buttonBack = findViewById<View>(R.id.back)
-        val buttonClear: ImageButton = findViewById(R.id.buttonClear)
-        val recyclerSongList = findViewById<RecyclerView>(R.id.songlist)
-        initViews()
-        recyclerSongList.layoutManager = LinearLayoutManager(this)
-        recyclerSongList.adapter = trackListAdapter
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
+        _binding = FragmentSearchBinding.inflate(inflater, container, false)
+        return binding.root
+    }
 
-        viewModel.getLoadingLiveData().observe(this) { searchState ->
-            runOnUiThread {
-                onState(searchState)
-            }
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        binding.songlist.layoutManager = LinearLayoutManager(requireContext())
+        binding.songlist.adapter = trackListAdapter
+
+        viewModel.getLoadingLiveData().observe(viewLifecycleOwner) { searchState ->
+
+            onState(searchState)
+
         }
 
         if (savedInstanceState != null) {
-            editText.setText(saveEditText)
+            binding.editText.setText(saveEditText)
         }
 
-        editText.setOnFocusChangeListener { _, hasFocus ->
+        binding.editText.setOnFocusChangeListener { _, hasFocus ->
             if (hasFocus) {
                 viewModel.setSavedTracks()
                 trackListAdapter.notifyDataSetChanged()
@@ -99,30 +98,30 @@ class SearchActivity : AppCompatActivity() {
             }
         }
 
-        editText.addTextChangedListener(textWatcher(buttonClear))
+        binding.editText.addTextChangedListener(textWatcher(binding.buttonClear))
 
-        buttonBack.setOnClickListener { onBackPressed() }
+        /*buttonBack.setOnClickListener { onBackPressed() }*/
 
-        buttonClear.setOnClickListener {
-            editText.requestFocus()
-            editText.setText("")
-            (this.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager).hideSoftInputFromWindow(
-                editText.windowToken, 0
+        binding.buttonClear.setOnClickListener {
+            binding.editText.requestFocus()
+            binding.editText.setText("")
+            (requireContext().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager).hideSoftInputFromWindow(
+                binding.editText.windowToken, 0
             )
             viewModel.setSavedTracks()
         }
 
-        editText.setOnEditorActionListener { _, actionId, _ ->
+        binding.editText.setOnEditorActionListener { _, actionId, _ ->
             if (actionId == EditorInfo.IME_ACTION_DONE) {
                 handler.removeCallbacks(searchRunnable)
-                viewModel.search(editText.text.toString())
+                viewModel.search(binding.editText.text.toString())
             }
             false
         }
 
-        clearHistory.setOnClickListener {
-            clearHistory.isGone = true
-            historyText.isGone = true
+        binding.buttonClear.setOnClickListener {
+            binding.clearhistory.isGone = true
+            binding.headerhistory.isGone = true
 
             viewModel.clearSaveStack()
             trackListAdapter.update(emptyList())
@@ -132,7 +131,7 @@ class SearchActivity : AppCompatActivity() {
         trackListAdapter.saveTrackListener = TrackListAdapter.SaveTrackListener {
             if (clickDebounce()) {
                 viewModel.addSaveSongs(it)
-                AudioplayerActivity.getIntent(this@SearchActivity, this.getString(R.string.android))
+                AudioplayerActivity.getIntent(requireContext(), this.getString(R.string.android))
                     .apply {
                         putExtra("Track", gsonParser.objectToJson(it)/*toJson(it)*/)
                         startActivity(this)
@@ -140,20 +139,9 @@ class SearchActivity : AppCompatActivity() {
             }
         }
 
-        buttonupdate.setOnClickListener {
-            viewModel.search(editText.text.toString())
+        binding.buttonUpdate.setOnClickListener {
+            viewModel.search(binding.editText.text.toString())
         }
-
-
-    }
-
-    private fun initViews() {
-        historyText = findViewById(R.id.messagehistory)
-        clearHistory = findViewById(R.id.clearhistory)
-        progressBar = findViewById(R.id.progressBar)
-        placeholder = findViewById(R.id.activity_search_placeholder)
-        texterror = findViewById(R.id.activity_search_texterror)
-        buttonupdate = findViewById(R.id.activity_search_update)
     }
 
     private fun textWatcher(buttonClear: ImageButton) = object : TextWatcher {
@@ -195,81 +183,81 @@ class SearchActivity : AppCompatActivity() {
 
     private fun startState(searchState: SearchState.StartState) {
         trackListAdapter.update(searchState.cacheTracks)
-        placeholder.isVisible = false
-        buttonupdate.isVisible = false
-        texterror.isVisible = false
-        progressBar.isVisible = false
+        binding.placeholder.isVisible = false
+        binding.buttonUpdate.isVisible = false
+        binding.texterror.isVisible = false
+        binding.progressBar.isVisible = false
 
-        clearHistory.isVisible = true
-        historyText.isVisible = true
+        binding.clearhistory.isVisible = true
+        binding.headerhistory.isVisible = true
         trackListAdapter.notifyDataSetChanged()
     }
 
     private fun nothingToShowState(searchState: SearchState.NothingToShow) {
         trackListAdapter.update(emptyList())
-        placeholder.setImageResource(R.drawable.nothing_problem)
-        placeholder.isVisible = true
-        texterror.text = applicationContext.getString(searchState.message)
-        texterror.isVisible = true
+        binding.placeholder.setImageResource(R.drawable.nothing_problem)
+        binding.placeholder.isVisible = true
+        binding.texterror.text = requireContext().getString(searchState.message)
+        binding.texterror.isVisible = true
 
-        clearHistory.isVisible = false
-        historyText.isVisible = false
-        progressBar.isVisible = false
+        binding.clearhistory.isVisible = false
+        binding.headerhistory.isVisible = false
+        binding.progressBar.isVisible = false
     }
 
     private fun downloadState() {
         trackListAdapter.update(emptyList())
-        buttonupdate.isVisible = false
-        placeholder.isVisible = false
-        texterror.isVisible = false
+        binding.buttonUpdate.isVisible = false
+        binding.placeholder.isVisible = false
+        binding.texterror.isVisible = false
 
-        clearHistory.isVisible = false
-        historyText.isVisible = false
-        progressBar.isVisible = true
+        binding.clearhistory.isVisible = false
+        binding.headerhistory.isVisible = false
+        binding.progressBar.isVisible = true
     }
 
     private fun disconnectedState(searchState: SearchState.Disconnected) {
         trackListAdapter.update(emptyList())
-        placeholder.setImageResource(R.drawable.disconnect_problem)
-        placeholder.isVisible = true
-        buttonupdate.isVisible = true
-        texterror.text = applicationContext.getString(searchState.message)
-        texterror.isVisible = true
+        binding.placeholder.setImageResource(R.drawable.disconnect_problem)
+        binding.placeholder.isVisible = true
+        binding.buttonUpdate.isVisible = true
+        binding.texterror.text = requireContext().getString(searchState.message)
+        binding.texterror.isVisible = true
 
 
-        clearHistory.isVisible = false
-        historyText.isVisible = false
-        progressBar.isVisible = false
+        binding.clearhistory.isVisible = false
+        binding.headerhistory.isVisible = false
+        binding.progressBar.isVisible = false
     }
 
     private fun dataState(searchState: SearchState.Data) {
         trackListAdapter.update(searchState.foundTrack)
 
-        placeholder.isVisible = false
-        buttonupdate.isVisible = false
-        texterror.isVisible = false
-        progressBar.isVisible = false
+        binding.placeholder.isVisible = false
+        binding.buttonUpdate.isVisible = false
+        binding.texterror.isVisible = false
+        binding.progressBar.isVisible = false
 
-        clearHistory.isVisible = false
-        historyText.isVisible = false
+        binding.clearhistory.isVisible = false
+        binding.headerhistory.isVisible = false
     }
 
     private fun clearState() {
         trackListAdapter.update(emptyList())
-        buttonupdate.isVisible = false
-        placeholder.isVisible = false
-        texterror.isVisible = false
+        binding.buttonUpdate.isVisible = false
+        binding.placeholder.isVisible = false
+        binding.texterror.isVisible = false
 
-        clearHistory.isVisible = false
-        historyText.isVisible = false
-        progressBar.isVisible = false
+        binding.clearhistory.isVisible = false
+        binding.headerhistory.isVisible = false
+        binding.progressBar.isVisible = false
     }
 
     private fun allFineState() {
-        buttonupdate.isVisible = false
-        placeholder.isVisible = false
-        texterror.isVisible = false
-        progressBar.isVisible = false
+        binding.buttonUpdate.isVisible = false
+        binding.placeholder.isVisible = false
+        binding.texterror.isVisible = false
+        binding.progressBar.isVisible = false
     }
 
     override fun onStop() {
@@ -287,10 +275,10 @@ class SearchActivity : AppCompatActivity() {
         super.onSaveInstanceState(outState)
     }
 
-    override fun onRestoreInstanceState(savedInstanceState: Bundle) {
+    /*override fun onRestoreInstanceState(savedInstanceState: Bundle) {
         super.onRestoreInstanceState(savedInstanceState)
         saveEditText = savedInstanceState.getString(EDITTEXT_TEXT).toString()
-    }
+    }*/
 
     private fun clearButtonVisibility(s: CharSequence?): Int {
         return if (s.isNullOrEmpty()) {
