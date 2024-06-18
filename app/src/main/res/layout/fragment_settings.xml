@@ -28,7 +28,7 @@
         app:layout_constraintTop_toBottomOf="@id/back">
 
         <LinearLayout
-            android:id="@+id/llone"
+            android:id="@+id/llswitch"
             android:layout_width="match_parent"
             android:layout_height="@dimen/activity_settings_llheight"
             android:gravity="center">
@@ -46,7 +46,7 @@
         </LinearLayout>
 
         <LinearLayout
-            android:id="@+id/lltwo"
+            android:id="@+id/llshare"
             style="@style/setings_activity_llbutton">
 
             <TextView
@@ -62,7 +62,7 @@
         </LinearLayout>
 
         <LinearLayout
-            android:id="@+id/llthree"
+            android:id="@+id/llsupport"
             style="@style/setings_activity_llbutton">
 
             <TextView
@@ -78,7 +78,7 @@
         </LinearLayout>
 
         <LinearLayout
-            android:id="@+id/llfour"
+            android:id="@+id/llagreement"
             style="@style/setings_activity_llbutton">
 
             <TextView

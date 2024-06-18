@@ -5,7 +5,7 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.commit
 import com.marat.hvatit.playlistmaker2.R
-import com.marat.hvatit.playlistmaker2.presentation.search.SearchFragment
+import com.marat.hvatit.playlistmaker2.presentation.settings.SettingsFragment
 
 class HostActivity : AppCompatActivity(R.layout.activity_host) {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -13,7 +13,8 @@ class HostActivity : AppCompatActivity(R.layout.activity_host) {
 
 
         if(savedInstanceState == null){
-            supportFragmentManager.commit { add(R.id.fragment_container_host,SearchFragment()) }
+            /*supportFragmentManager.commit { add(R.id.fragment_container_host,SearchFragment()) }*/
+            supportFragmentManager.commit { add(R.id.fragment_container_host,SettingsFragment()) }
 
         }
 

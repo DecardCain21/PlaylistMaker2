@@ -20,7 +20,7 @@
             android:name=".presentation.audioplayer.AudioplayerActivity"
             android:exported="false" />
         <activity
-            android:name=".presentation.settings.SettingsActivity"
+            android:name=".presentation.settings.SettingsFragment"
             android:exported="false" />
         <!--<activity
             android:name=".presentation.search.SearchFragment"
