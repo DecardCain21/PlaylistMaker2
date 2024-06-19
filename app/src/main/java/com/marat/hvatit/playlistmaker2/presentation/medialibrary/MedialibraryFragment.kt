@@ -4,12 +4,16 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.fragment.app.Fragment
 import com.google.android.material.tabs.TabLayoutMediator
 import com.marat.hvatit.playlistmaker2.R
 import com.marat.hvatit.playlistmaker2.databinding.FragmentMedialibraryBinding
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class MedialibraryFragment : Fragment() {
+
+    private val viewModel by viewModel<MedialibraryViewModel>()
 
     private var _binding: FragmentMedialibraryBinding? = null
 
@@ -32,7 +36,7 @@ class MedialibraryFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+        setThemePref()
         binding.viewPager.adapter = MedialibraryViewPagerAdapter(childFragmentManager, lifecycle)
         tabMediator = TabLayoutMediator(binding.tabLayout, binding.viewPager) { tab, position ->
             when (position) {
@@ -42,6 +46,12 @@ class MedialibraryFragment : Fragment() {
         }
         tabMediator.attach()
 
+    }
+
+    private fun setThemePref() {
+        var flag: Boolean = viewModel.isDarkMode()
+        val mode = if (flag) AppCompatDelegate.MODE_NIGHT_YES else AppCompatDelegate.MODE_NIGHT_NO
+        AppCompatDelegate.setDefaultNightMode(mode)
     }
 
     override fun onDestroy() {
