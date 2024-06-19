@@ -24,13 +24,15 @@ class FeaturedTracksFragment : Fragment() {
         parametersOf(requireArguments().getString(TESTSTRING))
     }
 
-    private lateinit var binding: FeaturedtracksFragmentBinding
+    private var _binding: FeaturedtracksFragmentBinding? = null
+    private val binding
+        get() = _binding!!
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = FeaturedtracksFragmentBinding.inflate(inflater, container, false)
+        _binding = FeaturedtracksFragmentBinding.inflate(inflater, container, false)
         return binding.root
     }
 
