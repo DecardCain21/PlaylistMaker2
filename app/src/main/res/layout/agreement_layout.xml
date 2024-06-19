@@ -34,8 +34,10 @@
 
     <TextView
         android:id="@+id/agreement_offer"
+        style="@style/medialib_head"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
         android:layout_marginTop="40dp"
         android:fontFamily="@font/ys_display_bold"
         android:text="@string/agreement_offer"
@@ -45,8 +47,10 @@
 
     <TextView
         android:id="@+id/agreement_tv1"
+        style="@style/medialib_head"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
         android:layout_marginTop="8dp"
         android:fontFamily="@font/ys_display_regular"
         android:text="@string/agreement_tv_link"
@@ -56,8 +60,10 @@
 
     <TextView
         android:id="@+id/agreement_terms"
+        style="@style/medialib_head"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
         android:layout_marginTop="24dp"
         android:fontFamily="@font/ys_display_bold"
         android:text="@string/agreement_header_terms"
@@ -68,12 +74,14 @@
     <androidx.core.widget.NestedScrollView
         android:layout_width="wrap_content"
         android:layout_height="0dp"
+        android:layout_marginStart="16dp"
         android:layout_marginTop="8dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/agreement_terms">
 
         <TextView
+            style="@style/medialib_head"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="@font/ys_display_regular"

@@ -119,7 +119,7 @@ class SearchFragment : Fragment() {
             false
         }
 
-        binding.buttonClear.setOnClickListener {
+        binding.clearhistory.setOnClickListener {
             binding.clearhistory.isGone = true
             binding.headerhistory.isGone = true
 

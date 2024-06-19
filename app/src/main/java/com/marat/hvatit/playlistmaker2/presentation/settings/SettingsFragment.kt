@@ -8,6 +8,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
+import com.marat.hvatit.playlistmaker2.R
 import com.marat.hvatit.playlistmaker2.databinding.FragmentSettingsBinding
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -39,10 +41,11 @@ class SettingsFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         binding.llshare.setOnClickListener { viewModel.createIntent(ActionFilter.SHARE) }
         binding.llsupport.setOnClickListener { viewModel.createIntent(ActionFilter.SUPPORT) }
-        binding.llagreement.setOnClickListener { viewModel.createIntent(ActionFilter.USERAGREEMENT) }
+        binding.llagreement.setOnClickListener {
+            findNavController().navigate(R.id.action_settingsFragment_to_fragmentAgreement)
+        }
         //.....................................................
 
         /*buttonBack.setOnClickListener {
