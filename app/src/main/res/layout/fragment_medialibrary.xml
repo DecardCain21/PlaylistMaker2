@@ -2,9 +2,9 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/fragment_medialibrary"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:id="@+id/fragment_medialibrary"
     tools:context=".presentation.medialibrary.MedialibraryFragment">
 
     <TextView
@@ -12,24 +12,12 @@
         style="@style/medialib_head"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="28dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="14dp"
         android:fontFamily="@font/ys_display_medium"
         android:text="@string/medialibrary_name"
         android:textAlignment="center"
         android:textSize="22sp"
-        app:layout_constraintBottom_toBottomOf="@id/back"
-        app:layout_constraintStart_toEndOf="@id/back"
-        app:layout_constraintTop_toTopOf="@id/back" />
-
-    <androidx.appcompat.widget.AppCompatImageButton
-        android:id="@+id/back"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        android:background="@drawable/button_back"
-        android:backgroundTintMode="add"
-        android:scaleType="center"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -45,10 +33,10 @@
         app:layout_constraintTop_toBottomOf="@id/tittle"
         app:tabIndicator="@drawable/medialib_indicator_test"
         app:tabIndicatorFullWidth="false"
-        app:tabPaddingStart="16dp"
-        app:tabPaddingEnd="16dp"
         app:tabIndicatorHeight="2dp"
         app:tabMode="fixed"
+        app:tabPaddingEnd="16dp"
+        app:tabPaddingStart="16dp"
         app:tabTextAppearance="@style/medialib_activity_tabs" />
 
 

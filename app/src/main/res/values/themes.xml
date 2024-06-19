@@ -20,10 +20,6 @@
     <style name="activity_settings_head">
         <item name="android:textSize">@dimen/text_size</item>
         <item name="android:textColor">?attr/colorSecondaryVariant</item>
-        <item name="android:layout_width">wrap_content</item>
-        <item name="android:layout_height">wrap_content</item>
-        <item name="android:layout_marginStart">@dimen/tv_marginStart</item>
-        <item name="android:layout_marginTop">@dimen/tv_marginTop</item>
     </style>
 
     <style name="settings_activity_viewtextstyle">
@@ -36,9 +32,6 @@
     </style>
 
     <style name="activity_settings_viewback">
-        <item name="android:layout_width">@dimen/icon_back_size</item>
-        <item name="android:layout_height">@dimen/icon_back_size</item>
-        <item name="android:layout_marginStart">@dimen/icon_back_size</item>
         <item name="android:background">@drawable/ic_baseline_arrow_back_24</item>
     </style>
 
