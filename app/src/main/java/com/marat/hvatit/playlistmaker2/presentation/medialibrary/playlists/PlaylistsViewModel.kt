@@ -1,4 +1,4 @@
-package com.marat.hvatit.playlistmaker2.presentation.medialibrary
+package com.marat.hvatit.playlistmaker2.presentation.medialibrary.playlists
 
 import androidx.lifecycle.ViewModel
 

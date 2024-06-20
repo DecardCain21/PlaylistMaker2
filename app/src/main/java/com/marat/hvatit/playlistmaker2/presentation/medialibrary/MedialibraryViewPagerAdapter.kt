@@ -5,6 +5,8 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.Lifecycle
 import androidx.viewpager2.adapter.FragmentStateAdapter
+import com.marat.hvatit.playlistmaker2.presentation.medialibrary.featured.FeaturedTracksFragment
+import com.marat.hvatit.playlistmaker2.presentation.medialibrary.playlists.PlaylistsFragment
 
 
 class MedialibraryViewPagerAdapter(fragmentManager: FragmentManager, lifecycle: Lifecycle) :

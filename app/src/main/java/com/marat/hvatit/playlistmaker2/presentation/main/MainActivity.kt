@@ -6,9 +6,9 @@ import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import com.marat.hvatit.playlistmaker2.R
-import com.marat.hvatit.playlistmaker2.presentation.medialibrary.MedialibraryActivity
-import com.marat.hvatit.playlistmaker2.presentation.search.SearchActivity
-import com.marat.hvatit.playlistmaker2.presentation.settings.SettingsActivity
+import com.marat.hvatit.playlistmaker2.presentation.medialibrary.MedialibraryFragment
+import com.marat.hvatit.playlistmaker2.presentation.search.SearchFragment
+import com.marat.hvatit.playlistmaker2.presentation.settings.SettingsFragment
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class MainActivity : AppCompatActivity() {
@@ -28,7 +28,7 @@ class MainActivity : AppCompatActivity() {
     private fun initButtonSettings() {
         val buttonSettings = findViewById<Button>(R.id.button_bigThree)
         buttonSettings.setOnClickListener {
-            SettingsActivity.getIntent(this@MainActivity, this.getString(R.string.android)).apply {
+            SettingsFragment.getIntent(this@MainActivity, this.getString(R.string.android)).apply {
                 startActivity(this)
             }
         }
@@ -37,7 +37,7 @@ class MainActivity : AppCompatActivity() {
     private fun initButtonMediaLib() {
         val buttonMedialib = findViewById<Button>(R.id.button_bigTwo)
         buttonMedialib.setOnClickListener {
-            val medialibIntent = Intent(this, MedialibraryActivity::class.java)
+            val medialibIntent = Intent(this, MedialibraryFragment::class.java)
             startActivity(medialibIntent)
         }
     }
@@ -45,7 +45,7 @@ class MainActivity : AppCompatActivity() {
     private fun initButtonSearch() {
         val buttonSearch = findViewById<Button>(R.id.button_bigOne)
         buttonSearch.setOnClickListener {
-            SearchActivity.getIntent(this@MainActivity, this.getString(R.string.android)).apply {
+            SearchFragment.getIntent(this@MainActivity, this.getString(R.string.android)).apply {
                 startActivity(this)
             }
         }

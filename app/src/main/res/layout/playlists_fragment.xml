@@ -16,27 +16,80 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
+        android:layout_marginTop="76dp"
+        android:layout_marginStart="16dp"
+        android:layout_gravity="start"
+        android:visibility="gone">
+
+        <ImageView
+            android:layout_width="160dp"
+            android:layout_height="160dp"
+            android:background="@drawable/nothing_problem"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Best songs 2021"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="98 треков"/>
+
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginTop="76dp"
+        android:layout_marginEnd="16dp"
+        android:layout_gravity="end"
+        android:visibility="gone">
+
+        <ImageView
+            android:layout_width="160dp"
+            android:layout_height="160dp"
+            android:background="@drawable/nothing_problem"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Best songs 2021"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="98 треков"/>
+
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:layout_marginTop="109dp">
+        android:layout_marginTop="109dp"
+        android:orientation="vertical"
+        android:visibility="visible">
 
         <ImageView
             android:id="@+id/fragment_playlists_placeholder"
             android:layout_width="120dp"
             android:layout_height="120dp"
-            android:background="@drawable/nothing_problem"
             android:layout_gravity="center_horizontal"
+            android:background="@drawable/nothing_problem"
             android:visibility="visible" />
 
         <TextView
+            style="@style/fragment_placeholder_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:fontFamily="@font/ys_display_medium"
             android:layout_marginTop="20dp"
-            android:textSize="19sp"
-            android:textAlignment="center"
+            android:fontFamily="@font/ys_display_medium"
             android:text="@string/playlists_is_empty"
-            style="@style/fragment_placeholder_text"/>
+            android:textAlignment="center"
+            android:textSize="19sp" />
 
 
     </androidx.appcompat.widget.LinearLayoutCompat>

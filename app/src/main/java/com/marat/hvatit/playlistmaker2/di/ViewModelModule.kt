@@ -4,8 +4,9 @@ import com.marat.hvatit.playlistmaker2.presentation.audioplayer.AudioPlayerContr
 import com.marat.hvatit.playlistmaker2.presentation.audioplayer.AudioViewModel
 import com.marat.hvatit.playlistmaker2.presentation.audioplayer.controller.AudioPlayerControllerImpl
 import com.marat.hvatit.playlistmaker2.presentation.main.MainViewModel
-import com.marat.hvatit.playlistmaker2.presentation.medialibrary.FeaturedViewModel
-import com.marat.hvatit.playlistmaker2.presentation.medialibrary.PlaylistsViewModel
+import com.marat.hvatit.playlistmaker2.presentation.medialibrary.MedialibraryViewModel
+import com.marat.hvatit.playlistmaker2.presentation.medialibrary.featured.FeaturedViewModel
+import com.marat.hvatit.playlistmaker2.presentation.medialibrary.playlists.PlaylistsViewModel
 import com.marat.hvatit.playlistmaker2.presentation.search.SearchViewModel
 import com.marat.hvatit.playlistmaker2.presentation.settings.IntentNavigator
 import com.marat.hvatit.playlistmaker2.presentation.settings.IntentNavigatorImpl
@@ -44,6 +45,10 @@ val viewModelModule = module {
 
     viewModel {(str:String)->
         PlaylistsViewModel(str)
+    }
+
+    viewModel {
+        MedialibraryViewModel(get())
     }
 
 }
