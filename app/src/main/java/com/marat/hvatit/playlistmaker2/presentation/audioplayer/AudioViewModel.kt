@@ -1,13 +1,14 @@
 package com.marat.hvatit.playlistmaker2.presentation.audioplayer
 
-import android.os.Handler
-import android.os.Looper
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.marat.hvatit.playlistmaker2.domain.api.AudioPlayerCallback
 import com.marat.hvatit.playlistmaker2.domain.api.interactors.AudioPlayerInteractor
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 class AudioViewModel(previewUrl: String, private val interactor: AudioPlayerInteractor) :
     ViewModel(),
@@ -15,9 +16,11 @@ class AudioViewModel(previewUrl: String, private val interactor: AudioPlayerInte
 
     private var playerState: MediaPlayerState = MediaPlayerState.Default
     private var loadingLiveData = MutableLiveData(playerState)
+    private var timerJob : Job? = null
 
-    private val handler = Handler(Looper.getMainLooper())
-    private val timerRunnable: Runnable = Runnable { startTimer() }
+    companion object{
+        private const val TIMER_DELAY = 1000L
+    }
 
     init {
         interactor.setPreviewUrl(previewUrl)
@@ -54,14 +57,16 @@ class AudioViewModel(previewUrl: String, private val interactor: AudioPlayerInte
     }
 
     private fun startTimer() {
-        handler.removeCallbacks(timerRunnable)
         loadingLiveData.value = MediaPlayerState.Playing(interactor.updateTimer())
-        Log.e("MediaState", "startTimer():${loadingLiveData.value}")
-        handler.postDelayed(timerRunnable, 1000L)
+        //Log.e("MediaState", "startTimer():${loadingLiveData.value}")
+        timerJob = viewModelScope.launch {
+            delay(TIMER_DELAY)
+            startTimer()
+        }
     }
 
     private fun stopTimer() {
-        handler.removeCallbacks(timerRunnable)
+        timerJob?.cancel()
         loadingLiveData.value = MediaPlayerState.Paused
     }
 
