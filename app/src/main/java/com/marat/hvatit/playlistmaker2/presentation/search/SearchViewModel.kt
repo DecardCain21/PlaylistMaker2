@@ -3,17 +3,22 @@ package com.marat.hvatit.playlistmaker2.presentation.search
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.viewmodel.initializer
-import androidx.lifecycle.viewmodel.viewModelFactory
+import androidx.lifecycle.viewModelScope
 import com.marat.hvatit.playlistmaker2.R
 import com.marat.hvatit.playlistmaker2.domain.api.interactors.SaveTrackInteractor
 import com.marat.hvatit.playlistmaker2.domain.api.interactors.TrackInteractor
 import com.marat.hvatit.playlistmaker2.domain.models.Track
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 class SearchViewModel(
     private val interactor: TrackInteractor, private var trackRepository: SaveTrackInteractor
 ) : ViewModel() {
+
+    private var latestSearchText: String? = null
+
+    private var searchJob: Job? = null
 
     private var searchState: SearchState = if (trackRepository.tracks.isEmpty()) {
         SearchState.ClearState
@@ -77,17 +82,19 @@ class SearchViewModel(
         }
     }
 
+    fun searchDebounce(newText: String) {
+        if (latestSearchText == newText) {
+            return
+        }
+        latestSearchText = newText
+        searchJob?.cancel()
+        searchJob = viewModelScope.launch {
+            delay(SEARCH_DEBOUNCE_DELAY)
+            search(newText)
+        }
+    }
+
     companion object {
-        fun getViewModelFactory(
-            interactor: TrackInteractor,
-            saveSongStack: SaveTrackInteractor
-        ): ViewModelProvider.Factory =
-            viewModelFactory {
-                initializer {
-                    SearchViewModel(
-                        interactor, saveSongStack
-                    )
-                }
-            }
+        private const val SEARCH_DEBOUNCE_DELAY = 2000L
     }
 }

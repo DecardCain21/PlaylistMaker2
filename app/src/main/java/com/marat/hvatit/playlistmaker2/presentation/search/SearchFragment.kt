@@ -4,8 +4,6 @@ import android.content.Context
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.LayoutInflater
@@ -51,7 +49,6 @@ class SearchFragment : Fragment() {
     companion object {
 
         private const val CLICK_DEBOUNCE_DELAY = 1000L
-        private const val SEARCH_DEBOUNCE_DELAY = 2000L
 
         fun getIntent(context: Context, message: String): Intent {
             return Intent(context, SearchFragment::class.java).apply {
@@ -61,12 +58,7 @@ class SearchFragment : Fragment() {
     }
 
     private var searchText: String? = null
-    private val searchRunnable: Runnable =
-        Runnable { searchText?.let { viewModel.search(it) } }
-
     private var isClickAllowed = true
-
-    private val handler = Handler(Looper.getMainLooper())
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -116,7 +108,6 @@ class SearchFragment : Fragment() {
 
         binding.editText.setOnEditorActionListener { _, actionId, _ ->
             if (actionId == EditorInfo.IME_ACTION_DONE) {
-                handler.removeCallbacks(searchRunnable)
                 viewModel.search(binding.editText.text.toString())
             }
             false
@@ -160,12 +151,11 @@ class SearchFragment : Fragment() {
         override fun afterTextChanged(s: Editable?) {
             saveEditText = s.toString()
             if (s.isNullOrEmpty()) {
-                handler.removeCallbacks(searchRunnable)
                 viewModel.setSavedTracks()
                 trackListAdapter.notifyDataSetChanged()
             } else {
                 searchText = s.toString()
-                searchDebounce()
+                viewModel.searchDebounce(searchText!!)
             }
         }
 
@@ -262,12 +252,6 @@ class SearchFragment : Fragment() {
         binding.texterror.isVisible = false
         binding.progressBar.isVisible = false
     }
-
-    override fun onStop() {
-        super.onStop()
-        handler.removeCallbacks(searchRunnable)
-    }
-
     override fun onDestroy() {
         super.onDestroy()
         viewModel.saveTracksToCache()
@@ -302,10 +286,4 @@ class SearchFragment : Fragment() {
         }
         return current
     }
-
-    private fun searchDebounce() {
-        handler.removeCallbacks(searchRunnable)
-        handler.postDelayed(searchRunnable, SEARCH_DEBOUNCE_DELAY)
-    }
-
 }
