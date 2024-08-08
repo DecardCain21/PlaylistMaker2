@@ -5,4 +5,6 @@ import com.marat.hvatit.playlistmaker2.data.dto.Response
 interface NetworkClient {
     fun doRequest(dto: Any): Response
 
+    suspend fun doRequestCoroutine(dto: Any): Response
+
 }

@@ -7,6 +7,8 @@ import android.os.Build
 import com.marat.hvatit.playlistmaker2.data.NetworkClient
 import com.marat.hvatit.playlistmaker2.data.dto.Response
 import com.marat.hvatit.playlistmaker2.data.dto.TrackSearchRequest
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 
 class RetrofitNetworkClient(
     private val appleService: AppleMusicApiService,
@@ -24,6 +26,24 @@ class RetrofitNetworkClient(
             return body.apply { resultCode = resp.code() }
         } else {
             return Response().apply { resultCode = 400 }
+        }
+    }
+
+    override suspend fun doRequestCoroutine(dto: Any): Response {
+        if (!isConnected()) {
+            return Response().apply { resultCode = -1 }
+        }
+        if (dto !is TrackSearchRequest) {
+            return Response().apply { resultCode = 400 }
+        }
+
+        return withContext(Dispatchers.IO) {
+            try {
+                val response = appleService.searchCoroutine(dto.expression)
+                response.apply { resultCode = 200 }
+            } catch (e: Throwable) {
+                Response().apply { resultCode = 500 }
+            }
         }
     }
 
