@@ -19,7 +19,7 @@ class AudioViewModel(previewUrl: String, private val interactor: AudioPlayerInte
     private var timerJob : Job? = null
 
     companion object{
-        private const val TIMER_DELAY = 1000L
+        private const val TIMER_DELAY = 300L
     }
 
     init {
