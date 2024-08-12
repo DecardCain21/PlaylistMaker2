@@ -43,7 +43,7 @@ class TrackRepositoryImpl(private val networkClient: NetworkClient) : TrackRepos
         val response = networkClient.doRequestCoroutine(TrackSearchRequest(expression))
         when(response.resultCode){
             -1->{
-                emit(Resource.Error("Disconnected"))
+                emit(Resource.Error("-1"))
             }
             200->{
                 with(response as TrackSearchResponse){

@@ -1,5 +1,6 @@
 package com.marat.hvatit.playlistmaker2.presentation.search
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -52,6 +53,38 @@ class SearchViewModel(
                 }
             }
         })
+    }
+
+    fun searchCoroutine(query: String) {
+        loadingLiveData.postValue(SearchState.Download)
+        viewModelScope.launch {
+            interactor
+                .searchTrackCoroutine(query)
+                .collect { pair ->
+                    processingResponse(pair.first, pair.second)
+                }
+        }
+    }
+
+    private fun processingResponse(foundTracks: List<Track>?, errorMessage: String?) {
+        val tracks = mutableListOf<Track>()
+        if (foundTracks != null) {
+            tracks.addAll(foundTracks)
+        }
+        when {
+            errorMessage != null -> {
+                loadingLiveData.postValue(SearchState.NothingToShow(R.string.act_search_nothing))
+                Log.e("processingResponse","errorMessage:$errorMessage")
+            }
+
+            foundTracks!!.isEmpty() -> {
+                loadingLiveData.postValue(SearchState.NothingToShow(R.string.act_search_nothing))
+            }
+
+            else -> {
+                loadingLiveData.postValue(SearchState.Disconnected(R.string.act_search_disconnect))
+            }
+        }
     }
 
     fun addSaveSongs(item: Track) {
