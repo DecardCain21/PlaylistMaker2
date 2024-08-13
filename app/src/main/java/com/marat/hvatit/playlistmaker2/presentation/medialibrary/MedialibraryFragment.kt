@@ -17,7 +17,7 @@ class MedialibraryFragment : Fragment() {
 
     private var _binding: FragmentMedialibraryBinding? = null
 
-    private lateinit var tabMediator: TabLayoutMediator
+    private /*lateinit*/ var tabMediator: TabLayoutMediator? = null
     private val binding
         get() = _binding!!
 
@@ -44,7 +44,7 @@ class MedialibraryFragment : Fragment() {
                 1 -> tab.text = getString(R.string.playlists)
             }
         }
-        tabMediator.attach()
+        tabMediator?.attach()
 
     }
 
@@ -56,7 +56,7 @@ class MedialibraryFragment : Fragment() {
 
     override fun onDestroy() {
         super.onDestroy()
-        tabMediator.detach()
+        tabMediator?.detach()
     }
 
 }

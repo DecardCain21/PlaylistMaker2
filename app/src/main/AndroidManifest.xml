@@ -22,9 +22,6 @@
         <activity
             android:name=".presentation.settings.SettingsFragment"
             android:exported="false" />
-        <!--<activity
-            android:name=".presentation.search.SearchFragment"
-            android:exported="false" />-->
         <activity
             android:name=".presentation.medialibrary.MedialibraryFragment"
             android:exported="false" />

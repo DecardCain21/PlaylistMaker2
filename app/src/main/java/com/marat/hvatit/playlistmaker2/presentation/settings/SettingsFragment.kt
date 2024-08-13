@@ -46,11 +46,6 @@ class SettingsFragment : Fragment() {
         binding.llagreement.setOnClickListener {
             findNavController().navigate(R.id.action_settingsFragment_to_fragmentAgreement)
         }
-        //.....................................................
-
-        /*buttonBack.setOnClickListener {
-            onBackPressed()
-        }*/
 
         binding.bswitch.setOnCheckedChangeListener { _, isChecked ->
             switchTheme(isChecked)

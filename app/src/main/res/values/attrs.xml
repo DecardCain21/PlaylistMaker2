@@ -3,4 +3,5 @@
     <attr name="act_search_placeholder" />
     <attr name="act_search_update" />
     <attr name="medialib_color"/>
+    <attr name="activity_search_et_backgroundColor"/>
 </resources>

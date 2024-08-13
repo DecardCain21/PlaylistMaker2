@@ -45,8 +45,9 @@
     <style name="medialib_activity_tabs">
         <item name="android:textSize">14sp</item>
         <item name="tabTextColor">?attr/medialib_color</item>
-        <item name="tabIndicatorColor"></item>
+        <item name="tabIndicatorColor">?attr/act_search_placeholder</item>
         <item name="fontFamily">@font/ys_display_medium</item>
+        <item name="android:background">?attr/act_search_update</item>
     </style>
 
     <style name="medialib_head">
