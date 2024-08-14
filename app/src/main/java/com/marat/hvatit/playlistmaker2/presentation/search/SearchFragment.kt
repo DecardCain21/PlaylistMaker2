@@ -95,8 +95,6 @@ class SearchFragment : Fragment() {
 
         binding.editText.addTextChangedListener(textWatcher(binding.buttonClear))
 
-        /*buttonBack.setOnClickListener { onBackPressed() }*/
-
         binding.buttonClear.setOnClickListener {
             binding.editText.requestFocus()
             binding.editText.setText("")
@@ -108,7 +106,6 @@ class SearchFragment : Fragment() {
 
         binding.editText.setOnEditorActionListener { _, actionId, _ ->
             if (actionId == EditorInfo.IME_ACTION_DONE) {
-                //viewModel.search(binding.editText.text.toString())
                 viewModel.searchCoroutine(binding.editText.text.toString())
             }
             false
@@ -135,7 +132,6 @@ class SearchFragment : Fragment() {
         }
 
         binding.buttonUpdate.setOnClickListener {
-            //viewModel.search(binding.editText.text.toString())
             viewModel.searchCoroutine(binding.editText.text.toString())
         }
     }

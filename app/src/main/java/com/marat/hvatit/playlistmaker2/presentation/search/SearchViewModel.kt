@@ -76,6 +76,7 @@ class SearchViewModel(
     }
 
     fun setSavedTracks() {
+        searchJob?.cancel()
         if (trackRepository.tracks.isEmpty()) {
             loadingLiveData.postValue(SearchState.ClearState)
         } else {
