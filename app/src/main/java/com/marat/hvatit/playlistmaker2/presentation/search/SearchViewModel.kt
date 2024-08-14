@@ -1,6 +1,5 @@
 package com.marat.hvatit.playlistmaker2.presentation.search
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -37,24 +36,6 @@ class SearchViewModel(
         loadingLiveData.postValue(newState)
     }
 
-
-    fun search(query: String) {
-        loadingLiveData.postValue(SearchState.Download)
-        interactor.searchTrack(query, object : TrackInteractor.TrackConsumer {
-            override fun consume(foundTrack: List<Track>?, errorMessage: String?) {
-                if (foundTrack != null) {
-                    if (foundTrack.isEmpty()) {
-                        loadingLiveData.postValue(SearchState.NothingToShow(R.string.act_search_nothing))
-                    } else {
-                        loadingLiveData.postValue(SearchState.Data(foundTrack))
-                    }
-                } else {
-                    loadingLiveData.postValue(SearchState.Disconnected(R.string.act_search_disconnect))
-                }
-            }
-        })
-    }
-
     fun searchCoroutine(query: String) {
         loadingLiveData.postValue(SearchState.Download)
         viewModelScope.launch {
@@ -67,23 +48,14 @@ class SearchViewModel(
     }
 
     private fun processingResponse(foundTracks: List<Track>?, errorMessage: String?) {
-        val tracks = mutableListOf<Track>()
-        if (foundTracks != null) {
-            tracks.addAll(foundTracks)
-        }
-        when {
-            errorMessage != null -> {
+        if (foundTracks != null ) {
+            if (foundTracks.isEmpty()) {
                 loadingLiveData.postValue(SearchState.NothingToShow(R.string.act_search_nothing))
-                Log.e("processingResponse","errorMessage:$errorMessage")
+            } else {
+                loadingLiveData.postValue(SearchState.Data(foundTracks))
             }
-
-            foundTracks!!.isEmpty() -> {
-                loadingLiveData.postValue(SearchState.NothingToShow(R.string.act_search_nothing))
-            }
-
-            else -> {
-                loadingLiveData.postValue(SearchState.Disconnected(R.string.act_search_disconnect))
-            }
+        } else {
+            loadingLiveData.postValue(SearchState.Disconnected(R.string.act_search_disconnect))
         }
     }
 
@@ -123,7 +95,7 @@ class SearchViewModel(
         searchJob?.cancel()
         searchJob = viewModelScope.launch {
             delay(SEARCH_DEBOUNCE_DELAY)
-            search(newText)
+            searchCoroutine(newText)
         }
     }
 

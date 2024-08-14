@@ -9,7 +9,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 
 class TrackRepositoryImpl(private val networkClient: NetworkClient) : TrackRepository {
-    override fun searchTrack(expression: String): Resource<List<Track>> {
+    /*override fun searchTrack(expression: String): Resource<List<Track>> {
         val response = networkClient.doRequest(TrackSearchRequest(expression))
         return when (response.resultCode) {
             -1 -> {
@@ -37,7 +37,7 @@ class TrackRepositoryImpl(private val networkClient: NetworkClient) : TrackRepos
                 Resource.Error("Ошибка сервера")
             }
         }
-    }
+    }*/
 
     override fun searchTrackCoroutine(expression: String): Flow<Resource<List<Track>>> = flow {
         val response = networkClient.doRequestCoroutine(TrackSearchRequest(expression))
