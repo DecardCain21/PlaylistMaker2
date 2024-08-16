@@ -36,4 +36,8 @@ class TrackDbConvertor {
         )
     }
 
+    fun convertToEntity(track:Track):TrackEntity{
+        return TrackEntity(track.trackId,track.trackName,track.artistName,track.trackTimeMillis,track.artworkUrl100,track.country,track.genre,track.year,track.album,track.previewUrl)
+    }
+
 }
