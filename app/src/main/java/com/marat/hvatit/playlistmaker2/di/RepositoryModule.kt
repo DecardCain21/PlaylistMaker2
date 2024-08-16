@@ -2,6 +2,7 @@ package com.marat.hvatit.playlistmaker2.di
 
 import com.marat.hvatit.playlistmaker2.data.SaveTrackRepositoryImpl
 import com.marat.hvatit.playlistmaker2.data.TrackRepositoryImpl
+import com.marat.hvatit.playlistmaker2.data.db.converters.TrackDbConvertor
 import com.marat.hvatit.playlistmaker2.domain.api.repository.SaveTrackRepository
 import com.marat.hvatit.playlistmaker2.domain.api.repository.TrackRepository
 import org.koin.dsl.module
@@ -17,5 +18,7 @@ val repositoryModule = module {
     single<SaveTrackRepository> {
         SaveTrackRepositoryImpl(STORY_TRACK_SIZE, get())
     }
+
+    factory { TrackDbConvertor() }
 
 }

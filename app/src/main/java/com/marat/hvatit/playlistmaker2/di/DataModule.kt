@@ -1,11 +1,13 @@
 package com.marat.hvatit.playlistmaker2.di
 
 import android.content.Context
+import androidx.room.Room
 import com.google.gson.Gson
 import com.marat.hvatit.playlistmaker2.data.JsonParserImpl
 import com.marat.hvatit.playlistmaker2.data.NetworkClient
 import com.marat.hvatit.playlistmaker2.data.dataSource.HistoryStorage
 import com.marat.hvatit.playlistmaker2.data.dataSource.HistoryStorageImpl
+import com.marat.hvatit.playlistmaker2.data.db.AppDatabase
 import com.marat.hvatit.playlistmaker2.data.network.AppleMusicApiService
 import com.marat.hvatit.playlistmaker2.data.network.RetrofitNetworkClient
 import com.marat.hvatit.playlistmaker2.domain.api.JsonParser
@@ -43,4 +45,8 @@ val dataModule = module {
     single{
         JsonParserImpl(get())
     } bind JsonParser::class
+
+    single {
+        Room.databaseBuilder(androidContext(),AppDatabase::class.java,"database.db").build()
+    }
 }
