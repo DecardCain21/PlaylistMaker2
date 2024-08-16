@@ -41,9 +41,10 @@ class AudioplayerActivity : AppCompatActivity() {
     private lateinit var buttonPlay: ImageButton
     private lateinit var priviewTimer: TextView
     private var priviewUrl: String = ""
+    private lateinit var buttonFavorite: ImageButton
 
-    private val gsonParser : JsonParserImpl by inject()
-    private val glide : GlideHelper by inject()
+    private val gsonParser: JsonParserImpl by inject()
+    private val glide: GlideHelper by inject()
 
 
     private val viewModel: AudioViewModel by viewModel {
@@ -88,6 +89,11 @@ class AudioplayerActivity : AppCompatActivity() {
             }
         }
 
+        buttonFavorite.setOnClickListener {
+            viewModel.addFavorite(result)
+            Toast.makeText(this,"yealo",Toast.LENGTH_SHORT)
+        }
+
     }
 
     private fun initViews() {
@@ -101,6 +107,7 @@ class AudioplayerActivity : AppCompatActivity() {
         durationvalue = findViewById(R.id.actplayer_durationvalue)
         buttonPlay = findViewById(R.id.actplayer_buttonplay)
         priviewTimer = findViewById(R.id.actplayer_tracktime)
+        buttonFavorite = findViewById(R.id.button_favorite)
     }
 
     private fun setTextContent(song: Track) {
@@ -156,7 +163,7 @@ class AudioplayerActivity : AppCompatActivity() {
             }
 
             is MediaPlayerState.Disconnected -> {
-                Toast.makeText(this,"Disconnect_problem",Toast.LENGTH_LONG).show()
+                Toast.makeText(this, "Disconnect_problem", Toast.LENGTH_LONG).show()
             }
         }
     }

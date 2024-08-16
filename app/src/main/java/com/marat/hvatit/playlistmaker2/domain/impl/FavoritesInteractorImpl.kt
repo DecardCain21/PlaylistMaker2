@@ -10,4 +10,8 @@ class FavoritesInteractorImpl(private val repositoryImpl: FavoritesRepository) :
     override fun favoritesTracks(): Flow<List<Track>> {
         return repositoryImpl.medialibTracks()
     }
+
+    override suspend fun saveFavoriteTrack(track: Track) {
+        repositoryImpl.saveFavoriteTrack(track)
+    }
 }

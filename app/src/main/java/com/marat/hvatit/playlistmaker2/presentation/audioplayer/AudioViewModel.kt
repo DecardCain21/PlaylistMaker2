@@ -6,19 +6,25 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.marat.hvatit.playlistmaker2.domain.api.AudioPlayerCallback
 import com.marat.hvatit.playlistmaker2.domain.api.interactors.AudioPlayerInteractor
+import com.marat.hvatit.playlistmaker2.domain.db.FavoritesInteractor
+import com.marat.hvatit.playlistmaker2.domain.models.Track
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
-class AudioViewModel(previewUrl: String, private val interactor: AudioPlayerInteractor) :
+class AudioViewModel(
+    previewUrl: String,
+    private val interactor: AudioPlayerInteractor,
+    private val interactorDb: FavoritesInteractor
+) :
     ViewModel(),
     AudioPlayerCallback {
 
     private var playerState: MediaPlayerState = MediaPlayerState.Default
     private var loadingLiveData = MutableLiveData(playerState)
-    private var timerJob : Job? = null
+    private var timerJob: Job? = null
 
-    companion object{
+    companion object {
         private const val TIMER_DELAY = 300L
     }
 
@@ -31,7 +37,7 @@ class AudioViewModel(previewUrl: String, private val interactor: AudioPlayerInte
 
     fun playbackControl() {
         var result = interactor.playbackControl()
-        if (result is MediaPlayerState.Disconnected){
+        if (result is MediaPlayerState.Disconnected) {
             loadingLiveData.postValue(interactor.playbackControl())
             // установка значения LiveData из фонового потока
         }
@@ -77,6 +83,16 @@ class AudioViewModel(previewUrl: String, private val interactor: AudioPlayerInte
 
     override fun playerPrepared() {
         loadingLiveData.value = MediaPlayerState.Prepared
+    }
+
+    fun addFavorite(track: Track) {
+        viewModelScope.launch {
+            saveTrackDb(track)
+        }
+    }
+
+    private suspend fun saveTrackDb(track: Track) {
+        interactorDb.saveFavoriteTrack(track)
     }
 
 }
