@@ -91,7 +91,7 @@ class AudioplayerActivity : AppCompatActivity() {
 
         buttonFavorite.setOnClickListener {
             viewModel.addFavorite(result)
-            Toast.makeText(this,"yealo",Toast.LENGTH_SHORT)
+            Toast.makeText(this,"yealo",Toast.LENGTH_SHORT).show()
         }
 
     }
@@ -167,4 +167,5 @@ class AudioplayerActivity : AppCompatActivity() {
             }
         }
     }
+
 }

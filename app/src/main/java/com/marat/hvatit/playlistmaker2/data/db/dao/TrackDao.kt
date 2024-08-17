@@ -9,8 +9,8 @@ import com.marat.hvatit.playlistmaker2.data.db.entity.TrackEntity
 @Dao
 interface TrackDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertTrack(trackEntity: TrackEntity)
+     fun insertTrack(trackEntity: TrackEntity)
 
     @Query("SELECT * FROM favorite_tracks_table")
-    suspend fun getTracks(): List<TrackEntity>
+     fun getTracks(): List<TrackEntity>
 }

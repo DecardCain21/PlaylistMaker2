@@ -2,6 +2,8 @@ package com.marat.hvatit.playlistmaker2.creator
 
 import android.app.Application
 import android.content.Context
+import androidx.room.Room
+import com.marat.hvatit.playlistmaker2.data.db.AppDatabase
 import com.marat.hvatit.playlistmaker2.di.dataModule
 import com.marat.hvatit.playlistmaker2.di.interactorModule
 import com.marat.hvatit.playlistmaker2.di.repositoryModule
@@ -22,6 +24,7 @@ class PlaylistMakerApp : Application() {
             androidContext(this@PlaylistMakerApp)
             modules(dataModule, repositoryModule, interactorModule, viewModelModule, utilModule)
         }
+        val database = Room.databaseBuilder(this,AppDatabase::class.java,"database.db")
     }
 
     companion object {

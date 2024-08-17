@@ -8,6 +8,7 @@ import com.marat.hvatit.playlistmaker2.domain.api.AudioPlayerCallback
 import com.marat.hvatit.playlistmaker2.domain.api.interactors.AudioPlayerInteractor
 import com.marat.hvatit.playlistmaker2.domain.db.FavoritesInteractor
 import com.marat.hvatit.playlistmaker2.domain.models.Track
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -86,7 +87,7 @@ class AudioViewModel(
     }
 
     fun addFavorite(track: Track) {
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
             saveTrackDb(track)
         }
     }
