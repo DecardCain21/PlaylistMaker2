@@ -1,5 +1,6 @@
 package com.marat.hvatit.playlistmaker2.data
 
+import android.util.Log
 import com.marat.hvatit.playlistmaker2.data.db.AppDatabase
 import com.marat.hvatit.playlistmaker2.data.db.converters.TrackDbConvertor
 import com.marat.hvatit.playlistmaker2.data.db.entity.TrackEntity
@@ -14,11 +15,16 @@ class FavoritesRepositoryImpl(
 ) : FavoritesRepository {
     override fun medialibTracks(): Flow<List<Track>> = flow {
         val tracks = appDatabase.trackDao().getTracks()
+        Log.e("test1","medialibTracks:$tracks")
         emit(convertFromTrackEntity(tracks))
     }
 
     override suspend fun saveFavoriteTrack(track: Track) {
         appDatabase.trackDao().insertTrack(convertToTrackEntity(track))
+    }
+
+    override suspend fun deleteTrack(track: Track) {
+        appDatabase.trackDao().deleteTrack(convertToTrackEntity(track))
     }
 
     private fun convertFromTrackEntity(tracks: List<TrackEntity>): List<Track> {

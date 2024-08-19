@@ -1,5 +1,6 @@
 package com.marat.hvatit.playlistmaker2.presentation.audioplayer
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -11,6 +12,8 @@ import com.marat.hvatit.playlistmaker2.domain.models.Track
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 
 class AudioViewModel(
@@ -24,6 +27,7 @@ class AudioViewModel(
     private var playerState: MediaPlayerState = MediaPlayerState.Default
     private var loadingLiveData = MutableLiveData(playerState)
     private var timerJob: Job? = null
+    private var loadingFavoriteData = MutableLiveData(false)
 
     companion object {
         private const val TIMER_DELAY = 300L
@@ -32,6 +36,7 @@ class AudioViewModel(
     init {
         interactor.setPreviewUrl(previewUrl)
         interactor.setCallback(this)
+
     }
 
     fun getLoadingLiveData(): LiveData<MediaPlayerState> = loadingLiveData
@@ -86,10 +91,31 @@ class AudioViewModel(
         loadingLiveData.value = MediaPlayerState.Prepared
     }
 
-    fun addFavorite(track: Track) {
+    fun changeFavorite(boolean: Boolean) {
+        loadingFavoriteData.postValue(boolean)
+    }
+
+    fun isFavorite(track: Track) {
+        var trackId = track.trackId
         viewModelScope.launch(Dispatchers.IO) {
-            saveTrackDb(track)
+            interactorDb.addFavorite().catch { exception -> changeFavorite(false) }
+                .map { tracks -> tracks.any { it.trackId == trackId } }
+                .collect { isFavorite ->
+                    Log.e("test1", "isFavorite: $isFavorite")
+                    changeFavorite(isFavorite)
+                    if (isFavorite){
+                        deleteTrackDb(track)
+                    }
+                    else{
+                        saveTrackDb(track)
+                    }
+                }
         }
+
+    }
+
+    private suspend fun deleteTrackDb(track: Track){
+        interactorDb.deleteFavorite(track)
     }
 
     private suspend fun saveTrackDb(track: Track) {

@@ -89,11 +89,17 @@ class AudioplayerActivity : AppCompatActivity() {
             }
         }
 
+
+        viewModel.isFavorite(result)
         buttonFavorite.setOnClickListener {
-            viewModel.addFavorite(result)
-            Toast.makeText(this,"yealo",Toast.LENGTH_SHORT).show()
+            viewModel.isFavorite(result)
+            Toast.makeText(this, "yealo", Toast.LENGTH_SHORT).show()
         }
 
+    }
+
+    private fun test(isFavorite: Boolean){
+        Toast.makeText(this,"$isFavorite",Toast.LENGTH_LONG).show()
     }
 
     private fun initViews() {

@@ -9,4 +9,6 @@ interface FavoritesRepository {
 
     suspend fun saveFavoriteTrack(track: Track)
 
+    suspend fun deleteTrack(track: Track)
+
 }
