@@ -89,17 +89,20 @@ class AudioplayerActivity : AppCompatActivity() {
             }
         }
 
-
-        viewModel.isFavorite(result)
-        buttonFavorite.setOnClickListener {
-            viewModel.isFavorite(result)
-            Toast.makeText(this, "yealo", Toast.LENGTH_SHORT).show()
+        viewModel.getFavoriteState().observe(this) { it ->
+            runOnUiThread {
+                stateFavorite(it)
+            }
         }
 
-    }
 
-    private fun test(isFavorite: Boolean){
-        Toast.makeText(this,"$isFavorite",Toast.LENGTH_LONG).show()
+        //viewModel.isFavorite(result)
+        viewModel.defaultFavoriteState(result)
+        buttonFavorite.setOnClickListener {
+            viewModel.setFavoriteState(result)
+            //Toast.makeText(this, "yealo", Toast.LENGTH_SHORT).show()
+        }
+
     }
 
     private fun initViews() {
@@ -141,6 +144,16 @@ class AudioplayerActivity : AppCompatActivity() {
     override fun onDestroy() {
         super.onDestroy()
         viewModel.onDestroyPlayer()
+    }
+
+    private fun stateFavorite(state: FavoriteState) {
+        Toast.makeText(this, "$state", Toast.LENGTH_LONG).show()
+        if (state is FavoriteState.IsFavorite && state.favorite){
+            buttonFavorite.setBackgroundResource(R.drawable.favorite_button_active)
+        }
+        else{
+            buttonFavorite.setBackgroundResource(R.drawable.favorite_button_unactive)
+        }
     }
 
     private fun uiControl(state: MediaPlayerState) {

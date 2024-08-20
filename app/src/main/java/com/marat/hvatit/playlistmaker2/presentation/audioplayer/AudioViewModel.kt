@@ -27,7 +27,8 @@ class AudioViewModel(
     private var playerState: MediaPlayerState = MediaPlayerState.Default
     private var loadingLiveData = MutableLiveData(playerState)
     private var timerJob: Job? = null
-    private var loadingFavoriteData = MutableLiveData(false)
+    private var favoriteState: FavoriteState = FavoriteState.IsFavorite(false)
+    private var loadingFavoriteData = MutableLiveData(favoriteState)
 
     companion object {
         private const val TIMER_DELAY = 300L
@@ -39,6 +40,7 @@ class AudioViewModel(
 
     }
 
+    fun getFavoriteState():LiveData<FavoriteState> = loadingFavoriteData
     fun getLoadingLiveData(): LiveData<MediaPlayerState> = loadingLiveData
 
     fun playbackControl() {
@@ -91,30 +93,42 @@ class AudioViewModel(
         loadingLiveData.value = MediaPlayerState.Prepared
     }
 
-    fun changeFavorite(boolean: Boolean) {
-        loadingFavoriteData.postValue(boolean)
-    }
-
-    fun isFavorite(track: Track) {
-        var trackId = track.trackId
+    fun setFavoriteState(track: Track) {
+        val trackId = track.trackId
         viewModelScope.launch(Dispatchers.IO) {
             interactorDb.addFavorite().catch { exception -> changeFavorite(false) }
                 .map { tracks -> tracks.any { it.trackId == trackId } }
                 .collect { isFavorite ->
                     Log.e("test1", "isFavorite: $isFavorite")
-                    changeFavorite(isFavorite)
-                    if (isFavorite){
+                    if (isFavorite) {
                         deleteTrackDb(track)
-                    }
-                    else{
+                        changeFavorite(false)
+                    } else {
                         saveTrackDb(track)
+                        changeFavorite(true)
                     }
                 }
         }
 
     }
 
-    private suspend fun deleteTrackDb(track: Track){
+    fun defaultFavoriteState(track: Track){
+        val trackId = track.trackId
+        viewModelScope.launch(Dispatchers.IO) {
+            interactorDb.addFavorite().catch { exception -> changeFavorite(false) }
+                .map { tracks -> tracks.any { it.trackId == trackId } }
+                .collect { isFavorite ->
+                    Log.e("test1", "isFavorite: $isFavorite")
+                    changeFavorite(isFavorite)
+                }
+        }
+    }
+
+    private fun changeFavorite(boolean: Boolean) {
+        loadingFavoriteData.postValue(FavoriteState.IsFavorite(boolean))
+    }
+
+    private suspend fun deleteTrackDb(track: Track) {
         interactorDb.deleteFavorite(track)
     }
 
