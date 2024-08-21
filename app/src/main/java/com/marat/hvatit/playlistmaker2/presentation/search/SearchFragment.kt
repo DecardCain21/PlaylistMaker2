@@ -75,9 +75,7 @@ class SearchFragment : Fragment() {
         binding.songlist.adapter = trackListAdapter
 
         viewModel.getLoadingLiveData().observe(viewLifecycleOwner) { searchState ->
-
             onState(searchState)
-
         }
 
         if (savedInstanceState != null) {

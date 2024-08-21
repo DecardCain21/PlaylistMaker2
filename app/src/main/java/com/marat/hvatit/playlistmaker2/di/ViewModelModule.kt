@@ -39,8 +39,8 @@ val viewModelModule = module {
         MainViewModel(get())
     }
 
-    viewModel {(str:String)->
-        FeaturedViewModel(str)
+    viewModel {
+        FeaturedViewModel(get())
     }
 
     viewModel {(str:String)->
