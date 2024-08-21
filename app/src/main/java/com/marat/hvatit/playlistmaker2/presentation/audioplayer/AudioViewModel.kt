@@ -1,6 +1,5 @@
 package com.marat.hvatit.playlistmaker2.presentation.audioplayer
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -72,7 +71,6 @@ class AudioViewModel(
 
     private fun startTimer() {
         loadingLiveData.value = MediaPlayerState.Playing(interactor.updateTimer())
-        //Log.e("MediaState", "startTimer():${loadingLiveData.value}")
         timerJob = viewModelScope.launch {
             delay(TIMER_DELAY)
             startTimer()
@@ -99,7 +97,6 @@ class AudioViewModel(
             interactorDb.addFavorite().catch { exception -> changeFavorite(false) }
                 .map { tracks -> tracks.any { it.trackId == trackId } }
                 .collect { isFavorite ->
-                    Log.e("test1", "isFavorite: $isFavorite")
                     if (isFavorite) {
                         deleteTrackDb(track)
                         changeFavorite(false)
@@ -118,7 +115,6 @@ class AudioViewModel(
             interactorDb.addFavorite().catch { exception -> changeFavorite(false) }
                 .map { tracks -> tracks.any { it.trackId == trackId } }
                 .collect { isFavorite ->
-                    Log.e("test1", "isFavorite: $isFavorite")
                     changeFavorite(isFavorite)
                 }
         }

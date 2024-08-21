@@ -96,11 +96,9 @@ class AudioplayerActivity : AppCompatActivity() {
         }
 
 
-        //viewModel.isFavorite(result)
         viewModel.defaultFavoriteState(result)
         buttonFavorite.setOnClickListener {
             viewModel.setFavoriteState(result)
-            //Toast.makeText(this, "yealo", Toast.LENGTH_SHORT).show()
         }
 
     }

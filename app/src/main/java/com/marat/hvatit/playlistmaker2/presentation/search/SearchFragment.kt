@@ -258,11 +258,6 @@ class SearchFragment : Fragment() {
         super.onSaveInstanceState(outState)
     }
 
-    /*override fun onRestoreInstanceState(savedInstanceState: Bundle) {
-        super.onRestoreInstanceState(savedInstanceState)
-        saveEditText = savedInstanceState.getString(EDITTEXT_TEXT).toString()
-    }*/
-
     private fun clearButtonVisibility(s: CharSequence?): Int {
         return if (s.isNullOrEmpty()) {
             ImageButton.GONE

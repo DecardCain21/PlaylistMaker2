@@ -19,11 +19,9 @@ class FeaturedViewModel(private val interactorDb: FavoritesInteractor) : ViewMod
     fun getFeaturedState(): LiveData<FeaturedState> = loadingFeaturedData
 
     fun getFeaturedTracks() {
-        //val result :List<Track>
         viewModelScope.launch(Dispatchers.IO) {
             interactorDb.addFavorite().catch { exception -> }
                 .collect { tracks ->
-                    //Log.e("test1", "isFavorite: $isFavorite")
                     setDataState(tracks)
                 }
         }
