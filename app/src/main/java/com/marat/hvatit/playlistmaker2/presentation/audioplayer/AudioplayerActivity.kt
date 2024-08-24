@@ -90,9 +90,7 @@ class AudioplayerActivity : AppCompatActivity() {
         }
 
         viewModel.getFavoriteState().observe(this) { it ->
-            runOnUiThread {
-                stateFavorite(it)
-            }
+            stateFavorite(it)
         }
 
 
@@ -145,10 +143,9 @@ class AudioplayerActivity : AppCompatActivity() {
     }
 
     private fun stateFavorite(state: FavoriteState) {
-        if (state is FavoriteState.IsFavorite && state.favorite){
+        if (state is FavoriteState.IsFavorite && state.favorite) {
             buttonFavorite.setBackgroundResource(R.drawable.favorite_button_active)
-        }
-        else{
+        } else {
             buttonFavorite.setBackgroundResource(R.drawable.favorite_button_unactive)
         }
     }

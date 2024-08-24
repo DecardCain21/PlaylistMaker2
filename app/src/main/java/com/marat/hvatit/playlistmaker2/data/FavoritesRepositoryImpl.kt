@@ -4,7 +4,7 @@ import android.util.Log
 import com.marat.hvatit.playlistmaker2.data.db.AppDatabase
 import com.marat.hvatit.playlistmaker2.data.db.converters.TrackDbConvertor
 import com.marat.hvatit.playlistmaker2.data.db.entity.TrackEntity
-import com.marat.hvatit.playlistmaker2.domain.db.FavoritesRepository
+import com.marat.hvatit.playlistmaker2.data.db.FavoritesRepository
 import com.marat.hvatit.playlistmaker2.domain.models.Track
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow

@@ -5,7 +5,7 @@ import com.marat.hvatit.playlistmaker2.domain.api.interactors.MainInteractor
 import com.marat.hvatit.playlistmaker2.domain.api.interactors.SaveTrackInteractor
 import com.marat.hvatit.playlistmaker2.domain.api.interactors.SettingsInteractor
 import com.marat.hvatit.playlistmaker2.domain.api.interactors.TrackInteractor
-import com.marat.hvatit.playlistmaker2.domain.db.FavoritesInteractor
+import com.marat.hvatit.playlistmaker2.data.db.FavoritesInteractor
 import com.marat.hvatit.playlistmaker2.domain.impl.AudioPlayerInteractorImpl
 import com.marat.hvatit.playlistmaker2.domain.impl.FavoritesInteractorImpl
 import com.marat.hvatit.playlistmaker2.domain.impl.MainInteractorImpl
