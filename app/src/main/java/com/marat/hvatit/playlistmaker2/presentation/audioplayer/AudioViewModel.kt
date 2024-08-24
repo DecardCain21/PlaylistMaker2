@@ -110,13 +110,8 @@ class AudioViewModel(
     }
 
     fun defaultFavoriteState(track: Track){
-        val trackId = track.trackId
-        viewModelScope.launch(Dispatchers.IO) {
-            interactorDb.addFavorite().catch { exception -> changeFavorite(false) }
-                .map { tracks -> tracks.any { it.trackId == trackId } }
-                .collect { isFavorite ->
-                    changeFavorite(isFavorite)
-                }
+        viewModelScope.launch {
+            changeFavorite(interactorDb.isFavorite(track))
         }
     }
 

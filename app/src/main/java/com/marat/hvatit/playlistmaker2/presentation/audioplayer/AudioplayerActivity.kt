@@ -145,7 +145,6 @@ class AudioplayerActivity : AppCompatActivity() {
     }
 
     private fun stateFavorite(state: FavoriteState) {
-        Toast.makeText(this, "$state", Toast.LENGTH_LONG).show()
         if (state is FavoriteState.IsFavorite && state.favorite){
             buttonFavorite.setBackgroundResource(R.drawable.favorite_button_active)
         }

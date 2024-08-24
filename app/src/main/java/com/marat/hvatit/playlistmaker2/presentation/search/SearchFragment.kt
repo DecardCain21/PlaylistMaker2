@@ -123,7 +123,7 @@ class SearchFragment : Fragment() {
                 viewModel.addSaveSongs(it)
                 AudioplayerActivity.getIntent(requireContext(), this.getString(R.string.android))
                     .apply {
-                        putExtra("Track", gsonParser.objectToJson(it)/*toJson(it)*/)
+                        putExtra("Track", gsonParser.objectToJson(it))
                         startActivity(this)
                     }
             }
