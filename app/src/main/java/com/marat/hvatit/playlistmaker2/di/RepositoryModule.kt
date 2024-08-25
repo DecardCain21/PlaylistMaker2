@@ -6,7 +6,7 @@ import com.marat.hvatit.playlistmaker2.data.TrackRepositoryImpl
 import com.marat.hvatit.playlistmaker2.data.db.converters.TrackDbConvertor
 import com.marat.hvatit.playlistmaker2.domain.api.repository.SaveTrackRepository
 import com.marat.hvatit.playlistmaker2.domain.api.repository.TrackRepository
-import com.marat.hvatit.playlistmaker2.data.db.FavoritesRepository
+import com.marat.hvatit.playlistmaker2.domain.favorites.FavoritesRepository
 import org.koin.dsl.module
 
 private const val STORY_TRACK_SIZE = 10

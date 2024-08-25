@@ -1,7 +1,7 @@
 package com.marat.hvatit.playlistmaker2.domain.impl
 
-import com.marat.hvatit.playlistmaker2.data.db.FavoritesInteractor
-import com.marat.hvatit.playlistmaker2.data.db.FavoritesRepository
+import com.marat.hvatit.playlistmaker2.domain.favorites.FavoritesInteractor
+import com.marat.hvatit.playlistmaker2.domain.favorites.FavoritesRepository
 import com.marat.hvatit.playlistmaker2.domain.models.Track
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
