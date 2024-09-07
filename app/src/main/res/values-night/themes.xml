@@ -16,6 +16,7 @@
         <item name="act_search_update">@color/pale_black</item>
         <item name="medialib_color">@color/white</item>
         <item name="activity_search_et_backgroundColor">@color/white</item>
+        <item name="darkgrey_to_white">@color/white</item>
     </style>
 
     <style name="activity_settings_head">
@@ -101,6 +102,10 @@
     </style>
 
     <style name="bottom_menu">
+        <item name="android:background">?act_search_update</item>
+    </style>
+
+    <style name="bottom_sheet">
         <item name="android:background">?act_search_update</item>
     </style>
 

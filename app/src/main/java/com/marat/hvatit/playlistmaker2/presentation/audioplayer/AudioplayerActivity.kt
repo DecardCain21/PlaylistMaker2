@@ -6,9 +6,11 @@ import android.os.Bundle
 import android.view.View
 import android.widget.ImageButton
 import android.widget.ImageView
+import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.marat.hvatit.playlistmaker2.R
 import com.marat.hvatit.playlistmaker2.data.JsonParserImpl
 import com.marat.hvatit.playlistmaker2.domain.models.Track
@@ -42,6 +44,8 @@ class AudioplayerActivity : AppCompatActivity() {
     private lateinit var priviewTimer: TextView
     private var priviewUrl: String = ""
     private lateinit var buttonFavorite: ImageButton
+    private lateinit var bottomSheetContainer : LinearLayout
+    private lateinit var buttonAdd : ImageButton
 
     private val gsonParser: JsonParserImpl by inject()
     private val glide: GlideHelper by inject()
@@ -71,6 +75,33 @@ class AudioplayerActivity : AppCompatActivity() {
         initViews()
         setTextContent(result)
 
+        val bottomSheetBehavior = BottomSheetBehavior.from(bottomSheetContainer).apply {
+            state = BottomSheetBehavior.STATE_HIDDEN
+        }
+        bottomSheetBehavior.addBottomSheetCallback(object : BottomSheetBehavior.BottomSheetCallback() {
+            override fun onStateChanged(bottomSheet: View, newState: Int) {
+                // newState — новое состояние BottomSheet
+                when (newState) {
+                    BottomSheetBehavior.STATE_EXPANDED -> {
+                        // загружаем рекламный баннер
+
+                    }
+                    BottomSheetBehavior.STATE_COLLAPSED -> {
+                        // останавливаем трейлер
+
+                    }
+                    BottomSheetBehavior.STATE_HIDDEN -> {
+                        // возобновляем трейлер
+
+                    }
+                    else -> {
+                        // Остальные состояния не обрабатываем
+                    }
+                }
+            }
+
+            override fun onSlide(bottomSheet: View, slideOffset: Float) {}
+        })
         val buttonBack = findViewById<View>(R.id.back)
         buttonBack.setOnClickListener {
             onBackPressed()
@@ -99,6 +130,11 @@ class AudioplayerActivity : AppCompatActivity() {
             viewModel.setFavoriteState(result)
         }
 
+        buttonAdd.setOnClickListener {
+            bottomSheetBehavior.state = BottomSheetBehavior.STATE_EXPANDED
+        }
+
+
     }
 
     private fun initViews() {
@@ -113,6 +149,8 @@ class AudioplayerActivity : AppCompatActivity() {
         buttonPlay = findViewById(R.id.actplayer_buttonplay)
         priviewTimer = findViewById(R.id.actplayer_tracktime)
         buttonFavorite = findViewById(R.id.button_favorite)
+        bottomSheetContainer = findViewById(R.id.bottom_sheet_container)
+        buttonAdd = findViewById(R.id.button_addtoplaylist)
     }
 
     private fun setTextContent(song: Track) {

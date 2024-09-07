@@ -8,7 +8,11 @@
         android:id="@+id/medialibraryFragment"
         android:name="com.marat.hvatit.playlistmaker2.presentation.medialibrary.MedialibraryFragment"
         android:label="fragment_medialibrary"
-        tools:layout="@layout/fragment_medialibrary" />
+        tools:layout="@layout/fragment_medialibrary" >
+        <action
+            android:id="@+id/action_medialibraryFragment_to_newPlaylistFragment2"
+            app:destination="@id/newPlaylistFragment" />
+    </fragment>
     <fragment
         android:id="@+id/settingsFragment"
         android:name="com.marat.hvatit.playlistmaker2.presentation.settings.SettingsFragment"
@@ -25,4 +29,9 @@
         android:id="@+id/fragmentAgreement"
         android:name="com.marat.hvatit.playlistmaker2.presentation.settings.agreement.FragmentAgreement"
         android:label="FragmentAgreement" />
+    <fragment
+        android:id="@+id/newPlaylistFragment"
+        android:name="com.marat.hvatit.playlistmaker2.presentation.playlist.NewPlaylistFragment"
+        android:label="fragment_newplaylist"
+        tools:layout="@layout/fragment_newplaylist" />
 </navigation>

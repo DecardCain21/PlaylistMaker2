@@ -4,4 +4,5 @@
     <attr name="act_search_update" />
     <attr name="medialib_color"/>
     <attr name="activity_search_et_backgroundColor"/>
+    <attr name="darkgrey_to_white"/>
 </resources>

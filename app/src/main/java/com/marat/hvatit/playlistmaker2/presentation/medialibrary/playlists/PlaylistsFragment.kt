@@ -5,6 +5,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
+import com.marat.hvatit.playlistmaker2.R
 import com.marat.hvatit.playlistmaker2.databinding.PlaylistsFragmentBinding
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
@@ -24,9 +26,10 @@ class PlaylistsFragment : Fragment() {
         parametersOf(requireArguments().getString(TESTSTRING))
     }
 
-    private var _binding: PlaylistsFragmentBinding?=null
+    private var _binding: PlaylistsFragmentBinding? = null
     private val binding
         get() = _binding!!
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -38,5 +41,8 @@ class PlaylistsFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        binding.buttonNewbplaylist.setOnClickListener {
+            findNavController().navigate(R.id.action_medialibraryFragment_to_newPlaylistFragment2)
+        }
     }
 }

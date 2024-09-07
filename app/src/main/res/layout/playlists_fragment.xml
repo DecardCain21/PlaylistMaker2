@@ -3,7 +3,7 @@
     android:layout_height="match_parent">
 
     <ImageButton
-        android:id="@+id/clearhistory"
+        android:id="@+id/button_newbplaylist"
         android:layout_width="wrap_content"
         android:layout_height="36dp"
         android:layout_gravity="top|center"
