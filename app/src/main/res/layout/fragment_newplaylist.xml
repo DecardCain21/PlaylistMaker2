@@ -5,7 +5,7 @@
     android:id="@+id/fragment_newplaylist"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".presentation.playlist.NewPlaylistFragment">
+    tools:context=".presentation.medialibrary.newplaylist.NewPlaylistFragment">
 
     <androidx.appcompat.widget.AppCompatImageButton
         android:id="@+id/back"
@@ -33,7 +33,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <ImageView
+    <ImageButton
         android:id="@+id/album"
         android:layout_width="312dp"
         android:layout_height="312dp"
@@ -76,7 +76,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="32dp"
-        android:background="@drawable/button_create"
+        android:saveEnabled="false"
+        android:background="@drawable/button_create_off"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />

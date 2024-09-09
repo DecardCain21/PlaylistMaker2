@@ -31,7 +31,7 @@
         android:label="FragmentAgreement" />
     <fragment
         android:id="@+id/newPlaylistFragment"
-        android:name="com.marat.hvatit.playlistmaker2.presentation.playlist.NewPlaylistFragment"
+        android:name="com.marat.hvatit.playlistmaker2.presentation.medialibrary.newplaylist.NewPlaylistFragment"
         android:label="fragment_newplaylist"
         tools:layout="@layout/fragment_newplaylist" />
 </navigation>
