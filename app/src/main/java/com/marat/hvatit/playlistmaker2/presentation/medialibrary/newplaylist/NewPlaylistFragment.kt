@@ -48,16 +48,16 @@ class NewPlaylistFragment : Fragment() {
             registerForActivityResult(ActivityResultContracts.PickVisualMedia()) { uri ->
                 if (uri != null) {
                     Log.d("PhotoPicker", "Media selected")
-                    binding.album.setImageURI(uri)
+                    binding.cover.setImageURI(uri)
                 } else {
                     Log.d("PhotoPicker", "No media selected")
                 }
             }
-        binding.album.setOnClickListener {
+        binding.cover.setOnClickListener {
             pickMedia.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly))
             val filePath = File((Environment.DIRECTORY_PICTURES), "myalbum")
             val file = File(filePath, "first_cover.jpg")
-            binding.album.setImageURI(file.toUri())
+            binding.cover.setImageURI(file.toUri())
         }
         confirmDialog = MaterialAlertDialogBuilder(requireContext(), R.style.CustomAlertDialog)
             .setTitle("Завершить создание плейлиста?")
