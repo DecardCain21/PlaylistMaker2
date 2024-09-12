@@ -62,13 +62,15 @@ class PlaylistsFragment : Fragment() {
                 "1",
                 "Котовасия",
                 "2",
-                ""
+                "https://github.com/DecardCain21/SearchFilmsApp2/blob/master/covercat1.jpg",
+                "Котовасия"
             ),
             Playlist(
                 "2",
                 "Котострофа",
                 "3",
-                ""
+                "https://github.com/DecardCain21/SearchFilmsApp2/blob/master/covercat1.jpg",
+                "Котострофа"
             )
         )
     }

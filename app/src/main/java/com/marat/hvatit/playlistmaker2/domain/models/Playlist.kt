@@ -4,5 +4,6 @@ data class Playlist(
     val playlistId: String,
     val playlistName: String,
     val playlistSize: String,
-    val playlistCoverUrl : String
+    val playlistCoverUrl: String,
+    val playlistDescription: String
 )
