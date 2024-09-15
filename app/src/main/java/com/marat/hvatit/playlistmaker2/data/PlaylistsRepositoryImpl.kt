@@ -23,6 +23,7 @@ class PlaylistsRepositoryImpl(
 
     override fun getPlaylists(): Flow<List<Playlist>> = flow {
         val playlists = appDatabase.trackDao().getPlaylists()
+        Log.e("Playlists", "Repository,getPlaylists:$playlists")
         emit(convertFromPlaylistEntity(playlists))
     }
 

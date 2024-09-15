@@ -43,8 +43,8 @@ val viewModelModule = module {
         FeaturedViewModel(get())
     }
 
-    viewModel {(str:String)->
-        PlaylistsViewModel(str)
+    viewModel {
+        PlaylistsViewModel(get())
     }
 
     viewModel {

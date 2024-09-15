@@ -29,6 +29,7 @@ class PlaylistsFragment : Fragment() {
         parametersOf(requireArguments().getString(TESTSTRING))
     }
 
+    private val viewModel: PlaylistsViewModel by viewModel<PlaylistsViewModel>()
     private val playlistAdapter = PlaylistAdapter()
 
     private var _binding: PlaylistsFragmentBinding? = null
@@ -49,10 +50,16 @@ class PlaylistsFragment : Fragment() {
         binding.buttonNewbplaylist.setOnClickListener {
             findNavController().navigate(R.id.action_medialibraryFragment_to_newPlaylistFragment2)
         }
+        val testList = testHardcode()
         binding.llPlaceholder.isVisible = false
         binding.playlists.layoutManager = GridLayoutManager(requireContext(), 2)
         binding.playlists.adapter = playlistAdapter
-        playlistAdapter.update(testHardcode())
+        playlistAdapter.update(testList)
+        //viewModel.savePlaylist(testList[0])
+        //viewModel.savePlaylist(testList[1])
+        viewModel.getPlaylists()
+        //viewModel.deletePlaylist(testList[0])
+
 
     }
 
