@@ -50,17 +50,26 @@ class PlaylistsFragment : Fragment() {
         binding.buttonNewbplaylist.setOnClickListener {
             findNavController().navigate(R.id.action_medialibraryFragment_to_newPlaylistFragment2)
         }
-        val testList = testHardcode()
         binding.llPlaceholder.isVisible = false
         binding.playlists.layoutManager = GridLayoutManager(requireContext(), 2)
         binding.playlists.adapter = playlistAdapter
-        playlistAdapter.update(testList)
+        viewModel.getPlaylistsState().observe(viewLifecycleOwner) { state ->
+            statePlaylists(state)
+        }
         //viewModel.savePlaylist(testList[0])
         //viewModel.savePlaylist(testList[1])
         viewModel.getPlaylists()
         //viewModel.deletePlaylist(testList[0])
 
 
+    }
+
+    private fun statePlaylists(state: PlaylistsState) {
+        when (state) {
+            is PlaylistsState.Data -> playlistAdapter.update(state.data)
+            PlaylistsState.EmptyState -> playlistAdapter.update(emptyList())
+        }
+        playlistAdapter.notifyDataSetChanged()
     }
 
     fun testHardcode(): List<Playlist> {

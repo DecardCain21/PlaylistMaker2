@@ -27,6 +27,11 @@ class PlaylistsRepositoryImpl(
         emit(convertFromPlaylistEntity(playlists))
     }
 
+    override fun getPlaylistsIds(): Flow<List<Int>>  = flow{
+        val listIds = appDatabase.trackDao().getPlaylistIds()
+        emit(listIds)
+    }
+
     override suspend fun savePlaylist(playlist: Playlist) {
         appDatabase.trackDao().insertPlaylist(convertToPlaylistEntity(playlist))
     }

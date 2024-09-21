@@ -37,4 +37,7 @@ interface TrackDao {
     @Transaction
     @Query("SELECT * FROM playlists_table WHERE id = :id")
     fun getPlaylistWorker(id: Int): PlaylistWithTrack
+
+    @Query("SELECT id FROM playlists_table")
+    fun getPlaylistIds():List<Int>
 }

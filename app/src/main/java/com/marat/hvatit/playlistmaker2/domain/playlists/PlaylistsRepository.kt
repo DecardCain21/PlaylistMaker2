@@ -9,6 +9,8 @@ interface PlaylistsRepository {
 
     fun getPlaylists():Flow<List<Playlist>>
 
+    fun getPlaylistsIds():Flow<List<Int>>
+
     suspend fun savePlaylist(playlist: Playlist)
 
     suspend fun deletePlaylist(playlist: Playlist)

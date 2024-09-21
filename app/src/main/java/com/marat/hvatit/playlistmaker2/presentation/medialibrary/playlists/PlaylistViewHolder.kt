@@ -1,6 +1,7 @@
 package com.marat.hvatit.playlistmaker2.presentation.medialibrary.playlists
 
 import android.os.Environment
+import android.util.Log
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
@@ -26,13 +27,9 @@ class PlaylistViewHolder(itemView: View, private val glide: GlideHelper) :
     fun bind(model: Playlist) {
         playlistName.text = model.playlistName
         playlistSize.text = model.playlistSize
-        /*glide.setImage(
-            context = itemView.context,
-            url = model.playlistCoverUrl.addQuality(),
-            actplayerCover = playlistCover
-        )*/
-        val filePath = File((Environment.DIRECTORY_DOWNLOADS))
-        val file = File(filePath, "zloy.jpg")
+        val filePath = File((Environment.DIRECTORY_PICTURES),"myalbum")
+        val file = File(filePath, model.playlistCoverUrl)
+        Log.e("bind cover", model.playlistCoverUrl)
         playlistCover.setImageURI(file.toUri())
     }
 }

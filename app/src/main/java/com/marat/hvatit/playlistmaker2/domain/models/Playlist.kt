@@ -1,6 +1,7 @@
 package com.marat.hvatit.playlistmaker2.domain.models
 
-data class Playlist(
+data class Playlist
+    (
     val playlistId: String,
     val playlistName: String,
     val playlistSize: String,
