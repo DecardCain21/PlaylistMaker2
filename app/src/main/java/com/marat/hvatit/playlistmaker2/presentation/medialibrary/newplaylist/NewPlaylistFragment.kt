@@ -59,7 +59,7 @@ class NewPlaylistFragment : Fragment() {
                     Log.d("PhotoPicker", "Media selected")
                     binding.cover.setImageURI(uri)
                     coverUri = uri
-                    Log.d("PhotoPicker","$coverUri")
+                    Log.d("PhotoPicker", "$coverUri")
                 } else {
                     Log.d("PhotoPicker", "No media selected")
                 }
@@ -133,21 +133,21 @@ class NewPlaylistFragment : Fragment() {
     }
 
     private fun saveImage(uri: Uri) {
-        val filePath = File((Environment.DIRECTORY_PICTURES), "myalbum")
+        val filePath = File(
+            Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES),
+            "Myalbum"
+        )
         if (!filePath.exists()) {
             filePath.mkdirs()
+            Log.d("SaveImage", "Directory create: ${filePath.mkdirs()}")
         }
-        /*val currentDate = Date()
-        val timeFormat: DateFormat = SimpleDateFormat("HH:mm:ss", Locale.getDefault())
-        val timeText = timeFormat.format(currentDate)*/
+        Log.d("SaveImage", "Directory exists: ${filePath.exists()}")
         playlistCover += System.currentTimeMillis()
+        Log.d("bind cover","saveImage:$playlistCover")
         val file = File(filePath, "$playlistCover.jpg")
         val inputStream = requireContext().contentResolver.openInputStream(uri)
         val outputStream = FileOutputStream(file)
         viewModel.saveImageToPrivateStorage(inputStream, outputStream)
-        /*BitmapFactory
-            .decodeStream(inputStream)
-            .compress(Bitmap.CompressFormat.JPEG, 30, outputStream)*/
     }
 
 

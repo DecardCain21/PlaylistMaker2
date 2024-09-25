@@ -215,8 +215,9 @@
         app:layout_constraintEnd_toEndOf="parent" />
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:id="@+id/bottom_sheet_parent"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent">
@@ -231,11 +232,20 @@
             app:behavior_peekHeight="505dp"
             app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior">
 
+            <androidx.appcompat.widget.AppCompatImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/rectangle_1457"
+                android:scaleType="center" />
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Добавить в плейлист"
                 android:layout_gravity="center"
+                android:layout_marginTop="24dp"
+                android:text="Добавить в плейлист"
                 android:textSize="19sp" />
 
             <ImageButton
@@ -246,6 +256,15 @@
                 android:layout_marginTop="16dp"
                 android:background="@drawable/button_newplaylist"
                 android:visibility="visible" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/playlists"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="24dp"
+                tools:itemCount="6"
+                tools:listitem="@layout/playlist_cell_horizontal" />
 
         </LinearLayout>
     </androidx.coordinatorlayout.widget.CoordinatorLayout>

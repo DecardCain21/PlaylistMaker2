@@ -12,7 +12,7 @@ import com.marat.hvatit.playlistmaker2.R
 import com.marat.hvatit.playlistmaker2.data.JsonParserImpl
 import com.marat.hvatit.playlistmaker2.databinding.FeaturedtracksFragmentBinding
 import com.marat.hvatit.playlistmaker2.presentation.audioplayer.AudioplayerActivity
-import com.marat.hvatit.playlistmaker2.presentation.search.TrackListAdapter
+import com.marat.hvatit.playlistmaker2.presentation.adapters.TrackListAdapter
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import org.koin.android.ext.android.inject

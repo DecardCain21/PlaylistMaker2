@@ -21,6 +21,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.marat.hvatit.playlistmaker2.R
 import com.marat.hvatit.playlistmaker2.data.JsonParserImpl
 import com.marat.hvatit.playlistmaker2.databinding.FragmentSearchBinding
+import com.marat.hvatit.playlistmaker2.presentation.adapters.TrackListAdapter
 import com.marat.hvatit.playlistmaker2.presentation.audioplayer.AudioplayerActivity
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch

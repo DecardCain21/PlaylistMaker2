@@ -2,6 +2,7 @@ package com.marat.hvatit.playlistmaker2.presentation.audioplayer
 
 import android.content.Context
 import android.content.Intent
+import android.graphics.Color
 import android.os.Bundle
 import android.view.View
 import android.widget.ImageButton
@@ -10,10 +11,15 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.coordinatorlayout.widget.CoordinatorLayout
+import androidx.core.view.isVisible
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.marat.hvatit.playlistmaker2.R
 import com.marat.hvatit.playlistmaker2.data.JsonParserImpl
 import com.marat.hvatit.playlistmaker2.domain.models.Track
+import com.marat.hvatit.playlistmaker2.presentation.adapters.PlaylistAdapter
 import com.marat.hvatit.playlistmaker2.presentation.utils.GlideHelper
 import com.marat.hvatit.playlistmaker2.presentation.utils.GlideHelper.Companion.addQuality
 import org.koin.android.ext.android.inject
@@ -44,11 +50,14 @@ class AudioplayerActivity : AppCompatActivity() {
     private lateinit var priviewTimer: TextView
     private var priviewUrl: String = ""
     private lateinit var buttonFavorite: ImageButton
-    private lateinit var bottomSheetContainer : LinearLayout
-    private lateinit var buttonAdd : ImageButton
+    private lateinit var bottomSheetContainer: LinearLayout
+    private lateinit var buttonAdd: ImageButton
+    private lateinit var backgroundBottomSheet: CoordinatorLayout
 
     private val gsonParser: JsonParserImpl by inject()
     private val glide: GlideHelper by inject()
+    private val playlistAdapter = PlaylistAdapter()
+    private lateinit var recyclerView: RecyclerView
 
 
     private val viewModel: AudioViewModel by viewModel {
@@ -78,22 +87,27 @@ class AudioplayerActivity : AppCompatActivity() {
         val bottomSheetBehavior = BottomSheetBehavior.from(bottomSheetContainer).apply {
             state = BottomSheetBehavior.STATE_HIDDEN
         }
-        bottomSheetBehavior.addBottomSheetCallback(object : BottomSheetBehavior.BottomSheetCallback() {
+        bottomSheetBehavior.addBottomSheetCallback(object :
+            BottomSheetBehavior.BottomSheetCallback() {
             override fun onStateChanged(bottomSheet: View, newState: Int) {
                 // newState — новое состояние BottomSheet
                 when (newState) {
                     BottomSheetBehavior.STATE_EXPANDED -> {
-                        // загружаем рекламный баннер
+                        backgroundBottomSheet.setBackgroundColor(Color.parseColor("#80000000"))
+                        backgroundBottomSheet.isVisible = true
 
                     }
+
                     BottomSheetBehavior.STATE_COLLAPSED -> {
-                        // останавливаем трейлер
+                        backgroundBottomSheet.isVisible = false
 
                     }
+
                     BottomSheetBehavior.STATE_HIDDEN -> {
-                        // возобновляем трейлер
+                        backgroundBottomSheet.isVisible = false
 
                     }
+
                     else -> {
                         // Остальные состояния не обрабатываем
                     }
@@ -134,6 +148,9 @@ class AudioplayerActivity : AppCompatActivity() {
             bottomSheetBehavior.state = BottomSheetBehavior.STATE_EXPANDED
         }
 
+        recyclerView.layoutManager = LinearLayoutManager(this)
+        recyclerView.adapter = playlistAdapter
+
 
     }
 
@@ -151,6 +168,9 @@ class AudioplayerActivity : AppCompatActivity() {
         buttonFavorite = findViewById(R.id.button_favorite)
         bottomSheetContainer = findViewById(R.id.bottom_sheet_container)
         buttonAdd = findViewById(R.id.button_addtoplaylist)
+        backgroundBottomSheet = findViewById(R.id.bottom_sheet_parent)
+        recyclerView = findViewById(R.id.playlists)
+
     }
 
     private fun setTextContent(song: Track) {

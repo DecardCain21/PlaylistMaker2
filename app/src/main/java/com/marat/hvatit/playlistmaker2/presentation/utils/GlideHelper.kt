@@ -12,6 +12,12 @@ interface GlideHelper {
         roundedCornersImage: Int = DEFAULT_CORNER_RADIUS,
     )
 
+    fun setImage(
+        context: Context,
+        file: String,
+        imageView: ImageView
+    )
+
     companion object {
 
         fun String.addQuality(): String {

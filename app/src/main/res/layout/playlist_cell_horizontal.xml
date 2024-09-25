@@ -1,0 +1,39 @@
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="61dp">
+
+    <ImageView
+        android:id="@+id/cover"
+        android:layout_width="45dp"
+        android:layout_height="45dp"
+        android:background="@drawable/stub_addphoto"
+        android:scaleType="center"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/playlist_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="6dp"
+        android:layout_marginStart="8dp"
+        app:layout_constraintStart_toEndOf="@id/cover"
+        app:layout_constraintTop_toTopOf="@+id/cover"
+        android:textSize="12sp"
+        tools:text="Best songs"
+        style="@style/search_activity_usearch"/>
+
+    <TextView
+        android:id="@+id/playlist_count"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        app:layout_constraintStart_toEndOf="@id/cover"
+        app:layout_constraintTop_toBottomOf="@id/playlist_name"
+        android:textSize="12sp"
+        tools:text="15"
+        style="@style/search_activity_usearch"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

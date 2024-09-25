@@ -10,7 +10,8 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import com.marat.hvatit.playlistmaker2.R
 import com.marat.hvatit.playlistmaker2.databinding.PlaylistsFragmentBinding
-import com.marat.hvatit.playlistmaker2.domain.models.Playlist
+import com.marat.hvatit.playlistmaker2.presentation.adapters.ItemPlaylist
+import com.marat.hvatit.playlistmaker2.presentation.adapters.PlaylistAdapter
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
 
@@ -58,36 +59,16 @@ class PlaylistsFragment : Fragment() {
         }
         //viewModel.savePlaylist(testList[0])
         //viewModel.savePlaylist(testList[1])
+        //viewModel.deletePlaylist(Playlist("2","","","",""))
         viewModel.getPlaylists()
-        //viewModel.deletePlaylist(testList[0])
-
 
     }
 
     private fun statePlaylists(state: PlaylistsState) {
         when (state) {
-            is PlaylistsState.Data -> playlistAdapter.update(state.data)
-            PlaylistsState.EmptyState -> playlistAdapter.update(emptyList())
+            is PlaylistsState.Data -> playlistAdapter.update(state.data,ItemPlaylist.TYPE_VERTICAL)
+            PlaylistsState.EmptyState -> playlistAdapter.update(emptyList(),ItemPlaylist.TYPE_VERTICAL)
         }
         playlistAdapter.notifyDataSetChanged()
-    }
-
-    fun testHardcode(): List<Playlist> {
-        return listOf(
-            Playlist(
-                "1",
-                "Котовасия",
-                "2",
-                "https://github.com/DecardCain21/SearchFilmsApp2/blob/master/covercat1.jpg",
-                "Котовасия"
-            ),
-            Playlist(
-                "2",
-                "Котострофа",
-                "3",
-                "https://github.com/DecardCain21/SearchFilmsApp2/blob/master/covercat1.jpg",
-                "Котострофа"
-            )
-        )
     }
 }
