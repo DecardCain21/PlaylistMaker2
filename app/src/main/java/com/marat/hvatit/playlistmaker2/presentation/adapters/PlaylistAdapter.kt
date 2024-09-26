@@ -11,6 +11,7 @@ import org.koin.java.KoinJavaComponent
 class PlaylistAdapter : RecyclerView.Adapter<PlaylistViewHolder>() {
     private var playlists: List<Playlist> = emptyList()
     private val glide: GlideHelper by KoinJavaComponent.inject(GlideHelper::class.java)
+    var saveTrackToPlaylist: SaveToPlaylistListener? = null
 
     private var items: List<ItemPlaylist> = emptyList()
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PlaylistViewHolder {
@@ -47,10 +48,19 @@ class PlaylistAdapter : RecyclerView.Adapter<PlaylistViewHolder>() {
     override fun onBindViewHolder(holder: PlaylistViewHolder, position: Int) {
         //val item: Playlist = playlists[position]
         //holder.bind(playlists[position])
+        val item: ItemPlaylist = items[position]
         holder.bind(items[position].data)
+        if (holder.itemViewType == ItemPlaylist.TYPE_HORIZONTAL) {
+            holder.itemView.setOnClickListener {
+                saveTrackToPlaylist?.addToPlaylist(item)
+            }
+        }
     }
 
-    private fun convertToListItemPlaylist(playlists: List<Playlist>, type:Int): List<ItemPlaylist> {
+    private fun convertToListItemPlaylist(
+        playlists: List<Playlist>,
+        type: Int
+    ): List<ItemPlaylist> {
         return playlists.map {
             convertToItem(it, type)
         }
@@ -60,9 +70,13 @@ class PlaylistAdapter : RecyclerView.Adapter<PlaylistViewHolder>() {
         return ItemPlaylist(data = playlists, type = type)
     }
 
-    fun update(playlists: List<Playlist>,typeItemPlaylist:Int) {
+    fun update(playlists: List<Playlist>, typeItemPlaylist: Int) {
         this.playlists = playlists
-        this.items = convertToListItemPlaylist(playlists,typeItemPlaylist)
+        this.items = convertToListItemPlaylist(playlists, typeItemPlaylist)
+    }
+
+    fun interface SaveToPlaylistListener {
+        fun addToPlaylist(itemPlaylist: ItemPlaylist)
     }
 
 }

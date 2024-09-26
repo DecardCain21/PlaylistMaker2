@@ -3,6 +3,7 @@ package com.marat.hvatit.playlistmaker2.presentation.audioplayer
 import android.content.Context
 import android.content.Intent
 import android.graphics.Color
+
 import android.os.Bundle
 import android.view.View
 import android.widget.ImageButton
@@ -19,6 +20,7 @@ import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.marat.hvatit.playlistmaker2.R
 import com.marat.hvatit.playlistmaker2.data.JsonParserImpl
 import com.marat.hvatit.playlistmaker2.domain.models.Track
+import com.marat.hvatit.playlistmaker2.presentation.adapters.ItemPlaylist
 import com.marat.hvatit.playlistmaker2.presentation.adapters.PlaylistAdapter
 import com.marat.hvatit.playlistmaker2.presentation.utils.GlideHelper
 import com.marat.hvatit.playlistmaker2.presentation.utils.GlideHelper.Companion.addQuality
@@ -26,6 +28,7 @@ import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
 import java.text.SimpleDateFormat
+import java.util.Collections.emptyList
 import java.util.Locale
 
 
@@ -95,6 +98,7 @@ class AudioplayerActivity : AppCompatActivity() {
                     BottomSheetBehavior.STATE_EXPANDED -> {
                         backgroundBottomSheet.setBackgroundColor(Color.parseColor("#80000000"))
                         backgroundBottomSheet.isVisible = true
+                        viewModel.getPlaylists()
 
                     }
 
@@ -150,6 +154,14 @@ class AudioplayerActivity : AppCompatActivity() {
 
         recyclerView.layoutManager = LinearLayoutManager(this)
         recyclerView.adapter = playlistAdapter
+        viewModel.getPlaylistsState().observe(this) {
+            runOnUiThread {
+                statePlaylists(it)
+            }
+        }
+        playlistAdapter.saveTrackToPlaylist = PlaylistAdapter.SaveToPlaylistListener {
+            Toast.makeText(this,"$it",Toast.LENGTH_LONG).show()
+        }
 
 
     }
@@ -237,6 +249,21 @@ class AudioplayerActivity : AppCompatActivity() {
                 Toast.makeText(this, "Disconnect_problem", Toast.LENGTH_LONG).show()
             }
         }
+    }
+
+    private fun statePlaylists(state: BottomPlaylistsState) {
+        when (state) {
+            is BottomPlaylistsState.Data -> playlistAdapter.update(
+                state.data,
+                ItemPlaylist.TYPE_HORIZONTAL
+            )
+
+            BottomPlaylistsState.EmptyState -> playlistAdapter.update(
+                emptyList(),
+                ItemPlaylist.TYPE_HORIZONTAL
+            )
+        }
+        playlistAdapter.notifyDataSetChanged()
     }
 
 }
