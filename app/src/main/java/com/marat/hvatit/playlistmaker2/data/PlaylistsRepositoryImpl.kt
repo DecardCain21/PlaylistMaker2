@@ -27,9 +27,18 @@ class PlaylistsRepositoryImpl(
         emit(convertFromPlaylistEntity(playlists))
     }
 
-    override fun getPlaylistsIds(): Flow<List<Int>>  = flow{
+    override fun getPlaylistsIds(): Flow<List<Int>> = flow {
         val listIds = appDatabase.trackDao().getPlaylistIds()
         emit(listIds)
+    }
+
+    override suspend fun addCrossRef(playlistId: String, trackId: String) {
+        appDatabase.trackDao().insertPlaylistCrossRef(
+            playlistDbConvertor.convertToCrossRef(
+                playlistId = playlistId,
+                trackId = trackId
+            )
+        )
     }
 
     override suspend fun savePlaylist(playlist: Playlist) {

@@ -6,6 +6,7 @@ import com.marat.hvatit.playlistmaker2.domain.api.interactors.NewPlaylistInterac
 import com.marat.hvatit.playlistmaker2.domain.api.interactors.SaveTrackInteractor
 import com.marat.hvatit.playlistmaker2.domain.api.interactors.SettingsInteractor
 import com.marat.hvatit.playlistmaker2.domain.api.interactors.TrackInteractor
+import com.marat.hvatit.playlistmaker2.domain.api.usecase.AddCrossRefUseCase
 import com.marat.hvatit.playlistmaker2.domain.api.usecase.FetchPlaylistsUseCase
 import com.marat.hvatit.playlistmaker2.domain.favorites.FavoritesInteractor
 import com.marat.hvatit.playlistmaker2.domain.impl.AudioPlayerInteractorImpl
@@ -55,6 +56,10 @@ val interactorModule = module {
 
     single<FetchPlaylistsUseCase> {
         FetchPlaylistsUseCase(get())
+    }
+
+    single {
+        AddCrossRefUseCase(get())
     }
 
 }

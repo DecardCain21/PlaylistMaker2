@@ -5,11 +5,13 @@ import com.marat.hvatit.playlistmaker2.domain.models.Playlist
 import kotlinx.coroutines.flow.Flow
 
 interface PlaylistsRepository {
-    fun getMedialibPlaylists(playlist:Playlist): Flow<List<PlaylistWithTrack>>
+    fun getMedialibPlaylists(playlist: Playlist): Flow<List<PlaylistWithTrack>>
 
-    fun getPlaylists():Flow<List<Playlist>>
+    fun getPlaylists(): Flow<List<Playlist>>
 
-    fun getPlaylistsIds():Flow<List<Int>>
+    fun getPlaylistsIds(): Flow<List<Int>>
+
+    suspend fun addCrossRef(playlistId: String, trackId: String)
 
     suspend fun savePlaylist(playlist: Playlist)
 

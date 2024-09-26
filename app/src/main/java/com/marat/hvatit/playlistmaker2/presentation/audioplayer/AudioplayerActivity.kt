@@ -161,6 +161,7 @@ class AudioplayerActivity : AppCompatActivity() {
         }
         playlistAdapter.saveTrackToPlaylist = PlaylistAdapter.SaveToPlaylistListener {
             Toast.makeText(this,"$it",Toast.LENGTH_LONG).show()
+            viewModel.addToCrossRef(it.data.playlistId,result.trackId)
         }
 
 

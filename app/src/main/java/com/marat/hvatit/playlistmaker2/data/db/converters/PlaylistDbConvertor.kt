@@ -1,5 +1,6 @@
 package com.marat.hvatit.playlistmaker2.data.db.converters
 
+import com.marat.hvatit.playlistmaker2.data.db.entity.PlaylistCrossRefEntity
 import com.marat.hvatit.playlistmaker2.data.db.entity.PlaylistEntity
 import com.marat.hvatit.playlistmaker2.data.db.entity.PlaylistWithTrack
 import com.marat.hvatit.playlistmaker2.data.db.entity.TrackEntity
@@ -33,6 +34,10 @@ class PlaylistDbConvertor {
             result.add(convertToTrack(i))
         }
         return result
+    }
+
+    fun convertToCrossRef(playlistId: String, trackId: String): PlaylistCrossRefEntity {
+        return PlaylistCrossRefEntity(id = playlistId.toInt(), trackId = trackId)
     }
 
     fun convertToTrack(track: TrackEntity): Track {

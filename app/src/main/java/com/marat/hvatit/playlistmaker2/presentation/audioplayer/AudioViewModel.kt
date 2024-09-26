@@ -7,6 +7,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.marat.hvatit.playlistmaker2.domain.api.AudioPlayerCallback
 import com.marat.hvatit.playlistmaker2.domain.api.interactors.AudioPlayerInteractor
+import com.marat.hvatit.playlistmaker2.domain.api.usecase.AddCrossRefUseCase
 import com.marat.hvatit.playlistmaker2.domain.api.usecase.FetchPlaylistsUseCase
 import com.marat.hvatit.playlistmaker2.domain.favorites.FavoritesInteractor
 import com.marat.hvatit.playlistmaker2.domain.models.Playlist
@@ -22,7 +23,8 @@ class AudioViewModel(
     previewUrl: String,
     private val interactor: AudioPlayerInteractor,
     private val interactorDb: FavoritesInteractor,
-    private val getPlaylistsUseCase: FetchPlaylistsUseCase
+    private val getPlaylistsUseCase: FetchPlaylistsUseCase,
+    private val addCrossRefUseCase: AddCrossRefUseCase
 ) :
     ViewModel(),
     AudioPlayerCallback {
@@ -140,6 +142,12 @@ class AudioViewModel(
                 setDataState(playlists)
                 Log.e("Playlists", "ViewModel,getPlaylists:$playlists")
             }
+        }
+    }
+
+    fun addToCrossRef(playlistId: String, trackId: String) {
+        viewModelScope.launch {
+            addCrossRefUseCase.execute(playlistId, trackId)
         }
     }
 
