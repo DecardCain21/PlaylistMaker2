@@ -8,6 +8,7 @@ import androidx.room.Query
 import androidx.room.Transaction
 import com.marat.hvatit.playlistmaker2.data.db.entity.PlaylistCrossRefEntity
 import com.marat.hvatit.playlistmaker2.data.db.entity.PlaylistEntity
+import com.marat.hvatit.playlistmaker2.data.db.entity.PlaylistTrackEntity
 import com.marat.hvatit.playlistmaker2.data.db.entity.PlaylistWithTrack
 import com.marat.hvatit.playlistmaker2.data.db.entity.TrackEntity
 
@@ -20,6 +21,9 @@ interface TrackDao {
     fun insertPlaylist(playlistEntity: PlaylistEntity)
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
+    fun insertPlaylistTrack(playlistTrackEntity: PlaylistTrackEntity)
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertPlaylistCrossRef(playlistCrossRefEntity: PlaylistCrossRefEntity)
 
     @Query("SELECT * FROM favorite_tracks_table")
@@ -30,6 +34,9 @@ interface TrackDao {
 
     @Delete(entity = PlaylistEntity::class)
     fun deletePlaylist(playlist: PlaylistEntity)
+
+    @Delete(entity = PlaylistTrackEntity::class)
+    fun deletePlaylistTrack(playlistTrackEntity: PlaylistTrackEntity)
 
     @Query("SELECT * FROM playlists_table")
     fun getPlaylists(): List<PlaylistEntity>

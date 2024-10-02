@@ -8,7 +8,9 @@ import androidx.lifecycle.viewModelScope
 import com.marat.hvatit.playlistmaker2.domain.api.AudioPlayerCallback
 import com.marat.hvatit.playlistmaker2.domain.api.interactors.AudioPlayerInteractor
 import com.marat.hvatit.playlistmaker2.domain.api.usecase.AddCrossRefUseCase
+import com.marat.hvatit.playlistmaker2.domain.api.usecase.AddPlaylistTrackUseCase
 import com.marat.hvatit.playlistmaker2.domain.api.usecase.FetchPlaylistsUseCase
+import com.marat.hvatit.playlistmaker2.domain.api.usecase.GetCrossRefUseCase
 import com.marat.hvatit.playlistmaker2.domain.favorites.FavoritesInteractor
 import com.marat.hvatit.playlistmaker2.domain.models.Playlist
 import com.marat.hvatit.playlistmaker2.domain.models.Track
@@ -24,7 +26,9 @@ class AudioViewModel(
     private val interactor: AudioPlayerInteractor,
     private val interactorDb: FavoritesInteractor,
     private val getPlaylistsUseCase: FetchPlaylistsUseCase,
-    private val addCrossRefUseCase: AddCrossRefUseCase
+    private val addCrossRefUseCase: AddCrossRefUseCase,
+    private val getCrossRefUseCase: GetCrossRefUseCase,
+    private val addPlaylistTrackUseCase: AddPlaylistTrackUseCase
 ) :
     ViewModel(),
     AudioPlayerCallback {
@@ -145,9 +149,26 @@ class AudioViewModel(
         }
     }
 
+    fun getCrossRef(playlistId: String){
+        val tracks = mutableListOf<Track>()
+        viewModelScope.launch(Dispatchers.IO) {
+            getCrossRefUseCase.execute(playlistId).collect{
+                Log.e("CrossRef","$playlistId:${it}")
+                //tracks.add()
+            }
+        }
+    }
+
     fun addToCrossRef(playlistId: String, trackId: String) {
         viewModelScope.launch {
             addCrossRefUseCase.execute(playlistId, trackId)
+            //Перезаписать плейлист в дб, +1 трек
+        }
+    }
+
+    fun addPlaylistTrack(track: Track){
+        viewModelScope.launch {
+            addPlaylistTrackUseCase.execute(track)
         }
     }
 

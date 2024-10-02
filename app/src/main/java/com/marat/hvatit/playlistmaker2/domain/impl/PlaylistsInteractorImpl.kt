@@ -1,6 +1,5 @@
 package com.marat.hvatit.playlistmaker2.domain.impl
 
-import com.marat.hvatit.playlistmaker2.data.db.entity.PlaylistWithTrack
 import com.marat.hvatit.playlistmaker2.domain.models.Playlist
 import com.marat.hvatit.playlistmaker2.domain.playlists.PlaylistsInteractor
 import com.marat.hvatit.playlistmaker2.domain.playlists.PlaylistsRepository
@@ -13,10 +12,6 @@ class PlaylistsInteractorImpl(private val repository: PlaylistsRepository): Play
 
     override suspend fun deletePlaylist(playlist: Playlist) {
         repository.deletePlaylist(playlist)
-    }
-
-    override fun getPlaylist(playlist: Playlist): Flow<List<PlaylistWithTrack>> {
-        return repository.getMedialibPlaylists(playlist)
     }
 
     override fun getPlaylists(): Flow<List<Playlist>> {

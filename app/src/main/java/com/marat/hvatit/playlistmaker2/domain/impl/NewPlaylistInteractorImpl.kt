@@ -9,6 +9,7 @@ import kotlinx.coroutines.withContext
 
 class NewPlaylistInteractorImpl(private val playlistsRepository: PlaylistsRepository) :
     NewPlaylistInteractor {
+
     override suspend fun addPlaylist(playlist: Playlist) {
         withContext(Dispatchers.IO) {
             playlistsRepository.savePlaylist(playlist)
@@ -23,8 +24,12 @@ class NewPlaylistInteractorImpl(private val playlistsRepository: PlaylistsReposi
         }
         val result = listIds.maxOrNull()
         if (result != null) {
-            return result
+            return generateId(result)
         }
         return 0
+    }
+
+    private fun generateId(id: Int): Int {
+        return id + 1
     }
 }

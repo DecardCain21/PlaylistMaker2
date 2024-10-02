@@ -3,22 +3,26 @@ package com.marat.hvatit.playlistmaker2.data
 import android.util.Log
 import com.marat.hvatit.playlistmaker2.data.db.AppDatabase
 import com.marat.hvatit.playlistmaker2.data.db.converters.PlaylistDbConvertor
+import com.marat.hvatit.playlistmaker2.data.db.converters.TrackDbConvertor
 import com.marat.hvatit.playlistmaker2.data.db.entity.PlaylistEntity
 import com.marat.hvatit.playlistmaker2.data.db.entity.PlaylistWithTrack
 import com.marat.hvatit.playlistmaker2.domain.models.Playlist
+import com.marat.hvatit.playlistmaker2.domain.models.Track
 import com.marat.hvatit.playlistmaker2.domain.playlists.PlaylistsRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 
 class PlaylistsRepositoryImpl(
     private val appDatabase: AppDatabase,
-    private val playlistDbConvertor: PlaylistDbConvertor
+    private val playlistDbConvertor: PlaylistDbConvertor,
+    private val trackDbConvertor: TrackDbConvertor
 ) : PlaylistsRepository {
 
-    override fun getMedialibPlaylists(playlist: Playlist): Flow<List<PlaylistWithTrack>> = flow {
-        val playlists = appDatabase.trackDao().getPlaylistWorker(playlist.playlistId.toInt())
-        Log.e("Playlists", "getMedialibPlaylists:$playlists")
-        emit(listOf(playlists))
+    override fun getPlaylistsWithTrack(playlistId: String): Flow<List<Track>> = flow {
+        val playlistsWithTrack = appDatabase.trackDao().getPlaylistWorker(playlistId.toInt())
+
+        Log.e("Playlists", "getMedialibPlaylists:${playlistsWithTrack.tracks}")
+        emit(convertFromPlaylistWithTrack(playlistsWithTrack))
     }
 
     override fun getPlaylists(): Flow<List<Playlist>> = flow {
@@ -45,8 +49,18 @@ class PlaylistsRepositoryImpl(
         appDatabase.trackDao().insertPlaylist(convertToPlaylistEntity(playlist))
     }
 
+    override suspend fun savePlaylistTrack(track: Track) {
+        appDatabase.trackDao().insertPlaylistTrack(playlistDbConvertor.convertToEntity(track))
+    }
+
     override suspend fun deletePlaylist(playlist: Playlist) {
         appDatabase.trackDao().deletePlaylist(convertToPlaylistEntity(playlist))
+    }
+
+    private fun convertFromPlaylistWithTrack(playlistWithTrack: PlaylistWithTrack): List<Track> {
+        return playlistWithTrack.tracks.map {
+            playlistDbConvertor.map(it)
+        }
     }
 
     private fun convertFromPlaylistEntity(playlists: List<PlaylistEntity>): List<Playlist> {

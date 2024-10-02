@@ -1,11 +1,11 @@
 package com.marat.hvatit.playlistmaker2.domain.playlists
 
-import com.marat.hvatit.playlistmaker2.data.db.entity.PlaylistWithTrack
 import com.marat.hvatit.playlistmaker2.domain.models.Playlist
+import com.marat.hvatit.playlistmaker2.domain.models.Track
 import kotlinx.coroutines.flow.Flow
 
 interface PlaylistsRepository {
-    fun getMedialibPlaylists(playlist: Playlist): Flow<List<PlaylistWithTrack>>
+    fun getPlaylistsWithTrack(playlistId:String): Flow<List<Track>>
 
     fun getPlaylists(): Flow<List<Playlist>>
 
@@ -14,6 +14,8 @@ interface PlaylistsRepository {
     suspend fun addCrossRef(playlistId: String, trackId: String)
 
     suspend fun savePlaylist(playlist: Playlist)
+
+    suspend fun savePlaylistTrack(track: Track)
 
     suspend fun deletePlaylist(playlist: Playlist)
 }
