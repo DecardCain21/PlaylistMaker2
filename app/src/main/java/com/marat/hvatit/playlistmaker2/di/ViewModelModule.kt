@@ -33,7 +33,7 @@ val viewModelModule = module {
     }
 
     viewModel { (previewUrl: String) ->
-        AudioViewModel(previewUrl, get(), get(), get(), get(), get(),get())
+        AudioViewModel(previewUrl, get(), get(), get(), get(), get(),get(),get())
     }
 
     viewModel {

@@ -24,11 +24,13 @@ class GlideHelperImpl : GlideHelper {
             .into(actplayerCover)
     }
 
-    override fun setImage(context: Context, covername: String, imageView: ImageView) {
+    override fun setImageDb(context: Context, covername: String, imageView: ImageView,roundedCornersImage: Int) {
         val filePath = File( Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES), "Myalbum")
         val file = File(filePath, "$covername.jpg")
         Glide.with(imageView.context)
             .load(file)
+            .placeholder(R.drawable.placeholder_big)
+            .transform(RoundedCorners(roundedCornersImage))
             .into(imageView)
     }
     //из глайда можно вытянуть битмап

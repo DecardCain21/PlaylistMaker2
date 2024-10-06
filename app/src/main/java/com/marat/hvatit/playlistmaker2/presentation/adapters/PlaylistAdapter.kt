@@ -15,9 +15,6 @@ class PlaylistAdapter : RecyclerView.Adapter<PlaylistViewHolder>() {
 
     private var items: List<ItemPlaylist> = emptyList()
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PlaylistViewHolder {
-        /*val view =
-            LayoutInflater.from(parent.context).inflate(R.layout.playlist_cell, parent, false)
-        return PlaylistViewHolder(view as ViewGroup, glide)*/
         return when (viewType) {
             ItemPlaylist.TYPE_VERTICAL -> {
                 val view = LayoutInflater.from(parent.context)
@@ -39,15 +36,13 @@ class PlaylistAdapter : RecyclerView.Adapter<PlaylistViewHolder>() {
         }
     }
 
-    override fun getItemCount() = items.size/*playlists.size*/
+    override fun getItemCount() = items.size
 
     override fun getItemViewType(position: Int): Int {
         return items[position].type
     }
 
     override fun onBindViewHolder(holder: PlaylistViewHolder, position: Int) {
-        //val item: Playlist = playlists[position]
-        //holder.bind(playlists[position])
         val item: ItemPlaylist = items[position]
         holder.bind(items[position].data)
         if (holder.itemViewType == ItemPlaylist.TYPE_HORIZONTAL) {

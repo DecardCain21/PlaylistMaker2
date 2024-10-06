@@ -107,5 +107,9 @@
         <item name="android:background">?act_search_update</item>
     </style>
 
+    <style name="bottom_sheet_textcolor">
+        <item name="android:textColor">@color/main_hint_color</item>
+    </style>
+
 
 </resources>

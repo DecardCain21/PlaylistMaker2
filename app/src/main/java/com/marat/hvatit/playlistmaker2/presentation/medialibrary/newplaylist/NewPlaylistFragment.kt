@@ -6,7 +6,6 @@ import android.os.Bundle
 import android.os.Environment
 import android.text.Editable
 import android.text.TextWatcher
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -16,6 +15,7 @@ import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.google.android.material.snackbar.Snackbar
 import com.marat.hvatit.playlistmaker2.R
 import com.marat.hvatit.playlistmaker2.databinding.FragmentNewplaylistBinding
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -32,7 +32,7 @@ class NewPlaylistFragment : Fragment() {
     private val viewModel: NewPlaylistViewModel by viewModel<NewPlaylistViewModel>()
 
 
-    lateinit var confirmDialog: MaterialAlertDialogBuilder
+    private lateinit var confirmDialog: MaterialAlertDialogBuilder
 
     private var saveEditTextName: String? = null
     private var saveEditTextDescription: String? = null
@@ -56,12 +56,10 @@ class NewPlaylistFragment : Fragment() {
         val pickMedia =
             registerForActivityResult(ActivityResultContracts.PickVisualMedia()) { uri ->
                 if (uri != null) {
-                    Log.d("PhotoPicker", "Media selected")
                     binding.cover.setImageURI(uri)
                     coverUri = uri
-                    Log.d("PhotoPicker", "$coverUri")
                 } else {
-                    Log.d("PhotoPicker", "No media selected")
+                    //error
                 }
             }
         binding.cover.setOnClickListener {
@@ -70,23 +68,28 @@ class NewPlaylistFragment : Fragment() {
         confirmDialog = MaterialAlertDialogBuilder(requireContext(), R.style.CustomAlertDialog)
             .setTitle("Завершить создание плейлиста?")
             .setMessage("Все несохраненные данные будут потеряны")
-            .setNegativeButton("Отмена") { dialog, which ->
+            .setNegativeButton("Отмена") { _, _ ->
 
-            }.setPositiveButton("Завершить") { dialog, which ->
+            }.setPositiveButton("Завершить") { _, _ ->
                 findNavController().navigateUp()
             }
         binding.back.setOnClickListener {
             confirmDialog.show()
         }
         binding.buttonCreate.setOnClickListener {
-            saveImage(coverUri!!)
+            coverUri?.let { saveImage(it) }
             playlistCover?.let { it1 ->
                 viewModel.createPlaylist(
                     it1,
                     saveEditTextName!!,
                     saveEditTextDescription!!,
                     onSuccess = {
-                        //somf
+                        Snackbar.make(
+                            view,
+                            "Плейлист $saveEditTextName создан",
+                            Snackbar.LENGTH_LONG
+                        ).show();
+                        findNavController().navigateUp()
                     }
                 )
             }
@@ -139,11 +142,8 @@ class NewPlaylistFragment : Fragment() {
         )
         if (!filePath.exists()) {
             filePath.mkdirs()
-            Log.d("SaveImage", "Directory create: ${filePath.mkdirs()}")
         }
-        Log.d("SaveImage", "Directory exists: ${filePath.exists()}")
         playlistCover += System.currentTimeMillis()
-        Log.d("bind cover","saveImage:$playlistCover")
         val file = File(filePath, "$playlistCover.jpg")
         val inputStream = requireContext().contentResolver.openInputStream(uri)
         val outputStream = FileOutputStream(file)

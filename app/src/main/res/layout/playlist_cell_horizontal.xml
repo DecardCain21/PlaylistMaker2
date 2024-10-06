@@ -8,6 +8,7 @@
         android:id="@+id/cover"
         android:layout_width="45dp"
         android:layout_height="45dp"
+        android:layout_marginStart="13dp"
         android:background="@drawable/stub_addphoto"
         android:scaleType="center"
         app:layout_constraintStart_toStartOf="parent"
@@ -15,25 +16,28 @@
 
     <TextView
         android:id="@+id/playlist_name"
+        style="@style/search_activity_usearch"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="6dp"
         android:layout_marginStart="8dp"
+        android:layout_marginTop="6dp"
+        android:fontFamily="@font/ys_display_regular"
+        android:textSize="16sp"
         app:layout_constraintStart_toEndOf="@id/cover"
         app:layout_constraintTop_toTopOf="@+id/cover"
-        android:textSize="12sp"
-        tools:text="Best songs"
-        style="@style/search_activity_usearch"/>
+        tools:text="Best songs" />
 
     <TextView
         android:id="@+id/playlist_count"
+        style="@style/bottom_sheet_textcolor"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
+        android:fontFamily="@font/ys_display_regular"
+        android:textSize="11sp"
+        android:layout_marginTop="1dp"
         app:layout_constraintStart_toEndOf="@id/cover"
         app:layout_constraintTop_toBottomOf="@id/playlist_name"
-        android:textSize="12sp"
-        tools:text="15"
-        style="@style/search_activity_usearch"/>
+        tools:text="15" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

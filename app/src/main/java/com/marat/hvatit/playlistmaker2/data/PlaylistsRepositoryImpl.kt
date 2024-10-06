@@ -3,7 +3,6 @@ package com.marat.hvatit.playlistmaker2.data
 import android.util.Log
 import com.marat.hvatit.playlistmaker2.data.db.AppDatabase
 import com.marat.hvatit.playlistmaker2.data.db.converters.PlaylistDbConvertor
-import com.marat.hvatit.playlistmaker2.data.db.converters.TrackDbConvertor
 import com.marat.hvatit.playlistmaker2.data.db.entity.PlaylistEntity
 import com.marat.hvatit.playlistmaker2.data.db.entity.PlaylistWithTrack
 import com.marat.hvatit.playlistmaker2.domain.models.Playlist
@@ -14,16 +13,15 @@ import kotlinx.coroutines.flow.flow
 
 class PlaylistsRepositoryImpl(
     private val appDatabase: AppDatabase,
-    private val playlistDbConvertor: PlaylistDbConvertor,
-    private val trackDbConvertor: TrackDbConvertor
+    private val playlistDbConvertor: PlaylistDbConvertor
 ) : PlaylistsRepository {
 
-    override fun getPlaylistsWithTrack(playlistId: String): Flow<List<Track>> = flow {
+    override suspend fun getPlaylistsWithTrack(playlistId: String): List<Track> {
         val playlistsWithTrack = appDatabase.trackDao().getPlaylistWorker(playlistId.toInt())
-
         Log.e("Playlists", "getMedialibPlaylists:${playlistsWithTrack.tracks}")
-        emit(convertFromPlaylistWithTrack(playlistsWithTrack))
+        return convertFromPlaylistWithTrack(playlistsWithTrack)
     }
+
 
     override fun getPlaylists(): Flow<List<Playlist>> = flow {
         val playlists = appDatabase.trackDao().getPlaylists()
@@ -55,6 +53,10 @@ class PlaylistsRepositoryImpl(
 
     override suspend fun deletePlaylist(playlist: Playlist) {
         appDatabase.trackDao().deletePlaylist(convertToPlaylistEntity(playlist))
+    }
+
+    override suspend fun updatePlaylistSize(playlistId: String, newSize: String) {
+        appDatabase.trackDao().updatePlaylistSize(playlistId = playlistId.toInt(),newSize)
     }
 
     private fun convertFromPlaylistWithTrack(playlistWithTrack: PlaylistWithTrack): List<Track> {

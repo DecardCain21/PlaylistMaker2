@@ -22,12 +22,18 @@ class PlaylistViewHolder(itemView: View, private val glide: GlideHelper) :
 
     fun bind(model: Playlist) {
         playlistName.text = model.playlistName
-        playlistSize.text = model.playlistSize
-        glide.setImage(
+        playlistSize.text =
+            "${model.playlistSize} ${itemView.context.getString(if (model.playlistSize.toInt() == 1) R.string.playlistviewholder_track else R.string.playlistviewholder_tracks)}"
+        val cornerRadius = when (itemViewType) {
+            ItemPlaylist.TYPE_VERTICAL -> GlideHelper.VERTICAL_PLAYLIST_CORNER_RADIUS
+            ItemPlaylist.TYPE_HORIZONTAL -> GlideHelper.HORIZONTAL_PLAYLIST_CORNER_RADIUS
+            else -> GlideHelper.DEFAULT_CORNER_RADIUS
+        }
+        glide.setImageDb(
             context = itemView.context,
             file = model.playlistCoverUrl,
-            imageView = playlistCover
+            imageView = playlistCover,
+            roundedCornersImage = cornerRadius
         )
-        //Log.e("bind cover", model.playlistCoverUrl)
     }
 }

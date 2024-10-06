@@ -11,8 +11,6 @@ import java.io.FileOutputStream
 import java.io.InputStream
 
 class NewPlaylistViewModel(private val newPlaylistInteractor: NewPlaylistInteractor) : ViewModel() {
-    //private var stateNewPlaylist = MutableLiveData<>()
-
 
     fun createPlaylist(
         covername: String,

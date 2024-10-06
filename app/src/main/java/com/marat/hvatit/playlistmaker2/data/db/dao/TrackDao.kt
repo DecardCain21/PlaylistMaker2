@@ -26,9 +26,6 @@ interface TrackDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertPlaylistCrossRef(playlistCrossRefEntity: PlaylistCrossRefEntity)
 
-    @Query("SELECT * FROM favorite_tracks_table")
-    fun getTracks(): List<TrackEntity>
-
     @Delete(entity = TrackEntity::class)
     fun deleteTrack(trackEntity: TrackEntity)
 
@@ -37,6 +34,9 @@ interface TrackDao {
 
     @Delete(entity = PlaylistTrackEntity::class)
     fun deletePlaylistTrack(playlistTrackEntity: PlaylistTrackEntity)
+
+    @Query("SELECT * FROM favorite_tracks_table")
+    fun getTracks(): List<TrackEntity>
 
     @Query("SELECT * FROM playlists_table")
     fun getPlaylists(): List<PlaylistEntity>
@@ -47,4 +47,9 @@ interface TrackDao {
 
     @Query("SELECT id FROM playlists_table")
     fun getPlaylistIds():List<Int>
+
+    @Query("UPDATE playlists_table SET playlistSize = :newSize WHERE id = :playlistId")
+    suspend fun updatePlaylistSize(playlistId: Int, newSize: String): Int
+
+
 }

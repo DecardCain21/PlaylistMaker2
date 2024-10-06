@@ -3,7 +3,6 @@ package com.marat.hvatit.playlistmaker2.presentation.audioplayer
 import android.content.Context
 import android.content.Intent
 import android.graphics.Color
-
 import android.os.Bundle
 import android.view.View
 import android.widget.ImageButton
@@ -56,6 +55,7 @@ class AudioplayerActivity : AppCompatActivity() {
     private lateinit var bottomSheetContainer: LinearLayout
     private lateinit var buttonAdd: ImageButton
     private lateinit var backgroundBottomSheet: CoordinatorLayout
+    private lateinit var buttonNewPlaylist : ImageButton
 
     private val gsonParser: JsonParserImpl by inject()
     private val glide: GlideHelper by inject()
@@ -93,10 +93,9 @@ class AudioplayerActivity : AppCompatActivity() {
         bottomSheetBehavior.addBottomSheetCallback(object :
             BottomSheetBehavior.BottomSheetCallback() {
             override fun onStateChanged(bottomSheet: View, newState: Int) {
-                // newState — новое состояние BottomSheet
                 when (newState) {
                     BottomSheetBehavior.STATE_EXPANDED -> {
-                        backgroundBottomSheet.setBackgroundColor(Color.parseColor("#80000000"))
+                        backgroundBottomSheet.setBackgroundColor(Color.parseColor("#99000000"))
                         backgroundBottomSheet.isVisible = true
                         viewModel.getPlaylists()
 
@@ -118,7 +117,11 @@ class AudioplayerActivity : AppCompatActivity() {
                 }
             }
 
-            override fun onSlide(bottomSheet: View, slideOffset: Float) {}
+            override fun onSlide(bottomSheet: View, slideOffset: Float) {
+                //backgroundBottomSheet.isVisible = slideOffset > 0
+                //Log.e("SlideOffset", "${abs(slideOffset)}")
+                //Неверно указываю смещение?
+            }
         })
         val buttonBack = findViewById<View>(R.id.back)
         buttonBack.setOnClickListener {
@@ -160,11 +163,20 @@ class AudioplayerActivity : AppCompatActivity() {
             }
         }
         playlistAdapter.saveTrackToPlaylist = PlaylistAdapter.SaveToPlaylistListener {
-            Toast.makeText(this, "$it", Toast.LENGTH_LONG).show()
-            //viewModel.addToCrossRef(it.data.playlistId, result.trackId)
-            //viewModel.addPlaylistTrack(result)
-            viewModel.getCrossRef(it.data.playlistId)
+            viewModel.addTrackToPlaylist(it.data, result,
+                onSuccess = {
+                    runOnUiThread { Toast.makeText(this, "Add", Toast.LENGTH_LONG).show() }
+                },
+                onError = {
+                    runOnUiThread { Toast.makeText(this, "Not Added", Toast.LENGTH_LONG).show() }
+                })
+            bottomSheetBehavior.state = BottomSheetBehavior.STATE_HIDDEN
         }
+
+        buttonNewPlaylist.setOnClickListener {
+
+        }
+
 
 
     }
@@ -185,6 +197,7 @@ class AudioplayerActivity : AppCompatActivity() {
         buttonAdd = findViewById(R.id.button_addtoplaylist)
         backgroundBottomSheet = findViewById(R.id.bottom_sheet_parent)
         recyclerView = findViewById(R.id.playlists)
+        buttonNewPlaylist = findViewById(R.id.button_newplaylist)
 
     }
 

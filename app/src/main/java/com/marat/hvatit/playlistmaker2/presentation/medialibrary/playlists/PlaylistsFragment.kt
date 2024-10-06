@@ -13,7 +13,6 @@ import com.marat.hvatit.playlistmaker2.databinding.PlaylistsFragmentBinding
 import com.marat.hvatit.playlistmaker2.presentation.adapters.ItemPlaylist
 import com.marat.hvatit.playlistmaker2.presentation.adapters.PlaylistAdapter
 import org.koin.androidx.viewmodel.ext.android.viewModel
-import org.koin.core.parameter.parametersOf
 
 class PlaylistsFragment : Fragment() {
     companion object {
@@ -24,10 +23,6 @@ class PlaylistsFragment : Fragment() {
                 putString(TESTSTRING, str)
             }
         }
-    }
-
-    private val featuredPlaylistsViewModel: PlaylistsViewModel by viewModel {
-        parametersOf(requireArguments().getString(TESTSTRING))
     }
 
     private val viewModel: PlaylistsViewModel by viewModel<PlaylistsViewModel>()
@@ -48,7 +43,7 @@ class PlaylistsFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.buttonNewbplaylist.setOnClickListener {
+        binding.buttonNewplaylist.setOnClickListener {
             findNavController().navigate(R.id.action_medialibraryFragment_to_newPlaylistFragment2)
         }
         binding.llPlaceholder.isVisible = false
@@ -57,17 +52,24 @@ class PlaylistsFragment : Fragment() {
         viewModel.getPlaylistsState().observe(viewLifecycleOwner) { state ->
             statePlaylists(state)
         }
-        //viewModel.savePlaylist(testList[0])
-        //viewModel.savePlaylist(testList[1])
-        //viewModel.deletePlaylist(Playlist("2","","","",""))
         viewModel.getPlaylists()
 
     }
 
     private fun statePlaylists(state: PlaylistsState) {
         when (state) {
-            is PlaylistsState.Data -> playlistAdapter.update(state.data,ItemPlaylist.TYPE_VERTICAL)
-            PlaylistsState.EmptyState -> playlistAdapter.update(emptyList(),ItemPlaylist.TYPE_VERTICAL)
+            is PlaylistsState.Data -> {
+                playlistAdapter.update(state.data, ItemPlaylist.TYPE_VERTICAL)
+                binding.llPlaceholder.isVisible = false
+                binding.playlists.isVisible = true
+
+            }
+
+            PlaylistsState.EmptyState -> {
+                playlistAdapter.update(emptyList(), ItemPlaylist.TYPE_VERTICAL)
+                binding.llPlaceholder.isVisible = true
+                binding.playlists.isVisible = false
+            }
         }
         playlistAdapter.notifyDataSetChanged()
     }

@@ -12,10 +12,11 @@ interface GlideHelper {
         roundedCornersImage: Int = DEFAULT_CORNER_RADIUS,
     )
 
-    fun setImage(
+    fun setImageDb(
         context: Context,
         file: String,
-        imageView: ImageView
+        imageView: ImageView,
+        roundedCornersImage: Int
     )
 
     companion object {
@@ -25,6 +26,8 @@ interface GlideHelper {
         }
 
         const val DEFAULT_CORNER_RADIUS = 10
+        const val VERTICAL_PLAYLIST_CORNER_RADIUS = 8
+        const val HORIZONTAL_PLAYLIST_CORNER_RADIUS = 2
     }
 
 }

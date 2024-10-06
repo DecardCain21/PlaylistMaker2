@@ -17,19 +17,6 @@ class PlaylistsViewModel(private val interactor: PlaylistsInteractor) : ViewMode
 
     fun getPlaylistsState(): LiveData<PlaylistsState> = loadingPlaylistsData
 
-    fun savePlaylist(playlist: Playlist) {
-        viewModelScope.launch(Dispatchers.IO) {
-            interactor.savePlaylist(playlist)
-        }
-
-    }
-
-    fun deletePlaylist(playlist: Playlist) {
-        viewModelScope.launch(Dispatchers.IO) {
-            interactor.deletePlaylist(playlist)
-        }
-    }
-
     fun getPlaylists() {
         viewModelScope.launch(Dispatchers.IO) {
             interactor.getPlaylists().collect { playlists ->

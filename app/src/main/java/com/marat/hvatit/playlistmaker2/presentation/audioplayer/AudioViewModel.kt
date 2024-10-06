@@ -9,8 +9,9 @@ import com.marat.hvatit.playlistmaker2.domain.api.AudioPlayerCallback
 import com.marat.hvatit.playlistmaker2.domain.api.interactors.AudioPlayerInteractor
 import com.marat.hvatit.playlistmaker2.domain.api.usecase.AddCrossRefUseCase
 import com.marat.hvatit.playlistmaker2.domain.api.usecase.AddPlaylistTrackUseCase
-import com.marat.hvatit.playlistmaker2.domain.api.usecase.FetchPlaylistsUseCase
-import com.marat.hvatit.playlistmaker2.domain.api.usecase.GetCrossRefUseCase
+import com.marat.hvatit.playlistmaker2.domain.api.usecase.GetPlaylistsUseCase
+import com.marat.hvatit.playlistmaker2.domain.api.usecase.GetPlaylistTracks
+import com.marat.hvatit.playlistmaker2.domain.api.usecase.UpdatePlaylistUseCase
 import com.marat.hvatit.playlistmaker2.domain.favorites.FavoritesInteractor
 import com.marat.hvatit.playlistmaker2.domain.models.Playlist
 import com.marat.hvatit.playlistmaker2.domain.models.Track
@@ -25,10 +26,11 @@ class AudioViewModel(
     previewUrl: String,
     private val interactor: AudioPlayerInteractor,
     private val interactorDb: FavoritesInteractor,
-    private val getPlaylistsUseCase: FetchPlaylistsUseCase,
+    private val getPlaylistsUseCase: GetPlaylistsUseCase,
     private val addCrossRefUseCase: AddCrossRefUseCase,
-    private val getCrossRefUseCase: GetCrossRefUseCase,
-    private val addPlaylistTrackUseCase: AddPlaylistTrackUseCase
+    private val getPlaylistTracks: GetPlaylistTracks,
+    private val addPlaylistTrackUseCase: AddPlaylistTrackUseCase,
+    private val updatePlaylistUseCase: UpdatePlaylistUseCase
 ) :
     ViewModel(),
     AudioPlayerCallback {
@@ -40,6 +42,8 @@ class AudioViewModel(
     private var loadingFavoriteData = MutableLiveData(favoriteState)
     private var playlistsState: BottomPlaylistsState = BottomPlaylistsState.Data(emptyList())
     private var loadingPlaylistsData = MutableLiveData(playlistsState)
+
+    private var addToPlaylist = MutableLiveData(false)
     fun getPlaylistsState(): LiveData<BottomPlaylistsState> = loadingPlaylistsData
 
     companion object {
@@ -149,27 +153,39 @@ class AudioViewModel(
         }
     }
 
-    fun getCrossRef(playlistId: String){
-        val tracks = mutableListOf<Track>()
+    fun addTrackToPlaylist(
+        playlist: Playlist,
+        track: Track,
+        onSuccess: () -> Unit,
+        onError: () -> Unit
+    ) {
         viewModelScope.launch(Dispatchers.IO) {
-            getCrossRefUseCase.execute(playlistId).collect{
-                Log.e("CrossRef","$playlistId:${it}")
-                //tracks.add()
+            val isTrackExist = getPlaylistTracks.execute(playlistId = playlist.playlistId)
+                .any { it.trackId == track.trackId }
+            Log.e("CrossRef", "Track:$isTrackExist")
+            if (isTrackExist) {
+                onError()
+                Log.e("CrossRef", "postValue${addToPlaylist.value}")
+            } else {
+                Log.e("CrossRef", "postValue${addToPlaylist.value}")
+                updatePlaylists(playlist, track.trackId)
+                addPlaylistTrack(track)
+                onSuccess()
             }
         }
     }
 
-    fun addToCrossRef(playlistId: String, trackId: String) {
-        viewModelScope.launch {
-            addCrossRefUseCase.execute(playlistId, trackId)
-            //Перезаписать плейлист в дб, +1 трек
-        }
+    private suspend fun updatePlaylists(playlist: Playlist, trackId: String) {
+        addCrossRefUseCase.execute(playlist.playlistId, trackId)
+        val newSize = playlist.playlistSize.toInt() + 1
+        updatePlaylistUseCase.updateSize(
+            playlistId = playlist.playlistId,
+            newSize = newSize.toString()
+        )
     }
 
-    fun addPlaylistTrack(track: Track){
-        viewModelScope.launch {
-            addPlaylistTrackUseCase.execute(track)
-        }
+    private suspend fun addPlaylistTrack(track: Track) {
+        addPlaylistTrackUseCase.execute(track)
     }
 
     private fun setDataState(data: List<Playlist>) {
