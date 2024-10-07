@@ -9,7 +9,6 @@
         android:layout_width="45dp"
         android:layout_height="45dp"
         android:layout_marginStart="13dp"
-        android:background="@drawable/stub_addphoto"
         android:scaleType="center"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />

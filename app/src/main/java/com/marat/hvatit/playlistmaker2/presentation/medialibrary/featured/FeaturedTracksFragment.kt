@@ -7,12 +7,13 @@ import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.marat.hvatit.playlistmaker2.R
 import com.marat.hvatit.playlistmaker2.data.JsonParserImpl
 import com.marat.hvatit.playlistmaker2.databinding.FeaturedtracksFragmentBinding
-import com.marat.hvatit.playlistmaker2.presentation.audioplayer.AudioplayerActivity
 import com.marat.hvatit.playlistmaker2.presentation.adapters.TrackListAdapter
+import com.marat.hvatit.playlistmaker2.presentation.audioplayer.AudioPlayerFragment
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import org.koin.android.ext.android.inject
@@ -20,7 +21,7 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class FeaturedTracksFragment : Fragment() {
     companion object {
-        private const val TESTSTRING = "Android"
+        private const val TESTSTRING = "str"
         private const val CLICK_DEBOUNCE_DELAY = 1000L
 
         fun newInstance(str: String) = FeaturedTracksFragment().apply {
@@ -29,6 +30,7 @@ class FeaturedTracksFragment : Fragment() {
             }
         }
     }
+
     private val gsonParser: JsonParserImpl by inject()
     private var isClickAllowed = true
 
@@ -59,12 +61,11 @@ class FeaturedTracksFragment : Fragment() {
         }
         viewModel.getFeaturedTracks()
         trackListAdapter.saveTrackListener = TrackListAdapter.SaveTrackListener {
-            if (clickDebounce()){
-                AudioplayerActivity.getIntent(requireContext(),this.getString(R.string.android))
-                    .apply {
-                        putExtra("Track",gsonParser.objectToJson(it))
-                        startActivity(this)
-                    }
+            if (clickDebounce()) {
+                findNavController().navigate(
+                    R.id.action_medialibraryFragment_to_audioPlayerFragment,
+                    AudioPlayerFragment.createArgs(gsonParser.objectToJson(it))
+                )
             }
         }
     }
@@ -103,6 +104,7 @@ class FeaturedTracksFragment : Fragment() {
     override fun onResume() {
         super.onResume()
         viewModel.getFeaturedTracks()
+        isClickAllowed = true
     }
 
 }

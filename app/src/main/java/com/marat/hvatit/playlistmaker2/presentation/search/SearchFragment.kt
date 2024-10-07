@@ -17,12 +17,13 @@ import androidx.core.view.isGone
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.marat.hvatit.playlistmaker2.R
 import com.marat.hvatit.playlistmaker2.data.JsonParserImpl
 import com.marat.hvatit.playlistmaker2.databinding.FragmentSearchBinding
 import com.marat.hvatit.playlistmaker2.presentation.adapters.TrackListAdapter
-import com.marat.hvatit.playlistmaker2.presentation.audioplayer.AudioplayerActivity
+import com.marat.hvatit.playlistmaker2.presentation.audioplayer.AudioPlayerFragment
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import org.koin.android.ext.android.inject
@@ -38,7 +39,7 @@ class SearchFragment : Fragment() {
         get() = _binding!!
 
 
-    private var saveEditText: String = "error"
+    private var saveEditText: String? = null
 
     private val gsonParser: JsonParserImpl by inject()
 
@@ -122,11 +123,14 @@ class SearchFragment : Fragment() {
         trackListAdapter.saveTrackListener = TrackListAdapter.SaveTrackListener {
             if (clickDebounce()) {
                 viewModel.addSaveSongs(it)
-                AudioplayerActivity.getIntent(requireContext(), this.getString(R.string.android))
-                    .apply {
-                        putExtra("Track", gsonParser.objectToJson(it))
-                        startActivity(this)
-                    }
+                /*val bundle = Bundle().apply{
+                    putString("Track",gsonParser.objectToJson(it))
+                }
+                Log.e("SFragment","${parentFragmentManager.fragments}")*/
+                findNavController().navigate(
+                    R.id.action_searchFragment_to_audioPlayerFragment,
+                    AudioPlayerFragment.createArgs(gsonParser.objectToJson(it))
+                )
             }
         }
 
@@ -167,6 +171,7 @@ class SearchFragment : Fragment() {
             is SearchState.Download -> downloadState()
             is SearchState.NothingToShow -> nothingToShowState(searchState)
             is SearchState.StartState -> startState(searchState)
+            else -> {}
         }
         trackListAdapter.notifyDataSetChanged()
     }
@@ -249,6 +254,16 @@ class SearchFragment : Fragment() {
         binding.texterror.isVisible = false
         binding.progressBar.isVisible = false
     }
+
+    override fun onResume() {
+        super.onResume()
+        isClickAllowed = true
+        if(!saveEditText.isNullOrEmpty()){
+            viewModel.searchCoroutine(saveEditText!!)
+        }
+    }
+
+
     override fun onDestroy() {
         super.onDestroy()
         viewModel.saveTracksToCache()

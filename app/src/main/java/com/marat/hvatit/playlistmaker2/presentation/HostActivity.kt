@@ -12,17 +12,17 @@ import com.marat.hvatit.playlistmaker2.R
 class HostActivity : AppCompatActivity(R.layout.activity_host) {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val navHostFragment = supportFragmentManager.findFragmentById(R.id.fragment_container_host) as NavHostFragment
+        val navHostFragment =
+            supportFragmentManager.findFragmentById(R.id.fragment_container_host) as NavHostFragment
         val navController = navHostFragment.navController
 
         val bottomNavigationView = findViewById<BottomNavigationView>(R.id.bottomNavigationView)
         bottomNavigationView.setupWithNavController(navController)
 
         navController.addOnDestinationChangedListener { navController, destination, arguments ->
-            if (destination.id == R.id.fragmentAgreement||destination.id == R.id.newPlaylistFragment) {
+            if (destination.id == R.id.fragmentAgreement || destination.id == R.id.newPlaylistFragment || destination.id == R.id.audioPlayerFragment) {
                 bottomNavigationView.visibility = View.GONE
-            }
-            else{
+            } else {
                 bottomNavigationView.visibility = View.VISIBLE
             }
         }

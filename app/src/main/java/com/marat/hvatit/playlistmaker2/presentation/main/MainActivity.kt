@@ -7,7 +7,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import com.marat.hvatit.playlistmaker2.R
 import com.marat.hvatit.playlistmaker2.presentation.medialibrary.MedialibraryFragment
-import com.marat.hvatit.playlistmaker2.presentation.search.SearchFragment
 import com.marat.hvatit.playlistmaker2.presentation.settings.SettingsFragment
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -44,11 +43,11 @@ class MainActivity : AppCompatActivity() {
 
     private fun initButtonSearch() {
         val buttonSearch = findViewById<Button>(R.id.button_bigOne)
-        buttonSearch.setOnClickListener {
+        /*buttonSearch.setOnClickListener {
             SearchFragment.getIntent(this@MainActivity, this.getString(R.string.android)).apply {
                 startActivity(this)
             }
-        }
+        }*/
     }
 
     private fun setThemePref() {
