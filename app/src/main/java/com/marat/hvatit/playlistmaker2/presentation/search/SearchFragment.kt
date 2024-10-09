@@ -47,6 +47,7 @@ class SearchFragment : Fragment() {
     private val viewModel by viewModel<SearchViewModel>()
 
     private val trackListAdapter = TrackListAdapter()
+    private lateinit var layoutManager: LinearLayoutManager
 
     companion object {
 
@@ -73,7 +74,8 @@ class SearchFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.songlist.layoutManager = LinearLayoutManager(requireContext())
+        layoutManager = LinearLayoutManager(requireContext())
+        binding.songlist.layoutManager = layoutManager
         binding.songlist.adapter = trackListAdapter
 
         viewModel.getLoadingLiveData().observe(viewLifecycleOwner) { searchState ->
@@ -123,10 +125,6 @@ class SearchFragment : Fragment() {
         trackListAdapter.saveTrackListener = TrackListAdapter.SaveTrackListener {
             if (clickDebounce()) {
                 viewModel.addSaveSongs(it)
-                /*val bundle = Bundle().apply{
-                    putString("Track",gsonParser.objectToJson(it))
-                }
-                Log.e("SFragment","${parentFragmentManager.fragments}")*/
                 findNavController().navigate(
                     R.id.action_searchFragment_to_audioPlayerFragment,
                     AudioPlayerFragment.createArgs(gsonParser.objectToJson(it))
@@ -171,6 +169,7 @@ class SearchFragment : Fragment() {
             is SearchState.Download -> downloadState()
             is SearchState.NothingToShow -> nothingToShowState(searchState)
             is SearchState.StartState -> startState(searchState)
+            is SearchState.RestoreDataState -> restoreDataState(searchState)
             else -> {}
         }
         trackListAdapter.notifyDataSetChanged()
@@ -237,6 +236,21 @@ class SearchFragment : Fragment() {
         binding.headerhistory.isVisible = false
     }
 
+    private fun restoreDataState(searchState: SearchState.RestoreDataState) {
+        trackListAdapter.update(searchState.tracks)
+        binding.songlist.scrollToPosition(searchState.scrollPosition)
+
+
+        binding.placeholder.isVisible = false
+        binding.buttonUpdate.isVisible = false
+        binding.texterror.isVisible = false
+        binding.progressBar.isVisible = false
+
+        binding.clearhistory.isVisible = false
+        binding.headerhistory.isVisible = false
+
+    }
+
     private fun clearState() {
         trackListAdapter.update(emptyList())
         binding.buttonUpdate.isVisible = false
@@ -258,9 +272,17 @@ class SearchFragment : Fragment() {
     override fun onResume() {
         super.onResume()
         isClickAllowed = true
-        if(!saveEditText.isNullOrEmpty()){
-            viewModel.searchCoroutine(saveEditText!!)
+        if (!saveEditText.isNullOrEmpty()) {
+            //viewModel.searchCoroutine(saveEditText!!)
+            viewModel.restoreSaveFragmentState()
         }
+
+    }
+
+    override fun onStop() {
+        super.onStop()
+        //треклист из ласт запроса
+        viewModel.setSaveFragmentState(layoutManager.findFirstCompletelyVisibleItemPosition())
     }
 
 

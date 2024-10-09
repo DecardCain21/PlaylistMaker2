@@ -3,7 +3,6 @@ package com.marat.hvatit.playlistmaker2.presentation.audioplayer
 import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -43,6 +42,7 @@ class AudioPlayerFragment : Fragment() {
     private val glide: GlideHelper by inject()
     private val playlistAdapter = PlaylistAdapter()
     //private lateinit var recyclerView: RecyclerView
+    private lateinit var result : Track
 
 
     private val viewModel: AudioViewModel by viewModel {
@@ -72,16 +72,14 @@ class AudioPlayerFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val args = arguments?.getString(ARGS_KEY) ?: "error"
-        Log.e("AudioError", "args:$args")
-        val result = gsonParser.jsonToObject(args, Track::class.java)
-        Log.e("AudioError", "result:$args")
-        //intent = getIntent(requireContext(), "Track")
-        //val song = intent.getStringExtra("Track")
-        //val result: Track = gsonParser.jsonToObject(song.toString(), Track::class.java)
+        /*result = if(savedInstanceState!=null){
+            gsonParser.jsonToObject(savedInstanceState.getString("saveState")!!,Track::class.java)
+        }else{
+            gsonParser.jsonToObject(args, Track::class.java)
+        }*/
+        result = gsonParser.jsonToObject(args, Track::class.java)
         priviewUrl = result.previewUrl
-        //initViews()
         setTextContent(result)
-
         val bottomSheetBehavior = BottomSheetBehavior.from(binding.bottomSheetContainer).apply {
             state = BottomSheetBehavior.STATE_HIDDEN
         }
@@ -120,11 +118,12 @@ class AudioPlayerFragment : Fragment() {
         })
         binding.back.setOnClickListener {
             findNavController().navigateUp()
+            //requireActivity().onBackPressed()
         }
 
-        binding.actplayerButtonplay.isEnabled = false
+        //binding.actplayerButtonplay.isEnabled = false
 
-        viewModel.playbackControl()
+        //viewModel.playbackControl()
         binding.actplayerButtonplay.setOnClickListener {
             viewModel.playbackControl()
         }
@@ -157,21 +156,21 @@ class AudioPlayerFragment : Fragment() {
                     requireActivity().runOnUiThread {
                         Toast.makeText(
                             requireContext(),
-                            "Add",
+                            "Добавлено в плейлист [${it.data.playlistName}]",
                             Toast.LENGTH_LONG
                         ).show()
+                        bottomSheetBehavior.state = BottomSheetBehavior.STATE_HIDDEN
                     }
                 },
                 onError = {
                     requireActivity().runOnUiThread {
                         Toast.makeText(
                             requireContext(),
-                            "Not Added",
+                            "Трек уже добавлен в плейлист [${it.data.playlistName}]",
                             Toast.LENGTH_LONG
                         ).show()
                     }
                 })
-            bottomSheetBehavior.state = BottomSheetBehavior.STATE_HIDDEN
         }
 
         binding.buttonNewplaylist.setOnClickListener {
@@ -198,17 +197,26 @@ class AudioPlayerFragment : Fragment() {
     override fun onResume() {
         super.onResume()
         viewModel.getPlaylists()
+        binding.actplayerButtonplay.isEnabled = true
     }
 
     override fun onPause() {
         super.onPause()
         viewModel.onPausePlayer()
         binding.actplayerButtonplay.setBackgroundResource(R.drawable.button_play)
+
     }
 
     override fun onDestroy() {
         super.onDestroy()
         viewModel.onDestroyPlayer()
+
+
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        //outState.putString("saveState",gsonParser.objectToJson(result))
     }
 
     private fun stateFavorite(state: FavoriteState) {

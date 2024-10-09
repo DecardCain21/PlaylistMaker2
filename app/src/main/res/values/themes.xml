@@ -111,5 +111,11 @@
         <item name="android:textColor">@color/main_hint_color</item>
     </style>
 
+    <style name="CustomOutlineBox" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+        <item name="boxStrokeColor">@color/audioplayer_outline_selector</item>
+        <item name="android:textColorHint">@color/audioplayer_hint_selector</item>
+        <item name="hintTextColor">@color/main_primary</item>
+    </style>
+
 
 </resources>

@@ -1,6 +1,7 @@
 package com.marat.hvatit.playlistmaker2.common
 
 import android.content.Context
+import android.net.Uri
 import android.os.Environment
 import android.widget.ImageView
 import com.bumptech.glide.Glide
@@ -35,19 +36,35 @@ class GlideHelperImpl : GlideHelper {
             "Myalbum"
         )
         val file = File(filePath, "$covername.jpg")
+        loadImage(imageView, file = file, roundedCornersImage = roundedCornersImage)
+    }
+
+    override fun setImageDb(
+        context: Context,
+        file: Uri,
+        imageView: ImageView,
+        roundedCornersImage: Int
+    ) {
+        loadImage(imageView, uri = file, roundedCornersImage = roundedCornersImage)
+    }
+
+    private fun loadImage(
+        imageView: ImageView,
+        file: File? = null,
+        uri: Uri? = null,
+        roundedCornersImage: Int
+    ) {
         val placeholder = when (roundedCornersImage) {
-            GlideHelper.HORIZONTAL_PLAYLIST_CORNER_RADIUS -> {
-                R.drawable.placeholder
-            }
-            else -> {
-                R.drawable.placeholder_big
-            }
+            GlideHelper.HORIZONTAL_PLAYLIST_CORNER_RADIUS -> R.drawable.placeholder
+            else -> R.drawable.placeholder_big
         }
+
         Glide.with(imageView.context)
-            .load(file)
+            .load(file ?: uri) // Загружаем либо file, либо uri
             .placeholder(placeholder)
             .transform(RoundedCorners(roundedCornersImage))
             .into(imageView)
     }
+
     //из глайда можно вытянуть битмап
 }

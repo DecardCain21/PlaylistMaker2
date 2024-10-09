@@ -1,6 +1,7 @@
 package com.marat.hvatit.playlistmaker2.presentation.utils
 
 import android.content.Context
+import android.net.Uri
 import android.widget.ImageView
 
 interface GlideHelper {
@@ -15,6 +16,13 @@ interface GlideHelper {
     fun setImageDb(
         context: Context,
         file: String,
+        imageView: ImageView,
+        roundedCornersImage: Int
+    )
+
+    fun setImageDb(
+        context: Context,
+        file: Uri,
         imageView: ImageView,
         roundedCornersImage: Int
     )

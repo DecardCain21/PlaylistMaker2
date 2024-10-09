@@ -15,9 +15,9 @@
         android:background="@drawable/button_back"
         android:backgroundTintMode="add"
         android:scaleType="center"
+        app:layout_constraintBottom_toBottomOf="@id/tittle"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@id/tittle"
-        app:layout_constraintBottom_toBottomOf="@id/tittle"/>
+        app:layout_constraintTop_toTopOf="@id/tittle" />
 
     <TextView
         android:id="@+id/tittle"
@@ -39,45 +39,62 @@
         android:layout_height="312dp"
         android:layout_marginTop="42dp"
         android:background="@drawable/newplaylist_line"
-        android:src="@drawable/stub_addphoto"
         android:scaleType="center"
+        android:src="@drawable/stub_addphoto"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tittle" />
 
-    <EditText
-        android:id="@+id/et_name"
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/et_name_textfield"
+        style="@style/CustomOutlineBox"
         android:layout_width="328dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
-        android:background="@drawable/outline_newplaylist"
         android:hint="@string/newplaylist_hint_name"
-        android:paddingStart="16dp"
         android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/cover" />
+        app:layout_constraintTop_toBottomOf="@id/cover">
 
-    <EditText
-        android:id="@+id/et_description"
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/et_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textCursorDrawable="@drawable/audioplayer_outline" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/et_description_textfield"
+        style="@style/CustomOutlineBox"
         android:layout_width="328dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:background="@drawable/outline_newplaylist"
         android:hint="@string/newplaylist_hint_description"
-        android:paddingStart="16dp"
+        android:textAlignment="gravity"
         android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/et_name" />
+        app:layout_constraintTop_toBottomOf="@+id/et_name_textfield">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/et_description"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textCursorDrawable="@drawable/audioplayer_outline" />
+
+
+    </com.google.android.material.textfield.TextInputLayout>
 
     <ImageButton
         android:id="@+id/button_create"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="32dp"
-        android:saveEnabled="false"
         android:background="@drawable/button_create_off"
+        android:saveEnabled="false"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />

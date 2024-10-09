@@ -18,6 +18,8 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
 import com.marat.hvatit.playlistmaker2.R
 import com.marat.hvatit.playlistmaker2.databinding.FragmentNewplaylistBinding
+import com.marat.hvatit.playlistmaker2.presentation.utils.GlideHelper
+import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import java.io.File
 import java.io.FileOutputStream
@@ -30,6 +32,7 @@ class NewPlaylistFragment : Fragment() {
 
 
     private val viewModel: NewPlaylistViewModel by viewModel<NewPlaylistViewModel>()
+    private val glide: GlideHelper by inject()
 
 
     private lateinit var confirmDialog: MaterialAlertDialogBuilder
@@ -57,6 +60,12 @@ class NewPlaylistFragment : Fragment() {
             registerForActivityResult(ActivityResultContracts.PickVisualMedia()) { uri ->
                 if (uri != null) {
                     binding.cover.setImageURI(uri)
+                    glide.setImageDb(
+                        requireContext(),
+                        uri,
+                        binding.cover,
+                        GlideHelper.VERTICAL_PLAYLIST_CORNER_RADIUS
+                    )
                     coverUri = uri
                 } else {
                     //error
@@ -74,7 +83,11 @@ class NewPlaylistFragment : Fragment() {
                 findNavController().navigateUp()
             }
         binding.back.setOnClickListener {
-            confirmDialog.show()
+            if (!saveEditTextName.isNullOrEmpty() || !saveEditTextDescription.isNullOrEmpty()) {
+                confirmDialog.show()
+            } else {
+                findNavController().navigateUp()
+            }
         }
         binding.buttonCreate.setOnClickListener {
             coverUri?.let { saveImage(it) }
@@ -111,9 +124,13 @@ class NewPlaylistFragment : Fragment() {
             if (s.isNullOrEmpty()) {
                 binding.buttonCreate.setBackgroundResource(R.drawable.button_create_off)
                 binding.buttonCreate.isEnabled = false
+                //binding.etName.setBackgroundResource(R.drawable.text_fields_name)
             } else {
                 binding.buttonCreate.setBackgroundResource(R.drawable.button_create_on)
                 binding.buttonCreate.isEnabled = true
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                    binding.etName.setTextCursorDrawable(R.drawable.text_fields_name)
+                }
             }
         }
 
@@ -131,6 +148,12 @@ class NewPlaylistFragment : Fragment() {
 
         override fun afterTextChanged(s: Editable?) {
             saveEditTextDescription = s.toString()
+            if (s.isNullOrEmpty()) {
+                //binding.etDescription.setBackgroundResource(R.drawable.outline_newplaylist)
+
+            } else {
+                //binding.etDescription.setBackgroundResource(R.drawable.text_fields_description)
+            }
         }
 
     }
