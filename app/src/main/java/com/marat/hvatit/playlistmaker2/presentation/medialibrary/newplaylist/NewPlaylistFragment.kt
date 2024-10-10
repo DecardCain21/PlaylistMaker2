@@ -125,12 +125,14 @@ class NewPlaylistFragment : Fragment() {
                 binding.buttonCreate.setBackgroundResource(R.drawable.button_create_off)
                 binding.buttonCreate.isEnabled = false
                 //binding.etName.setBackgroundResource(R.drawable.text_fields_name)
+                binding.etName.isSelected = false
             } else {
                 binding.buttonCreate.setBackgroundResource(R.drawable.button_create_on)
                 binding.buttonCreate.isEnabled = true
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                binding.etName.isSelected = true
+                /*if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
                     binding.etName.setTextCursorDrawable(R.drawable.text_fields_name)
-                }
+                }*/
             }
         }
 
@@ -150,8 +152,10 @@ class NewPlaylistFragment : Fragment() {
             saveEditTextDescription = s.toString()
             if (s.isNullOrEmpty()) {
                 //binding.etDescription.setBackgroundResource(R.drawable.outline_newplaylist)
+                binding.etDescription.isSelected = false
 
             } else {
+                binding.etDescription.isSelected = true
                 //binding.etDescription.setBackgroundResource(R.drawable.text_fields_description)
             }
         }
