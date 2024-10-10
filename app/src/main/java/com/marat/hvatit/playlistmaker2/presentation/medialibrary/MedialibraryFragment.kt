@@ -17,13 +17,9 @@ class MedialibraryFragment : Fragment() {
 
     private var _binding: FragmentMedialibraryBinding? = null
 
-    private /*lateinit*/ var tabMediator: TabLayoutMediator? = null
+    private var tabMediator: TabLayoutMediator? = null
     private val binding
         get() = _binding!!
-
-    companion object {
-        fun newInstance() = MedialibraryFragment()
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -45,7 +41,6 @@ class MedialibraryFragment : Fragment() {
             }
         }
         tabMediator?.attach()
-
     }
 
     private fun setThemePref() {

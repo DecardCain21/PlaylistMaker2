@@ -16,6 +16,7 @@
         <item name="act_search_update">@color/white</item>
         <item name="medialib_color">@color/black</item>
         <item name="activity_search_et_backgroundColor">@color/light_gray</item>
+        <item name="darkgrey_to_white">@color/dark_grey</item>
     </style>
 
     <style name="activity_settings_head">
@@ -100,6 +101,20 @@
 
     <style name="bottom_menu">
         <item name="android:background">?act_search_update</item>
+    </style>
+
+    <style name="bottom_sheet">
+        <item name="android:background">?act_search_update</item>
+    </style>
+
+    <style name="bottom_sheet_textcolor">
+        <item name="android:textColor">@color/main_hint_color</item>
+    </style>
+
+    <style name="CustomOutlineBox" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+        <item name="boxStrokeColor">@color/audioplayer_outline_selector</item>
+        <item name="android:textColorHint">@color/audioplayer_hint_selector</item>
+        <item name="hintTextColor">@color/main_primary</item>
     </style>
 
 

@@ -1,4 +1,4 @@
-package com.marat.hvatit.playlistmaker2.presentation.search
+package com.marat.hvatit.playlistmaker2.presentation.adapters
 
 import android.view.View
 import android.widget.ImageView

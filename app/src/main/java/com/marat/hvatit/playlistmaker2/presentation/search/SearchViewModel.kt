@@ -28,9 +28,17 @@ class SearchViewModel(
 
 
     private var loadingLiveData = MutableLiveData(searchState)
-
-
     fun getLoadingLiveData(): LiveData<SearchState> = loadingLiveData
+    private var saveFragmentState: SearchState.RestoreDataState =
+        SearchState.RestoreDataState(emptyList(), 0)
+    private var restoredTracks : List<Track>? = null
+
+    fun restoreSaveFragmentState(){
+        loadingLiveData.postValue(saveFragmentState)
+    }
+    fun setSaveFragmentState(value: Int) {
+        saveFragmentState = SearchState.RestoreDataState(tracks = restoredTracks?: emptyList(), scrollPosition = value)
+    }
 
     fun changeState(newState: SearchState) {
         loadingLiveData.postValue(newState)
@@ -48,11 +56,12 @@ class SearchViewModel(
     }
 
     private fun processingResponse(foundTracks: List<Track>?, errorMessage: String?) {
-        if (foundTracks != null ) {
+        if (foundTracks != null) {
             if (foundTracks.isEmpty()) {
                 loadingLiveData.postValue(SearchState.NothingToShow(R.string.act_search_nothing))
             } else {
                 loadingLiveData.postValue(SearchState.Data(foundTracks))
+                restoredTracks = foundTracks
             }
         } else {
             loadingLiveData.postValue(SearchState.Disconnected(R.string.act_search_disconnect))
