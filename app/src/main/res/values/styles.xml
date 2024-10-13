@@ -59,7 +59,14 @@
     </style>
 
     <style name="CustomAlertDialog" parent="Theme.MaterialComponents.Dialog.Alert">
-        <item name="android:background">@color/main_primary</item>
+        <item name="android:background">?attr/act_search_update</item>
+        <!-- Цвет заголовка диалога -->
+        <item name="colorPrimary">@color/main_primary</item>
+        <!-- Цвет текста основного сообщения -->
+        <item name="android:textColorPrimary">?attr/darkgrey_to_white</item>
+        <!-- Цвет текста кнопки -->
+        <item name="android:textColor">?attr/act_search_placeholder</item>
+        <item name="android:textSize">16sp</item>
     </style>
 
 

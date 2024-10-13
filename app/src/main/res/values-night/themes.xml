@@ -17,6 +17,7 @@
         <item name="medialib_color">@color/white</item>
         <item name="activity_search_et_backgroundColor">@color/white</item>
         <item name="darkgrey_to_white">@color/white</item>
+        <item name="white_to_darkgrey">@color/dark_grey</item>
     </style>
 
     <style name="activity_settings_head">

@@ -91,7 +91,9 @@ class SearchFragment : Fragment() {
                 viewModel.setSavedTracks()
                 trackListAdapter.notifyDataSetChanged()
             } else {
-                viewModel.changeState(SearchState.ClearState)
+                if(saveEditText.isNullOrEmpty()) {
+                    viewModel.changeState(SearchState.ClearState)
+                }
             }
         }
 
@@ -274,7 +276,7 @@ class SearchFragment : Fragment() {
         isClickAllowed = true
         if (!saveEditText.isNullOrEmpty()) {
             //viewModel.searchCoroutine(saveEditText!!)
-            viewModel.restoreSaveFragmentState()
+            //viewModel.restoreSaveFragmentState()
         }
 
     }

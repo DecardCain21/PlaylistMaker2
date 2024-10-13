@@ -6,9 +6,11 @@ import android.os.Bundle
 import android.os.Environment
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.OnBackPressedCallback
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.RequiresApi
@@ -41,6 +43,14 @@ class NewPlaylistFragment : Fragment() {
     private var saveEditTextDescription: String? = null
     private var playlistCover: String? = "COVER_IMG_"
     private var coverUri: Uri? = null
+    private val callback = object : OnBackPressedCallback(
+        getFieldsIsEmpty()
+    ) {
+        override fun handleOnBackPressed() {
+            isEnabled = false
+            confirmDialog.show()
+        }
+    }
 
 
     override fun onCreateView(
@@ -95,7 +105,7 @@ class NewPlaylistFragment : Fragment() {
                 viewModel.createPlaylist(
                     it1,
                     saveEditTextName!!,
-                    saveEditTextDescription!!,
+                    saveEditTextDescription ?: "",
                     onSuccess = {
                         Snackbar.make(
                             view,
@@ -107,6 +117,10 @@ class NewPlaylistFragment : Fragment() {
                 )
             }
         }
+        requireActivity().onBackPressedDispatcher.addCallback(
+            viewLifecycleOwner, // LifecycleOwner
+            callback
+        )
     }
 
     private fun textWatcherName() = object : TextWatcher {
@@ -121,10 +135,10 @@ class NewPlaylistFragment : Fragment() {
 
         override fun afterTextChanged(s: Editable?) {
             saveEditTextName = s.toString()
-            if (s.isNullOrEmpty()) {
+            callback.isEnabled = getFieldsIsEmpty()
+            if (s.isNullOrEmpty() || s.isBlank()) {
                 binding.buttonCreate.setBackgroundResource(R.drawable.button_create_off)
                 binding.buttonCreate.isEnabled = false
-                //binding.etName.setBackgroundResource(R.drawable.text_fields_name)
                 binding.etName.isSelected = false
             } else {
                 binding.buttonCreate.setBackgroundResource(R.drawable.button_create_on)
@@ -150,16 +164,18 @@ class NewPlaylistFragment : Fragment() {
 
         override fun afterTextChanged(s: Editable?) {
             saveEditTextDescription = s.toString()
-            if (s.isNullOrEmpty()) {
-                //binding.etDescription.setBackgroundResource(R.drawable.outline_newplaylist)
-                binding.etDescription.isSelected = false
-
-            } else {
-                binding.etDescription.isSelected = true
-                //binding.etDescription.setBackgroundResource(R.drawable.text_fields_description)
-            }
+            callback.isEnabled = getFieldsIsEmpty()
+            binding.etDescription.isSelected = !s.isNullOrEmpty()
         }
 
+    }
+
+    private fun getFieldsIsEmpty(): Boolean {
+        Log.e(
+            "getFieldsIsEmpty",
+            "${!saveEditTextName.isNullOrEmpty() || !saveEditTextDescription.isNullOrEmpty()}"
+        )
+        return !saveEditTextName.isNullOrEmpty() || !saveEditTextDescription.isNullOrEmpty()
     }
 
     private fun saveImage(uri: Uri) {
