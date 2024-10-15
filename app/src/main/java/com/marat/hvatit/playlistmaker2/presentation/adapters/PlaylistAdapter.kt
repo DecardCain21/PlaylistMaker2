@@ -50,6 +50,11 @@ class PlaylistAdapter : RecyclerView.Adapter<PlaylistViewHolder>() {
                 saveTrackToPlaylist?.addToPlaylist(item)
             }
         }
+        if(holder.itemViewType == ItemPlaylist.TYPE_VERTICAL){
+            holder.itemView.setOnClickListener {
+                saveTrackToPlaylist?.addToPlaylist(item)
+            }
+        }
     }
 
     private fun convertToListItemPlaylist(

@@ -15,6 +15,9 @@
         <action
             android:id="@+id/action_medialibraryFragment_to_audioPlayerFragment"
             app:destination="@id/audioPlayerFragment" />
+        <action
+            android:id="@+id/action_medialibraryFragment_to_playlistFragment"
+            app:destination="@id/playlistFragment" />
     </fragment>
     <fragment
         android:id="@+id/settingsFragment"
@@ -54,5 +57,9 @@
         android:id="@+id/featuredTracksFragment"
         android:name="com.marat.hvatit.playlistmaker2.presentation.medialibrary.featured.FeaturedTracksFragment"
         android:label="FeaturedTracksFragment" />
+    <fragment
+        android:id="@+id/playlistFragment"
+        android:name="com.marat.hvatit.playlistmaker2.presentation.medialibrary.playlist.PlaylistFragment"
+        android:label="PlaylistFragment" />
 
 </navigation>

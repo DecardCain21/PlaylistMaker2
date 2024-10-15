@@ -50,6 +50,9 @@ class PlaylistsFragment : Fragment() {
         binding.llPlaceholder.isVisible = false
         binding.playlists.layoutManager = GridLayoutManager(requireContext(), 2)
         binding.playlists.adapter = playlistAdapter
+        playlistAdapter.saveTrackToPlaylist = PlaylistAdapter.SaveToPlaylistListener {
+            findNavController().navigate(R.id.action_medialibraryFragment_to_playlistFragment)
+        }
         viewModel.getPlaylistsState().observe(viewLifecycleOwner) { state ->
             statePlaylists(state)
         }
