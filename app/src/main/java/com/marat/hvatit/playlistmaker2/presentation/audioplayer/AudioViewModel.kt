@@ -9,7 +9,7 @@ import com.marat.hvatit.playlistmaker2.domain.api.AudioPlayerCallback
 import com.marat.hvatit.playlistmaker2.domain.api.interactors.AudioPlayerInteractor
 import com.marat.hvatit.playlistmaker2.domain.api.usecase.AddCrossRefUseCase
 import com.marat.hvatit.playlistmaker2.domain.api.usecase.AddPlaylistTrackUseCase
-import com.marat.hvatit.playlistmaker2.domain.api.usecase.GetPlaylistTracks
+import com.marat.hvatit.playlistmaker2.domain.api.usecase.GetPlaylistTracksUseCase
 import com.marat.hvatit.playlistmaker2.domain.api.usecase.GetPlaylistsUseCase
 import com.marat.hvatit.playlistmaker2.domain.api.usecase.UpdatePlaylistUseCase
 import com.marat.hvatit.playlistmaker2.domain.favorites.FavoritesInteractor
@@ -28,7 +28,7 @@ class AudioViewModel(
     private val interactorDb: FavoritesInteractor,
     private val getPlaylistsUseCase: GetPlaylistsUseCase,
     private val addCrossRefUseCase: AddCrossRefUseCase,
-    private val getPlaylistTracks: GetPlaylistTracks,
+    private val getPlaylistTracksUseCase: GetPlaylistTracksUseCase,
     private val addPlaylistTrackUseCase: AddPlaylistTrackUseCase,
     private val updatePlaylistUseCase: UpdatePlaylistUseCase
 ) :
@@ -161,7 +161,7 @@ class AudioViewModel(
         onError: () -> Unit
     ) {
         viewModelScope.launch(Dispatchers.IO) {
-            val isTrackExist = getPlaylistTracks.execute(playlistId = playlist.playlistId)
+            val isTrackExist = getPlaylistTracksUseCase.execute(playlistId = playlist.playlistId)
                 .any { it.trackId == track.trackId }
             Log.e("CrossRef", "Track:$isTrackExist")
             if (isTrackExist) {

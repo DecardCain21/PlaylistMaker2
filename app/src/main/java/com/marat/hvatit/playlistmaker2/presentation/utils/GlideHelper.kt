@@ -15,7 +15,7 @@ interface GlideHelper {
 
     fun setImageDb(
         context: Context,
-        file: String,
+        covername: String,
         imageView: ImageView,
         roundedCornersImage: Int
     )

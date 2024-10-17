@@ -59,7 +59,7 @@
         android:label="FeaturedTracksFragment" />
     <fragment
         android:id="@+id/playlistFragment"
-        android:name="com.marat.hvatit.playlistmaker2.presentation.medialibrary.playlist.PlaylistFragment"
+        android:name="com.marat.hvatit.playlistmaker2.presentation.medialibrary.playlist.PlaylistScreenFragment"
         android:label="PlaylistFragment" />
 
 </navigation>

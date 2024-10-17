@@ -22,7 +22,7 @@ class HostActivity : AppCompatActivity(R.layout.activity_host) {
         bottomNavigationView.setupWithNavController(navController)
 
         navController.addOnDestinationChangedListener { navController, destination, arguments ->
-            if (destination.id == R.id.fragmentAgreement || destination.id == R.id.newPlaylistFragment || destination.id == R.id.audioPlayerFragment) {
+            if (destination.id == R.id.fragmentAgreement || destination.id == R.id.newPlaylistFragment || destination.id == R.id.audioPlayerFragment || destination.id == R.id.playlistFragment) {
                 bottomNavigationView.visibility = View.GONE
             } else {
                 bottomNavigationView.visibility = View.VISIBLE

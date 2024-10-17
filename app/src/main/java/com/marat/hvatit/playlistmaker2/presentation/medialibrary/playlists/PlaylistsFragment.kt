@@ -10,9 +10,12 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import com.marat.hvatit.playlistmaker2.R
+import com.marat.hvatit.playlistmaker2.data.JsonParserImpl
 import com.marat.hvatit.playlistmaker2.databinding.PlaylistsFragmentBinding
 import com.marat.hvatit.playlistmaker2.presentation.adapters.ItemPlaylist
 import com.marat.hvatit.playlistmaker2.presentation.adapters.PlaylistAdapter
+import com.marat.hvatit.playlistmaker2.presentation.medialibrary.playlist.PlaylistScreenFragment
+import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class PlaylistsFragment : Fragment() {
@@ -28,6 +31,7 @@ class PlaylistsFragment : Fragment() {
 
     private val viewModel: PlaylistsViewModel by viewModel<PlaylistsViewModel>()
     private val playlistAdapter = PlaylistAdapter()
+    private val gsonParser: JsonParserImpl by inject()
 
     private var _binding: PlaylistsFragmentBinding? = null
     private val binding
@@ -51,7 +55,7 @@ class PlaylistsFragment : Fragment() {
         binding.playlists.layoutManager = GridLayoutManager(requireContext(), 2)
         binding.playlists.adapter = playlistAdapter
         playlistAdapter.saveTrackToPlaylist = PlaylistAdapter.SaveToPlaylistListener {
-            findNavController().navigate(R.id.action_medialibraryFragment_to_playlistFragment)
+            findNavController().navigate(R.id.action_medialibraryFragment_to_playlistFragment,PlaylistScreenFragment.createArgs(gsonParser.objectToJson(it.data)))
         }
         viewModel.getPlaylistsState().observe(viewLifecycleOwner) { state ->
             statePlaylists(state)

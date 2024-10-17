@@ -33,7 +33,7 @@ class PlaylistViewHolder(itemView: View, private val glide: GlideHelper) :
         Log.e("bindModel","cornerRadius:$cornerRadius")
         glide.setImageDb(
             context = itemView.context,
-            file = model.playlistCoverUrl,
+            covername = model.playlistCoverUrl,
             imageView = playlistCover,
             roundedCornersImage = cornerRadius
         )

@@ -7,6 +7,7 @@ import com.marat.hvatit.playlistmaker2.presentation.main.MainViewModel
 import com.marat.hvatit.playlistmaker2.presentation.medialibrary.MedialibraryViewModel
 import com.marat.hvatit.playlistmaker2.presentation.medialibrary.featured.FeaturedViewModel
 import com.marat.hvatit.playlistmaker2.presentation.medialibrary.newplaylist.NewPlaylistViewModel
+import com.marat.hvatit.playlistmaker2.presentation.medialibrary.playlist.PlaylistScreenViewModel
 import com.marat.hvatit.playlistmaker2.presentation.medialibrary.playlists.PlaylistsViewModel
 import com.marat.hvatit.playlistmaker2.presentation.search.SearchViewModel
 import com.marat.hvatit.playlistmaker2.presentation.settings.IntentNavigator
@@ -33,7 +34,7 @@ val viewModelModule = module {
     }
 
     viewModel { (previewUrl: String) ->
-        AudioViewModel(previewUrl, get(), get(), get(), get(), get(),get(),get())
+        AudioViewModel(previewUrl, get(), get(), get(), get(), get(), get(), get())
     }
 
     viewModel {
@@ -54,6 +55,10 @@ val viewModelModule = module {
 
     viewModel {
         NewPlaylistViewModel(get())
+    }
+
+    viewModel {
+        PlaylistScreenViewModel(get())
     }
 
 }
