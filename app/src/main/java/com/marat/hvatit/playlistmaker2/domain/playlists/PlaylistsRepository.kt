@@ -5,7 +5,7 @@ import com.marat.hvatit.playlistmaker2.domain.models.Track
 import kotlinx.coroutines.flow.Flow
 
 interface PlaylistsRepository {
-    suspend fun getPlaylistsWithTrack(playlistId:String): List<Track>
+    suspend fun getPlaylistsWithTrack(playlistId: String): List<Track>
 
     fun getPlaylists(): Flow<List<Playlist>>
 
@@ -19,5 +19,10 @@ interface PlaylistsRepository {
 
     suspend fun deletePlaylist(playlist: Playlist)
 
-    suspend fun updatePlaylistSize(playlistId: String,newSize: String)
+    suspend fun updatePlaylistSize(playlistId: String, newSize: String)
+
+    suspend fun deletePlaylistCrossRef(playlistId: String, trackId: String)
+
+    suspend fun deletePlaylistTrackNoRef(playlistTrackId: String)
+
 }

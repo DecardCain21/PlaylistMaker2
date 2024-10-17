@@ -10,9 +10,10 @@ import org.koin.java.KoinJavaComponent.inject
 
 class TrackListAdapter(
 ) : RecyclerView.Adapter<TrackViewHolder>() {
-    var saveTrackListener: SaveTrackListener? = null
+    var clickTrackListener: ClickTrackListener? = null
+    var longClickTrackListener: LongClickTrackListener? = null
     private var tracklist: List<Track> = emptyList()
-    private val glide : GlideHelper by inject(GlideHelper::class.java)
+    private val glide: GlideHelper by inject(GlideHelper::class.java)
     //Почему в адаптере требуется указать джава класс?
     //import org.koin.java.KoinJavaComponent.inject потому что RecyclerView класс Android написанный на Java?
 
@@ -27,7 +28,14 @@ class TrackListAdapter(
         val item = tracklist[position]
         holder.bind(tracklist[position])
         holder.itemView.setOnClickListener {
-            saveTrackListener?.addTrack(item)
+            clickTrackListener?.addTrack(item)
+        }
+        holder.itemView.setOnLongClickListener {
+            val pos = holder.adapterPosition
+            if (pos != RecyclerView.NO_POSITION) {
+                longClickTrackListener?.doWork(item)
+            }
+            true
         }
     }
 
@@ -35,8 +43,12 @@ class TrackListAdapter(
         this.tracklist = trackList
     }
 
-    fun interface SaveTrackListener {
+    fun interface ClickTrackListener {
         fun addTrack(item: Track)
 
+    }
+
+    fun interface LongClickTrackListener {
+        fun doWork(item: Track)
     }
 }

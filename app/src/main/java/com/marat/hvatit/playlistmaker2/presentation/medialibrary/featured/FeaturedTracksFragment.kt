@@ -60,7 +60,7 @@ class FeaturedTracksFragment : Fragment() {
             stateFeatured(state)
         }
         viewModel.getFeaturedTracks()
-        trackListAdapter.saveTrackListener = TrackListAdapter.SaveTrackListener {
+        trackListAdapter.clickTrackListener = TrackListAdapter.ClickTrackListener {
             if (clickDebounce()) {
                 findNavController().navigate(
                     R.id.action_medialibraryFragment_to_audioPlayerFragment,

@@ -124,7 +124,7 @@ class SearchFragment : Fragment() {
             trackListAdapter.notifyDataSetChanged()
         }
 
-        trackListAdapter.saveTrackListener = TrackListAdapter.SaveTrackListener {
+        trackListAdapter.clickTrackListener = TrackListAdapter.ClickTrackListener {
             if (clickDebounce()) {
                 viewModel.addSaveSongs(it)
                 findNavController().navigate(

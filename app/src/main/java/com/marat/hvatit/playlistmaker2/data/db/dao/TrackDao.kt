@@ -51,5 +51,11 @@ interface TrackDao {
     @Query("UPDATE playlists_table SET playlistSize = :newSize WHERE id = :playlistId")
     suspend fun updatePlaylistSize(playlistId: Int, newSize: String): Int
 
+    @Query("DELETE FROM playlist_cross_ref_table WHERE id = :playlistId AND trackId = :trackId")
+    fun deletePlaylistCrossRef(playlistId: Int, trackId: String): Int
+
+    @Transaction
+    @Query("DELETE FROM playlists_track_table WHERE trackId = :playlistTrackId AND NOT EXISTS (SELECT 1 FROM playlist_cross_ref_table WHERE trackId = :playlistTrackId)")
+    suspend fun deletePlaylistTrackIfNoReferences(playlistTrackId: Int): Int
 
 }

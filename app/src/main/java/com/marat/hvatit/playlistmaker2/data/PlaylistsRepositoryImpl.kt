@@ -56,7 +56,17 @@ class PlaylistsRepositoryImpl(
     }
 
     override suspend fun updatePlaylistSize(playlistId: String, newSize: String) {
-        appDatabase.trackDao().updatePlaylistSize(playlistId = playlistId.toInt(),newSize)
+        appDatabase.trackDao().updatePlaylistSize(playlistId = playlistId.toInt(), newSize)
+    }
+
+    override suspend fun deletePlaylistCrossRef(playlistId: String, trackId: String) {
+        appDatabase.trackDao()
+            .deletePlaylistCrossRef(playlistId = playlistId.toInt(), trackId = trackId)
+    }
+
+    override suspend fun deletePlaylistTrackNoRef(playlistTrackId: String) {
+        appDatabase.trackDao()
+            .deletePlaylistTrackIfNoReferences(playlistTrackId = playlistTrackId.toInt())
     }
 
     private fun convertFromPlaylistWithTrack(playlistWithTrack: PlaylistWithTrack): List<Track> {
