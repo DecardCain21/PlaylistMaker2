@@ -1,5 +1,6 @@
 package com.marat.hvatit.playlistmaker2.presentation.medialibrary.playlist
 
+import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -12,6 +13,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.google.android.material.snackbar.Snackbar
 import com.marat.hvatit.playlistmaker2.R
 import com.marat.hvatit.playlistmaker2.data.JsonParserImpl
 import com.marat.hvatit.playlistmaker2.databinding.PlaylistFragmentBinding
@@ -36,6 +38,7 @@ class PlaylistScreenFragment : Fragment() {
     private val viewModel by viewModel<PlaylistScreenViewModel>()
     private val trackListAdapter = TrackListAdapter()
     private lateinit var confirmDialog: MaterialAlertDialogBuilder
+    private lateinit var deleteDialog: MaterialAlertDialogBuilder
     private val simpleDateFormat: SimpleDateFormat =
         SimpleDateFormat("mm", Locale.getDefault())
 
@@ -67,9 +70,10 @@ class PlaylistScreenFragment : Fragment() {
             state = BottomSheetBehavior.STATE_HIDDEN
         }
 
-        val bottomSheetBehaviorText = BottomSheetBehavior.from(binding.bottomSheetContainerTwo).apply {
-            state = BottomSheetBehavior.STATE_HIDDEN
-        }
+        val bottomSheetBehaviorText =
+            BottomSheetBehavior.from(binding.bottomSheetContainerTwo).apply {
+                state = BottomSheetBehavior.STATE_HIDDEN
+            }
 
         bottomSheetBehavior.addBottomSheetCallback(object :
             BottomSheetBehavior.BottomSheetCallback() {
@@ -83,9 +87,17 @@ class PlaylistScreenFragment : Fragment() {
 
             override fun onSlide(bottomSheet: View, slideOffset: Float) {}
         })
-        bottomSheetBehaviorText.addBottomSheetCallback(object :BottomSheetBehavior.BottomSheetCallback(){
+        bottomSheetBehaviorText.addBottomSheetCallback(object :
+            BottomSheetBehavior.BottomSheetCallback() {
             override fun onStateChanged(bottomSheet: View, newState: Int) {
-
+                when (newState){
+                    BottomSheetBehavior.STATE_HIDDEN -> {
+                        binding.overlay.visibility = View.GONE
+                    }
+                    else -> {
+                        binding.overlay.visibility = View.VISIBLE
+                    }
+                }
             }
 
             override fun onSlide(bottomSheet: View, slideOffset: Float) {
@@ -94,7 +106,6 @@ class PlaylistScreenFragment : Fragment() {
 
         })
         binding.playlistPointMenu.setOnClickListener {
-            Toast.makeText(requireContext(), "MenuPoint!", Toast.LENGTH_LONG).show()
             bottomSheetBehaviorText.state = BottomSheetBehavior.STATE_EXPANDED
         }
         confirmDialog = MaterialAlertDialogBuilder(requireContext(), R.style.CustomAlertDialog)
@@ -102,6 +113,13 @@ class PlaylistScreenFragment : Fragment() {
             .setNegativeButton("Нет") { _, _ ->
 
             }
+        deleteDialog = MaterialAlertDialogBuilder(requireContext(), R.style.CustomAlertDialog)
+            .setTitle("Хотите удалить плейлист «${result.playlistName}»")
+            .setPositiveButton("Да") { _, _ ->
+                viewModel.deletePlaylist(result)
+                findNavController().navigateUp()
+            }
+            .setNegativeButton("Нет") { _, _ -> }
         viewModel.getTracksState().observe(viewLifecycleOwner) {
             setTrackListState(it)
         }
@@ -122,6 +140,27 @@ class PlaylistScreenFragment : Fragment() {
             }
             confirmDialog.show()
             trackListAdapter.notifyDataSetChanged()
+        }
+        binding.playlistShare.setOnClickListener {
+            viewModel.setShare(result.playlistName, result.playlistDescription, onError = {
+                Snackbar.make(
+                    view,
+                    "В этом плейлисте нет списка треков, которым можно поделиться",
+                    Snackbar.LENGTH_LONG
+                ).show()
+            })
+        }
+        binding.bsShare.setOnClickListener {
+            viewModel.setShare(result.playlistName, result.playlistDescription, onError = {
+                Snackbar.make(
+                    view,
+                    "В этом плейлисте нет списка треков, которым можно поделиться",
+                    Snackbar.LENGTH_LONG
+                ).show()
+            })
+        }
+        binding.bsDelete.setOnClickListener {
+            deleteDialog.show()
         }
     }
 
