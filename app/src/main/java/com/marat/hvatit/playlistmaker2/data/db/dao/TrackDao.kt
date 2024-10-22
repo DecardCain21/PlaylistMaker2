@@ -58,4 +58,7 @@ interface TrackDao {
     @Query("DELETE FROM playlists_track_table WHERE trackId = :playlistTrackId AND NOT EXISTS (SELECT 1 FROM playlist_cross_ref_table WHERE trackId = :playlistTrackId)")
     suspend fun deletePlaylistTrackIfNoReferences(playlistTrackId: Int): Int
 
+    @Query("SELECT * FROM playlists_table WHERE id = :id")
+    fun getPlaylistById(id: Int): PlaylistEntity
+
 }

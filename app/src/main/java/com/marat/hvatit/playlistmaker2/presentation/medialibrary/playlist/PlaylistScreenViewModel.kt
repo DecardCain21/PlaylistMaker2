@@ -8,6 +8,7 @@ import androidx.lifecycle.viewModelScope
 import com.marat.hvatit.playlistmaker2.domain.api.usecase.DeletePlaylistCrossRefUseCase
 import com.marat.hvatit.playlistmaker2.domain.api.usecase.DeletePlaylistTrackNoRefUseCase
 import com.marat.hvatit.playlistmaker2.domain.api.usecase.DeletePlaylistUseCase
+import com.marat.hvatit.playlistmaker2.domain.api.usecase.GetPlaylistByIdUseCase
 import com.marat.hvatit.playlistmaker2.domain.api.usecase.GetPlaylistTracksUseCase
 import com.marat.hvatit.playlistmaker2.domain.api.usecase.UpdatePlaylistUseCase
 import com.marat.hvatit.playlistmaker2.domain.models.Playlist
@@ -23,7 +24,8 @@ class PlaylistScreenViewModel(
     private val deletePlaylistCrossRefUseCase: DeletePlaylistCrossRefUseCase,
     private val deletePlaylistTrackNoRefUseCase: DeletePlaylistTrackNoRefUseCase,
     private val updatePlaylistUseCase: UpdatePlaylistUseCase,
-    private val deletePlaylistUseCase: DeletePlaylistUseCase
+    private val deletePlaylistUseCase: DeletePlaylistUseCase,
+    private val getPlaylistByIdUseCase: GetPlaylistByIdUseCase
 ) :
     ViewModel() {
 
@@ -36,6 +38,14 @@ class PlaylistScreenViewModel(
     fun getTracksVolume(): LiveData<Int> = loadingTracksVolume
     fun getTracksSize(): LiveData<Int> = loadingTracksSize
     private var saveTracks: List<Track> = emptyList()
+
+    private var loadingSaveState = MutableLiveData(Playlist("", "", "", "", ""))
+    fun setSaveState(playlist: Playlist) {
+        Log.e("setSaveState","$playlist")
+        loadingSaveState.postValue(playlist)
+    }
+
+    fun getSavePlaylist():LiveData<Playlist> = loadingSaveState
 
     fun setShare(
         playlistName: String,
@@ -100,6 +110,13 @@ class PlaylistScreenViewModel(
             }
             // Теперь вы можете удалить плейлист
             deletePlaylistUseCase.execute(playlist)
+        }
+    }
+
+    fun resumeState(playlistId: String) {
+        viewModelScope.launch {
+            val result = getPlaylistByIdUseCase.execute(playlistId = playlistId)
+            setSaveState(result)
         }
     }
 

@@ -2,6 +2,7 @@ package com.marat.hvatit.playlistmaker2.presentation.medialibrary.playlist
 
 import android.graphics.Color
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -19,6 +20,8 @@ import com.marat.hvatit.playlistmaker2.data.JsonParserImpl
 import com.marat.hvatit.playlistmaker2.databinding.PlaylistFragmentBinding
 import com.marat.hvatit.playlistmaker2.domain.models.Playlist
 import com.marat.hvatit.playlistmaker2.presentation.adapters.TrackListAdapter
+import com.marat.hvatit.playlistmaker2.presentation.audioplayer.AudioPlayerFragment
+import com.marat.hvatit.playlistmaker2.presentation.medialibrary.newplaylist.EditPlaylistFragment
 import com.marat.hvatit.playlistmaker2.presentation.utils.GlideHelper
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -42,9 +45,10 @@ class PlaylistScreenFragment : Fragment() {
     private val simpleDateFormat: SimpleDateFormat =
         SimpleDateFormat("mm", Locale.getDefault())
 
+    private var playlistId: String? = null
+
     companion object {
         const val ARGS_KEY = "PLAYLIST"
-
         fun createArgs(playlist: String): Bundle {
             return bundleOf(ARGS_KEY to playlist)
         }
@@ -63,6 +67,8 @@ class PlaylistScreenFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         val args = arguments?.getString(ARGS_KEY) ?: "error"
         result = gsonParser.jsonToObject(args, Playlist::class.java)
+        playlistId = result.playlistId
+        viewModel.resumeState(playlistId!!)
         setTextContent(result)
         binding.recyclerview.layoutManager = LinearLayoutManager(requireContext())
         binding.recyclerview.adapter = trackListAdapter
@@ -90,10 +96,11 @@ class PlaylistScreenFragment : Fragment() {
         bottomSheetBehaviorText.addBottomSheetCallback(object :
             BottomSheetBehavior.BottomSheetCallback() {
             override fun onStateChanged(bottomSheet: View, newState: Int) {
-                when (newState){
+                when (newState) {
                     BottomSheetBehavior.STATE_HIDDEN -> {
                         binding.overlay.visibility = View.GONE
                     }
+
                     else -> {
                         binding.overlay.visibility = View.VISIBLE
                     }
@@ -129,6 +136,10 @@ class PlaylistScreenFragment : Fragment() {
         viewModel.getTracksSize().observe(viewLifecycleOwner) {
             setTracksSize(it)
         }
+        viewModel.getSavePlaylist().observe(viewLifecycleOwner) {
+            result = it
+            setTextContent(it)
+        }
         binding.back.setOnClickListener {
             findNavController().navigateUp()
         }
@@ -162,6 +173,20 @@ class PlaylistScreenFragment : Fragment() {
         binding.bsDelete.setOnClickListener {
             deleteDialog.show()
         }
+        binding.bsEdit.setOnClickListener {
+            findNavController().navigate(
+                R.id.action_playlistFragment_to_editPlaylistFragment,
+                EditPlaylistFragment.createArgs(gsonParser.objectToJson(result))
+            )
+        }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        /*val args = arguments?.getString(ARGS_KEY) ?: "error"
+        result = gsonParser.jsonToObject(args, Playlist::class.java)
+        setTextContent(result)
+        Log.e("playlistScr", "resume:$result")*/
     }
 
     private fun setTracksVolume(volume: Int?) {

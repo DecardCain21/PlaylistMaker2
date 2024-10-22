@@ -11,6 +11,7 @@ import com.marat.hvatit.playlistmaker2.domain.api.usecase.AddPlaylistTrackUseCas
 import com.marat.hvatit.playlistmaker2.domain.api.usecase.DeletePlaylistCrossRefUseCase
 import com.marat.hvatit.playlistmaker2.domain.api.usecase.DeletePlaylistTrackNoRefUseCase
 import com.marat.hvatit.playlistmaker2.domain.api.usecase.DeletePlaylistUseCase
+import com.marat.hvatit.playlistmaker2.domain.api.usecase.GetPlaylistByIdUseCase
 import com.marat.hvatit.playlistmaker2.domain.api.usecase.GetPlaylistTracksUseCase
 import com.marat.hvatit.playlistmaker2.domain.api.usecase.GetPlaylistsUseCase
 import com.marat.hvatit.playlistmaker2.domain.api.usecase.UpdatePlaylistUseCase
@@ -89,6 +90,10 @@ val interactorModule = module {
 
     single {
         DeletePlaylistUseCase(get())
+    }
+
+    single {
+        GetPlaylistByIdUseCase(get())
     }
 
 }

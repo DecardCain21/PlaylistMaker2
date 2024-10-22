@@ -40,5 +40,6 @@
     <string name="newplaylist_hint_description">Описание</string>
     <string name="playlistviewholder_tracks">треков</string>
     <string name="playlistviewholder_track">трек</string>
+    <string name="create">Создать</string>
 
 </resources>

@@ -25,4 +25,6 @@ interface PlaylistsRepository {
 
     suspend fun deletePlaylistTrackNoRef(playlistTrackId: String)
 
+    suspend fun getPlaylistById(playlistId: String): Playlist
+
 }

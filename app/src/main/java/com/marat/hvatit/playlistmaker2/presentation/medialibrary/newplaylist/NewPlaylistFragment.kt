@@ -26,23 +26,23 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 import java.io.File
 import java.io.FileOutputStream
 
-class NewPlaylistFragment : Fragment() {
+open class NewPlaylistFragment : Fragment() {
 
-    private var _binding: FragmentNewplaylistBinding? = null
-    private val binding
+    protected open var _binding: FragmentNewplaylistBinding? = null
+    protected open val binding
         get() = _binding!!
 
 
-    private val viewModel: NewPlaylistViewModel by viewModel<NewPlaylistViewModel>()
+    protected open val viewModel: NewPlaylistViewModel by viewModel<NewPlaylistViewModel>()
     private val glide: GlideHelper by inject()
 
 
     private lateinit var confirmDialog: MaterialAlertDialogBuilder
 
-    private var saveEditTextName: String? = null
-    private var saveEditTextDescription: String? = null
-    private var playlistCover: String? = "COVER_IMG_"
-    private var coverUri: Uri? = null
+    protected open var saveEditTextName: String? = null
+    protected open var saveEditTextDescription: String? = null
+    protected open var playlistCover: String? = "COVER_IMG_"
+    protected open var coverUri: Uri? = null
     private val callback = object : OnBackPressedCallback(
         getFieldsIsEmpty()
     ) {
@@ -101,11 +101,13 @@ class NewPlaylistFragment : Fragment() {
         }
         binding.buttonCreate.setOnClickListener {
             coverUri?.let { saveImage(it) }
-            playlistCover?.let { it1 ->
+            playlistCover?.let {
                 viewModel.createPlaylist(
-                    it1,
-                    saveEditTextName!!,
-                    saveEditTextDescription ?: "",
+                    covername = it,
+                    playlistId="0",
+                    saveEditTextName = saveEditTextName!!,
+                    saveEditTextDescription = saveEditTextDescription ?: "",
+                    playlistSize = "0",
                     onSuccess = {
                         Snackbar.make(
                             view,
@@ -123,7 +125,7 @@ class NewPlaylistFragment : Fragment() {
         )
     }
 
-    private fun textWatcherName() = object : TextWatcher {
+    protected open fun textWatcherName() = object : TextWatcher {
         @RequiresApi(Build.VERSION_CODES.Q)
         override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
             //empty
@@ -137,22 +139,17 @@ class NewPlaylistFragment : Fragment() {
             saveEditTextName = s.toString()
             callback.isEnabled = getFieldsIsEmpty()
             if (s.isNullOrEmpty() || s.isBlank()) {
-                binding.buttonCreate.setBackgroundResource(R.drawable.button_create_off)
                 binding.buttonCreate.isEnabled = false
                 binding.etName.isSelected = false
             } else {
-                binding.buttonCreate.setBackgroundResource(R.drawable.button_create_on)
                 binding.buttonCreate.isEnabled = true
                 binding.etName.isSelected = true
-                /*if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-                    binding.etName.setTextCursorDrawable(R.drawable.text_fields_name)
-                }*/
             }
         }
 
     }
 
-    private fun textWatcherDescription() = object : TextWatcher {
+    protected open fun textWatcherDescription() = object : TextWatcher {
         @RequiresApi(Build.VERSION_CODES.Q)
         override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
             //empty
@@ -178,7 +175,7 @@ class NewPlaylistFragment : Fragment() {
         return !saveEditTextName.isNullOrEmpty() || !saveEditTextDescription.isNullOrEmpty()
     }
 
-    private fun saveImage(uri: Uri) {
+    protected open fun saveImage(uri: Uri) {
         val filePath = File(
             Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES),
             "Myalbum"
