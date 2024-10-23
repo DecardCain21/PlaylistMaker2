@@ -169,6 +169,7 @@ class AudioViewModel(
                 Log.e("CrossRef", "postValue${addToPlaylist.value}")
             } else {
                 Log.e("CrossRef", "postValue${addToPlaylist.value}")
+                track.dateAdd = System.currentTimeMillis().toString()
                 updatePlaylists(playlist, track.trackId)
                 addPlaylistTrack(track)
                 onSuccess()

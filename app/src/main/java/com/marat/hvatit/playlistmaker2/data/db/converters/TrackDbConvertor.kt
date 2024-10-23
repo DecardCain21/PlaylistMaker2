@@ -32,7 +32,8 @@ class TrackDbConvertor {
             track.genre,
             track.year,
             track.album,
-            track.previewUrl
+            track.previewUrl,
+            "0"
         )
     }
 

@@ -103,7 +103,7 @@ class PlaylistScreenFragment : Fragment() {
                     }
 
                     else -> {
-                        Log.e("overlayState","callback,false")
+                        Log.e("overlayState", "callback,false")
                         binding.overlay.isVisible = false
                     }
                 }
@@ -120,8 +120,9 @@ class PlaylistScreenFragment : Fragment() {
         confirmDialog = MaterialAlertDialogBuilder(requireContext(), R.style.CustomPlaylistDialog)
             .setMessage("Хотите удалить трек?")
             .setNegativeButton("Нет") { _, _ ->
-
+                binding.overlay.isVisible = false
             }
+        confirmDialog.setOnDismissListener { binding.overlay.isVisible = false }
         deleteDialog = MaterialAlertDialogBuilder(requireContext(), R.style.CustomPlaylistDialog)
             .setMessage("Хотите удалить плейлист «${result.playlistName}»")
             .setPositiveButton("Да") { _, _ ->
@@ -131,6 +132,9 @@ class PlaylistScreenFragment : Fragment() {
             .setNegativeButton("Нет") { _, _ ->
                 bottomSheetBehaviorText.state = BottomSheetBehavior.STATE_HIDDEN
             }
+        deleteDialog.setOnDismissListener {
+            bottomSheetBehaviorText.state = BottomSheetBehavior.STATE_HIDDEN
+        }
         viewModel.getTracksState().observe(viewLifecycleOwner) {
             setTrackListState(it)
         }
@@ -152,7 +156,9 @@ class PlaylistScreenFragment : Fragment() {
             confirmDialog.setPositiveButton("Да") { _, _ ->
                 deleteTrack(playlist = result, trackId = it.trackId)
                 viewModel.getTracksById(result.playlistId)
+                binding.overlay.isVisible = false
             }
+            binding.overlay.isVisible = true
             confirmDialog.show()
             trackListAdapter.notifyDataSetChanged()
         }
@@ -198,7 +204,8 @@ class PlaylistScreenFragment : Fragment() {
     }
 
     private fun setTracksSize(newSize: Int) {
-        binding.playlistCount.text = newSize.toString()
+        val sizeStr = resources.getQuantityString(R.plurals.numberOfSizePlaylist, newSize, newSize)
+        binding.playlistCount.text = " $sizeStr"
     }
 
     private fun deleteTrack(playlist: Playlist, trackId: String) {

@@ -38,7 +38,8 @@ class PlaylistDbConvertor {
             track.genre,
             track.year,
             track.album,
-            track.previewUrl
+            track.previewUrl,
+            track.dateAdd
         )
     }
 
@@ -53,18 +54,10 @@ class PlaylistDbConvertor {
             track.genre,
             track.year,
             track.album,
-            track.previewUrl
+            track.previewUrl,
+            track.dateAdd
         )
     }
-
-   /* fun map(playlistWithTrack: PlaylistWithTrack): List<Track> {
-        val result = mutableListOf<Track>()
-        for (i in playlistWithTrack.tracks) {
-            result.add(convertToTrack(i))
-        }
-        return result
-    }*/
-
     fun convertToCrossRef(playlistId: String, trackId: String): PlaylistCrossRefEntity {
         return PlaylistCrossRefEntity(id = playlistId.toInt(), trackId = trackId)
     }
@@ -80,7 +73,8 @@ class PlaylistDbConvertor {
             track.genre,
             track.year,
             track.album,
-            track.previewUrl
+            track.previewUrl,
+            track.dateAdd
         )
     }
 

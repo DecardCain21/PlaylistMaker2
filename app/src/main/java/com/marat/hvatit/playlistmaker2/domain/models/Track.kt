@@ -10,5 +10,6 @@ data class Track(
     val genre: String,
     val year: String,
     val album: String,
-    val previewUrl: String
+    val previewUrl: String,
+    var dateAdd : String
 )

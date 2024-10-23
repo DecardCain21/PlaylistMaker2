@@ -1,5 +1,6 @@
 package com.marat.hvatit.playlistmaker2.presentation.medialibrary.playlist
 
+import android.os.Environment
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -17,6 +18,7 @@ import com.marat.hvatit.playlistmaker2.presentation.settings.ActionFilter
 import com.marat.hvatit.playlistmaker2.presentation.settings.IntentNavigator
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
+import java.io.File
 
 class PlaylistScreenViewModel(
     private val intentNavigator: IntentNavigator,
@@ -93,7 +95,9 @@ class PlaylistScreenViewModel(
     }
 
     fun deletePlaylist(playlist: Playlist) {
+        deleteImage(playlist.playlistCoverUrl)
         viewModelScope.launch {
+            deletePlaylistUseCase.execute(playlist)
             if (saveTracks.isNotEmpty()) {
                 val deleteTrackJobs = saveTracks.map { track ->
                     async {
@@ -104,11 +108,26 @@ class PlaylistScreenViewModel(
                         deletePlaylistTrackNoRefUseCase.execute(playlistTrackId = track.trackId)
                     }
                 }
-
                 // Ждем завершения всех операций удаления треков
                 deleteTrackJobs.forEach { it.await() }
             }
-            deletePlaylistUseCase.execute(playlist)
+        }
+    }
+
+    private fun deleteImage(fileName: String) {
+        val filePath = File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES),"Myalbum")
+        val fileToDelete = File(filePath, "$fileName.jpg")
+        if (fileToDelete.exists()) {
+            val deleted = fileToDelete.delete()
+            if (deleted) {
+                // Успешное удаление
+                //Toast.makeText(requireContext(), "Изображение удалено", Toast.LENGTH_SHORT).show()
+                Log.e("fileDeleted","$deleted")
+            } else {
+                // Ошибка при удалении
+                Log.e("fileDeleted","$deleted")
+                //Toast.makeText(requireContext(), "Ошибка при удалении изображения", Toast.LENGTH_SHORT).show()
+            }
         }
     }
 
@@ -120,14 +139,15 @@ class PlaylistScreenViewModel(
     }
 
     private fun setState(data: List<Track>) {
-        saveTracks = data
+        val sortData = data.sortedByDescending { it.dateAdd }
+        saveTracks = sortData
         if (data.isEmpty()) {
             loadingTracksData.postValue(PlaylistTracksState.EmptyState)
         } else {
-            loadingTracksData.postValue(PlaylistTracksState.Data(data))
+            loadingTracksData.postValue(PlaylistTracksState.Data(sortData))
         }
         var result = 0
-        for (i in data) {
+        for (i in sortData) {
             result += i.trackTimeMillis.toInt()
         }
         loadingTracksVolume.postValue(result)
