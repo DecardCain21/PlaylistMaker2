@@ -22,6 +22,7 @@ class EditPlaylistFragment : NewPlaylistFragment() {
 
     override val viewModel: EditPlaylistViewModel by viewModel()
     private val gsonParser: JsonParserImpl by inject()
+    private val glide: GlideHelper by inject()
     private lateinit var result: Playlist
     override var saveEditTextName: String? = null
     override var saveEditTextDescription: String? = null
@@ -49,6 +50,13 @@ class EditPlaylistFragment : NewPlaylistFragment() {
         super.onViewCreated(view, savedInstanceState)
         val args = arguments?.getString(ARGS_KEY) ?: "error"
         result = gsonParser.jsonToObject(args, Playlist::class.java)
+        glide.setImage(
+            requireContext(),
+            result.playlistCoverUrl,
+            binding.cover,
+            GlideHelper.VERTICAL_PLAYLIST_CORNER_RADIUS
+        )
+        binding.cover.isEnabled = false
         binding.etName.setText(result.playlistName)
         binding.etDescription.setText(result.playlistDescription)
         binding.buttonCreate.setOnClickListener {
