@@ -33,60 +33,79 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <ImageButton
-        android:id="@+id/cover"
-        android:layout_width="312dp"
-        android:layout_height="312dp"
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
         android:layout_marginTop="42dp"
-        android:background="@drawable/newplaylist_line"
-        android:scaleType="center"
-        android:src="@drawable/stub_addphoto"
+        android:layout_marginBottom="10dp"
+        app:layout_constraintBottom_toTopOf="@id/button_create"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tittle" />
+        app:layout_constraintTop_toBottomOf="@id/tittle">
 
-
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/et_name_textfield"
-        style="@style/CustomOutlineBox"
-        android:layout_width="328dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
-        android:hint="@string/newplaylist_hint_name"
-        android:textSize="16sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/cover">
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/et_name"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textCursorDrawable="@drawable/audioplayer_outline" />
+            android:gravity="center_horizontal"
+            android:orientation="vertical">
 
-    </com.google.android.material.textfield.TextInputLayout>
+            <ImageButton
+                android:id="@+id/cover"
+                android:layout_width="312dp"
+                android:layout_height="312dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="42dp"
+                android:background="@drawable/newplaylist_line"
+                android:scaleType="center"
+                android:src="@drawable/stub_addphoto"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tittle" />
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/et_description_textfield"
-        style="@style/CustomOutlineBox"
-        android:layout_width="328dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:hint="@string/newplaylist_hint_description"
-        android:textAlignment="gravity"
-        android:textSize="16sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/et_name_textfield">
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/et_name_textfield"
+                style="@style/CustomOutlineBox"
+                android:layout_width="328dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="32dp"
+                android:hint="@string/newplaylist_hint_name"
+                android:textSize="16sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/cover">
 
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/et_description"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textCursorDrawable="@drawable/audioplayer_outline" />
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/et_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textCursorDrawable="@drawable/audioplayer_outline" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/et_description_textfield"
+                style="@style/CustomOutlineBox"
+                android:layout_width="328dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:hint="@string/newplaylist_hint_description"
+                android:textAlignment="gravity"
+                android:textSize="16sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/et_name_textfield">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/et_description"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textCursorDrawable="@drawable/audioplayer_outline" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+        </LinearLayout>
 
 
-    </com.google.android.material.textfield.TextInputLayout>
+    </ScrollView>
+
 
     <TextView
         android:id="@+id/button_create"
@@ -96,11 +115,11 @@
         android:layout_marginBottom="32dp"
         android:background="@drawable/button_create_edit"
         android:enabled="false"
+        android:fontFamily="@font/ys_display_medium"
         android:gravity="center"
         android:text="@string/create"
         android:textColor="@color/white"
         android:textSize="16sp"
-        android:fontFamily="@font/ys_display_medium"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />

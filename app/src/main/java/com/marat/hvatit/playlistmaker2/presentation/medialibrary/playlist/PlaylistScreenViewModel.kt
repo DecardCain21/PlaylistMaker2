@@ -41,11 +41,11 @@ class PlaylistScreenViewModel(
 
     private var loadingSaveState = MutableLiveData(Playlist("", "", "", "", ""))
     fun setSaveState(playlist: Playlist) {
-        Log.e("setSaveState","$playlist")
+        Log.e("setSaveState", "$playlist")
         loadingSaveState.postValue(playlist)
     }
 
-    fun getSavePlaylist():LiveData<Playlist> = loadingSaveState
+    fun getSavePlaylist(): LiveData<Playlist> = loadingSaveState
 
     fun setShare(
         playlistName: String,
@@ -122,7 +122,11 @@ class PlaylistScreenViewModel(
 
     private fun setState(data: List<Track>) {
         saveTracks = data
-        loadingTracksData.postValue(PlaylistTracksState.Data(data))
+        if (data.isEmpty()) {
+            loadingTracksData.postValue(PlaylistTracksState.EmptyState)
+        } else {
+            loadingTracksData.postValue(PlaylistTracksState.Data(data))
+        }
         var result = 0
         for (i in data) {
             result += i.trackTimeMillis.toInt()

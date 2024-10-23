@@ -41,5 +41,8 @@
     <string name="playlistviewholder_tracks">треков</string>
     <string name="playlistviewholder_track">трек</string>
     <string name="create">Создать</string>
+    <string name="edit_information">Редактировать информацию</string>
+    <string name="delete_playlist">Удалить плейлист</string>
+    <string name="share">Поделиться</string>
 
 </resources>

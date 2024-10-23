@@ -180,15 +180,6 @@ class PlaylistScreenFragment : Fragment() {
             )
         }
     }
-
-    override fun onResume() {
-        super.onResume()
-        /*val args = arguments?.getString(ARGS_KEY) ?: "error"
-        result = gsonParser.jsonToObject(args, Playlist::class.java)
-        setTextContent(result)
-        Log.e("playlistScr", "resume:$result")*/
-    }
-
     private fun setTracksVolume(volume: Int?) {
         var result: Date? = volume?.let { Date(it.toLong()) }
         binding.playlistTime.text = simpleDateFormat.format(result) + " минут"
@@ -208,10 +199,15 @@ class PlaylistScreenFragment : Fragment() {
         when (tracksState) {
             is PlaylistTracksState.Data -> {
                 trackListAdapter.update(tracksState.data)
+                binding.messageEmpty.isVisible = false
+                binding.imageEmpty.isVisible = false
             }
 
             PlaylistTracksState.EmptyState -> {
+                Log.e("wtff","here")
                 trackListAdapter.update(emptyList())
+                binding.messageEmpty.isVisible = true
+                binding.imageEmpty.isVisible = true
             }
         }
         trackListAdapter.notifyDataSetChanged()

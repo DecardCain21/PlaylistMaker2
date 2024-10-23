@@ -81,7 +81,8 @@ class EditPlaylistFragment : NewPlaylistFragment() {
         binding.back.setOnClickListener {
             findNavController().navigateUp()
         }
-        binding.buttonCreate.text = "Редактировать информацию"
+        binding.tittle.text = "Редактировать"
+        binding.buttonCreate.text = "Сохранить"
 
     }
 

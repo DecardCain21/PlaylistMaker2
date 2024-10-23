@@ -17,14 +17,6 @@ class EditPlaylistViewModel(newPlaylistInteractor: NewPlaylistInteractor) :
         covername: String,
         onSuccess: () -> Unit
     ) {
-        /*super.createPlaylist(
-            playlistId = playlistId,
-            saveEditTextName = saveEditTextName,
-            saveEditTextDescription = saveEditTextDescription,
-            playlistSize = playlistSize,
-            covername = covername,
-            onSuccess = onSuccess
-        )*/
         viewModelScope.launch {
             newPlaylistInteractor.addPlaylist(
                 Playlist(
@@ -35,7 +27,6 @@ class EditPlaylistViewModel(newPlaylistInteractor: NewPlaylistInteractor) :
                     playlistDescription = saveEditTextDescription
                 )
             )
-            //onSuccess()
         }
     }
 

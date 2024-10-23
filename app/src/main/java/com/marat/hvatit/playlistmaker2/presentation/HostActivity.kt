@@ -21,11 +21,19 @@ class HostActivity : AppCompatActivity(R.layout.activity_host) {
         val bottomNavigationView = findViewById<BottomNavigationView>(R.id.bottomNavigationView)
         bottomNavigationView.setupWithNavController(navController)
 
+        val hiddenDestinations = setOf(
+            R.id.fragmentAgreement,
+            R.id.newPlaylistFragment,
+            R.id.audioPlayerFragment,
+            R.id.playlistFragment,
+            R.id.editPlaylistFragment
+        )
+
         navController.addOnDestinationChangedListener { navController, destination, arguments ->
-            if (destination.id == R.id.fragmentAgreement || destination.id == R.id.newPlaylistFragment || destination.id == R.id.audioPlayerFragment || destination.id == R.id.playlistFragment) {
-                bottomNavigationView.visibility = View.GONE
+            bottomNavigationView.visibility = if (destination.id in hiddenDestinations) {
+                View.GONE
             } else {
-                bottomNavigationView.visibility = View.VISIBLE
+                View.VISIBLE
             }
         }
 
