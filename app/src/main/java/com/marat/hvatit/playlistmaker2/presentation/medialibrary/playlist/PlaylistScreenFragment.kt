@@ -23,6 +23,7 @@ import com.marat.hvatit.playlistmaker2.presentation.adapters.TrackListAdapter
 import com.marat.hvatit.playlistmaker2.presentation.audioplayer.AudioPlayerFragment
 import com.marat.hvatit.playlistmaker2.presentation.medialibrary.newplaylist.EditPlaylistFragment
 import com.marat.hvatit.playlistmaker2.presentation.utils.GlideHelper
+import kotlinx.coroutines.runBlocking
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import java.text.SimpleDateFormat
@@ -97,12 +98,13 @@ class PlaylistScreenFragment : Fragment() {
             BottomSheetBehavior.BottomSheetCallback() {
             override fun onStateChanged(bottomSheet: View, newState: Int) {
                 when (newState) {
-                    BottomSheetBehavior.STATE_HIDDEN -> {
-                        binding.overlay.visibility = View.GONE
+                    BottomSheetBehavior.STATE_EXPANDED -> {
+                        binding.overlay.isVisible = true
                     }
 
                     else -> {
-                        binding.overlay.visibility = View.VISIBLE
+                        Log.e("overlayState","callback,false")
+                        binding.overlay.isVisible = false
                     }
                 }
             }
@@ -115,18 +117,20 @@ class PlaylistScreenFragment : Fragment() {
         binding.playlistPointMenu.setOnClickListener {
             bottomSheetBehaviorText.state = BottomSheetBehavior.STATE_EXPANDED
         }
-        confirmDialog = MaterialAlertDialogBuilder(requireContext(), R.style.CustomAlertDialog)
-            .setTitle("Хотите удалить трек?")
+        confirmDialog = MaterialAlertDialogBuilder(requireContext(), R.style.CustomPlaylistDialog)
+            .setMessage("Хотите удалить трек?")
             .setNegativeButton("Нет") { _, _ ->
 
             }
-        deleteDialog = MaterialAlertDialogBuilder(requireContext(), R.style.CustomAlertDialog)
-            .setTitle("Хотите удалить плейлист «${result.playlistName}»")
+        deleteDialog = MaterialAlertDialogBuilder(requireContext(), R.style.CustomPlaylistDialog)
+            .setMessage("Хотите удалить плейлист «${result.playlistName}»")
             .setPositiveButton("Да") { _, _ ->
                 viewModel.deletePlaylist(result)
                 findNavController().navigateUp()
             }
-            .setNegativeButton("Нет") { _, _ -> }
+            .setNegativeButton("Нет") { _, _ ->
+                bottomSheetBehaviorText.state = BottomSheetBehavior.STATE_HIDDEN
+            }
         viewModel.getTracksState().observe(viewLifecycleOwner) {
             setTrackListState(it)
         }
@@ -152,6 +156,12 @@ class PlaylistScreenFragment : Fragment() {
             confirmDialog.show()
             trackListAdapter.notifyDataSetChanged()
         }
+        trackListAdapter.clickTrackListener = TrackListAdapter.ClickTrackListener {
+            findNavController().navigate(
+                R.id.action_playlistFragment_to_audioPlayerFragment,
+                AudioPlayerFragment.createArgs(gsonParser.objectToJson(it))
+            )
+        }
         binding.playlistShare.setOnClickListener {
             viewModel.setShare(result.playlistName, result.playlistDescription, onError = {
                 Snackbar.make(
@@ -172,6 +182,7 @@ class PlaylistScreenFragment : Fragment() {
         }
         binding.bsDelete.setOnClickListener {
             deleteDialog.show()
+            binding.overlay.isVisible = true
         }
         binding.bsEdit.setOnClickListener {
             findNavController().navigate(
@@ -180,6 +191,7 @@ class PlaylistScreenFragment : Fragment() {
             )
         }
     }
+
     private fun setTracksVolume(volume: Int?) {
         var result: Date? = volume?.let { Date(it.toLong()) }
         binding.playlistTime.text = simpleDateFormat.format(result) + " минут"
@@ -204,7 +216,7 @@ class PlaylistScreenFragment : Fragment() {
             }
 
             PlaylistTracksState.EmptyState -> {
-                Log.e("wtff","here")
+                Log.e("wtff", "here")
                 trackListAdapter.update(emptyList())
                 binding.messageEmpty.isVisible = true
                 binding.imageEmpty.isVisible = true

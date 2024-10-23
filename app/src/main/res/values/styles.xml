@@ -69,6 +69,18 @@
         <item name="android:textSize">16sp</item>
     </style>
 
+    <style name="CustomPlaylistDialog" parent="Theme.MaterialComponents.Dialog">
+        <item name="android:background">@color/white</item>
+        <!-- Цвет заголовка диалога -->
+        <item name="colorPrimary">@color/main_primary</item>
+        <!-- Цвет текста основного сообщения -->
+        <item name="android:textColorPrimary">@color/main_primary_night</item>
+        <!-- Цвет текста кнопки -->
+        <item name="android:textColor">@color/main_primary_night</item>
+        <item name="android:textSize">14sp</item>
+        <!--<item name="android:textStyle">normal</item>-->
+    </style>
+
     <style name="button_create_edit_style">
         <item name="backgroundTint">@color/button_create_edit_selector</item>
     </style>

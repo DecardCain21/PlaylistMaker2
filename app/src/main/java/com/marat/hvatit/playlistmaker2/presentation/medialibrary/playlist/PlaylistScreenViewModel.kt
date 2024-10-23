@@ -108,7 +108,6 @@ class PlaylistScreenViewModel(
                 // Ждем завершения всех операций удаления треков
                 deleteTrackJobs.forEach { it.await() }
             }
-            // Теперь вы можете удалить плейлист
             deletePlaylistUseCase.execute(playlist)
         }
     }
