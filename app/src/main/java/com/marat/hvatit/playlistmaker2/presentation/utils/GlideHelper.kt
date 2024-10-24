@@ -3,6 +3,7 @@ package com.marat.hvatit.playlistmaker2.presentation.utils
 import android.content.Context
 import android.net.Uri
 import android.widget.ImageView
+import com.marat.hvatit.playlistmaker2.R
 
 interface GlideHelper {
 
@@ -11,20 +12,23 @@ interface GlideHelper {
         url: String,
         actplayerCover: ImageView,
         roundedCornersImage: Int = DEFAULT_CORNER_RADIUS,
+        placeholder: Int = 0
     )
 
     fun setImageDb(
         context: Context,
         covername: String,
         imageView: ImageView,
-        roundedCornersImage: Int
+        roundedCornersImage: Int,
+        placeholder:Int = 0
     )
 
     fun setImageDb(
         context: Context,
         file: Uri,
         imageView: ImageView,
-        roundedCornersImage: Int
+        roundedCornersImage: Int,
+        placeholder:Int = 0
     )
 
     companion object {

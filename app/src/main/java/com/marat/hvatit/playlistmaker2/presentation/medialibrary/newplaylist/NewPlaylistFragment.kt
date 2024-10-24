@@ -74,7 +74,7 @@ open class NewPlaylistFragment : Fragment() {
                         requireContext(),
                         uri,
                         binding.cover,
-                        GlideHelper.VERTICAL_PLAYLIST_CORNER_RADIUS
+                        GlideHelper.VERTICAL_PLAYLIST_CORNER_RADIUS,
                     )
                     coverUri = uri
                 } else {
