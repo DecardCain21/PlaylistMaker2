@@ -56,7 +56,7 @@ class EditPlaylistFragment : NewPlaylistFragment() {
             binding.cover,
             GlideHelper.VERTICAL_PLAYLIST_CORNER_RADIUS
         )
-        binding.cover.isEnabled = false
+        //binding.cover.isEnabled = false
         binding.etName.setText(result.playlistName)
         binding.etDescription.setText(result.playlistDescription)
         binding.buttonCreate.setOnClickListener {
