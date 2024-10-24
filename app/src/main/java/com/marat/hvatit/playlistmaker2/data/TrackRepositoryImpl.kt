@@ -58,7 +58,8 @@ class TrackRepositoryImpl(private val networkClient: NetworkClient) : TrackRepos
                             it.genre ,
                             it.year ,
                             it.album ,
-                            it.previewUrl
+                            it.previewUrl,
+                            "0"
                         )
                     }
                     emit(Resource.Success(data))

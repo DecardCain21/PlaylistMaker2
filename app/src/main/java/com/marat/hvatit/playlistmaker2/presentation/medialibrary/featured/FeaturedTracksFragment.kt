@@ -18,6 +18,7 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
+import org.koin.java.KoinJavaComponent.inject
 
 class FeaturedTracksFragment : Fragment() {
     companion object {
@@ -60,7 +61,7 @@ class FeaturedTracksFragment : Fragment() {
             stateFeatured(state)
         }
         viewModel.getFeaturedTracks()
-        trackListAdapter.saveTrackListener = TrackListAdapter.SaveTrackListener {
+        trackListAdapter.clickTrackListener = TrackListAdapter.ClickTrackListener {
             if (clickDebounce()) {
                 findNavController().navigate(
                     R.id.action_medialibraryFragment_to_audioPlayerFragment,

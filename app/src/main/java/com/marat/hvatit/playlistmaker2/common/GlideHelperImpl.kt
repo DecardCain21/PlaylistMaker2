@@ -1,6 +1,7 @@
 package com.marat.hvatit.playlistmaker2.common
 
 import android.content.Context
+import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.os.Environment
 import android.widget.ImageView
@@ -17,6 +18,7 @@ class GlideHelperImpl : GlideHelper {
         url: String,
         actplayerCover: ImageView,
         roundedCornersImage: Int,
+        placeholder: Int
     ) {
         Glide.with(context)
             .load(url)
@@ -29,32 +31,43 @@ class GlideHelperImpl : GlideHelper {
         context: Context,
         covername: String,
         imageView: ImageView,
-        roundedCornersImage: Int
+        roundedCornersImage: Int,
+        placeholder: Int
     ) {
         val filePath = File(
             Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES),
             "Myalbum"
         )
         val file = File(filePath, "$covername.jpg")
-        loadImage(imageView, file = file, roundedCornersImage = roundedCornersImage)
+        loadImage(
+            imageView,
+            file = file,
+            roundedCornersImage = roundedCornersImage,
+        )
     }
 
     override fun setImageDb(
         context: Context,
         file: Uri,
         imageView: ImageView,
-        roundedCornersImage: Int
+        roundedCornersImage: Int,
+        placeholder: Int
     ) {
-        loadImage(imageView, uri = file, roundedCornersImage = roundedCornersImage)
+        loadImage(
+            imageView,
+            uri = file,
+            roundedCornersImage = roundedCornersImage,
+        )
     }
 
     private fun loadImage(
         imageView: ImageView,
         file: File? = null,
         uri: Uri? = null,
-        roundedCornersImage: Int
+        roundedCornersImage: Int,
     ) {
-        val placeholder = when (roundedCornersImage) {
+        var placeholder =
+            when (roundedCornersImage) {
             GlideHelper.HORIZONTAL_PLAYLIST_CORNER_RADIUS -> R.drawable.placeholder
             else -> R.drawable.placeholder_big
         }

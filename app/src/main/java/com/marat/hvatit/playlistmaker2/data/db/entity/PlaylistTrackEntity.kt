@@ -15,5 +15,6 @@ data class PlaylistTrackEntity(
     val genre: String,
     val year: String,
     val album: String,
-    val previewUrl: String
+    val previewUrl: String,
+    val dateAdd : String
 )

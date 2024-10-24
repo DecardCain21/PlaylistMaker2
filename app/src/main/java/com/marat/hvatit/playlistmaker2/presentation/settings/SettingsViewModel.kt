@@ -3,9 +3,7 @@ package com.marat.hvatit.playlistmaker2.presentation.settings
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.viewmodel.initializer
-import androidx.lifecycle.viewmodel.viewModelFactory
+import com.marat.hvatit.playlistmaker2.R
 import com.marat.hvatit.playlistmaker2.domain.api.interactors.SettingsInteractor
 
 
@@ -25,20 +23,8 @@ class SettingsViewModel(
         interactor.editPrefTheme(isDark)
     }
 
-    companion object {
-        fun getViewModelFactory(
-            interactor: SettingsInteractor,
-            intentNavigator: IntentNavigator
-        ): ViewModelProvider.Factory =
-            viewModelFactory {
-                initializer {
-                    SettingsViewModel(interactor, intentNavigator)
-                }
-            }
-    }
-
-    fun createIntent(action: ActionFilter) {
-        intentNavigator.createIntent(action)
+    fun createIntent(action: ActionFilter, message: String) {
+        intentNavigator.createIntent(action, message = message)
     }
 
 }

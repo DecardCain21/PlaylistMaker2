@@ -6,14 +6,13 @@ import android.net.Uri
 import com.marat.hvatit.playlistmaker2.R
 
 class IntentNavigatorImpl(private val context: Context) : IntentNavigator {
-    override fun createIntent(action: ActionFilter) {
+    override fun createIntent(action: ActionFilter, message: String) {
 
         val intentAction: Intent
         when (action) {
             ActionFilter.SHARE -> {
-                val textshare = context.getString(R.string.text_share)
-                intentAction = Intent(Intent.ACTION_SEND).apply {
-                    putExtra(Intent.EXTRA_TEXT, textshare)
+                intentAction = Intent(Intent.ACTION_SEND).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK).apply {
+                    putExtra(Intent.EXTRA_TEXT, message)
                     type = "text/plain"
                 }
                 context.startActivity(intentAction)

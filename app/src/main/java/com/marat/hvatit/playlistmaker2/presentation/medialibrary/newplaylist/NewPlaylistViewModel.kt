@@ -10,22 +10,24 @@ import kotlinx.coroutines.launch
 import java.io.FileOutputStream
 import java.io.InputStream
 
-class NewPlaylistViewModel(private val newPlaylistInteractor: NewPlaylistInteractor) : ViewModel() {
+open class NewPlaylistViewModel(val newPlaylistInteractor: NewPlaylistInteractor) : ViewModel() {
 
-    fun createPlaylist(
-        covername: String,
+    open fun createPlaylist(
+        playlistId:String,
         saveEditTextName: String,
         saveEditTextDescription: String,
+        playlistSize:String,
+        covername: String,
         onSuccess: () -> Unit
     ) {
         viewModelScope.launch {
             newPlaylistInteractor.addPlaylist(
                 Playlist(
-                    newPlaylistInteractor.getId().toString(),
+                    playlistId = newPlaylistInteractor.getId().toString(),
                     playlistName = saveEditTextName,
-                    playlistSize = "0",
-                    playlistCoverUrl = covername,
-                    playlistDescription = saveEditTextDescription
+                    playlistDescription = saveEditTextDescription,
+                    playlistSize = playlistSize,
+                    playlistCoverUrl = covername
                 )
             )
             onSuccess()

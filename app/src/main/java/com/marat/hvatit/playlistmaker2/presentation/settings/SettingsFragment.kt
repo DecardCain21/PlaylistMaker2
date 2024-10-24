@@ -41,8 +41,18 @@ class SettingsFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.llshare.setOnClickListener { viewModel.createIntent(ActionFilter.SHARE) }
-        binding.llsupport.setOnClickListener { viewModel.createIntent(ActionFilter.SUPPORT) }
+        binding.llshare.setOnClickListener {
+            viewModel.createIntent(
+                ActionFilter.SHARE,
+                message = requireContext().getString(R.string.text_share)
+            )
+        }
+        binding.llsupport.setOnClickListener {
+            viewModel.createIntent(
+                ActionFilter.SUPPORT,
+                message = ""
+            )
+        }
         binding.llagreement.setOnClickListener {
             findNavController().navigate(R.id.action_settingsFragment_to_fragmentAgreement)
         }

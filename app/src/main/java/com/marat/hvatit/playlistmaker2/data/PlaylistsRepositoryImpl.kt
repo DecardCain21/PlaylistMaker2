@@ -45,6 +45,7 @@ class PlaylistsRepositoryImpl(
 
     override suspend fun savePlaylist(playlist: Playlist) {
         appDatabase.trackDao().insertPlaylist(convertToPlaylistEntity(playlist))
+        Log.e("savePlaylist", "$playlist")
     }
 
     override suspend fun savePlaylistTrack(track: Track) {
@@ -56,7 +57,21 @@ class PlaylistsRepositoryImpl(
     }
 
     override suspend fun updatePlaylistSize(playlistId: String, newSize: String) {
-        appDatabase.trackDao().updatePlaylistSize(playlistId = playlistId.toInt(),newSize)
+        appDatabase.trackDao().updatePlaylistSize(playlistId = playlistId.toInt(), newSize)
+    }
+
+    override suspend fun deletePlaylistCrossRef(playlistId: String, trackId: String) {
+        appDatabase.trackDao()
+            .deletePlaylistCrossRef(playlistId = playlistId.toInt(), trackId = trackId)
+    }
+
+    override suspend fun deletePlaylistTrackNoRef(playlistTrackId: String) {
+        appDatabase.trackDao()
+            .deletePlaylistTrackIfNoReferences(playlistTrackId = playlistTrackId.toInt())
+    }
+
+    override suspend fun getPlaylistById(playlistId: String): Playlist {
+        return playlistDbConvertor.map(appDatabase.trackDao().getPlaylistById(playlistId.toInt()))
     }
 
     private fun convertFromPlaylistWithTrack(playlistWithTrack: PlaylistWithTrack): List<Track> {
