@@ -43,7 +43,7 @@ open class NewPlaylistFragment : Fragment() {
     protected open var saveEditTextDescription: String? = null
     protected open var playlistCover: String? = "COVER_IMG_"
     protected open var coverUri: Uri? = null
-    private val callback = object : OnBackPressedCallback(
+    protected open var callback = object : OnBackPressedCallback(
         getFieldsIsEmpty()
     ) {
         override fun handleOnBackPressed() {

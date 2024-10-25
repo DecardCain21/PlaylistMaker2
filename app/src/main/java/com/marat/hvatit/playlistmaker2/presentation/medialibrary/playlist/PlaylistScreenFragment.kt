@@ -169,7 +169,7 @@ class PlaylistScreenFragment : Fragment() {
             )
         }
         binding.playlistShare.setOnClickListener {
-            viewModel.setShare(result.playlistName, result.playlistDescription, onError = {
+            viewModel.setShare(result.playlistName, result.playlistDescription, getFormatSizeStr(result.playlistSize.toInt()), onError = {
                 Snackbar.make(
                     view,
                     "В этом плейлисте нет списка треков, которым можно поделиться",
@@ -178,7 +178,7 @@ class PlaylistScreenFragment : Fragment() {
             })
         }
         binding.bsShare.setOnClickListener {
-            viewModel.setShare(result.playlistName, result.playlistDescription, onError = {
+            viewModel.setShare(result.playlistName, result.playlistDescription,getFormatSizeStr(result.playlistSize.toInt()), onError = {
                 Snackbar.make(
                     view,
                     "В этом плейлисте нет списка треков, которым можно поделиться",
@@ -198,13 +198,17 @@ class PlaylistScreenFragment : Fragment() {
         }
     }
 
+    private fun getFormatSizeStr(newSize: Int): String {
+        return resources.getQuantityString(R.plurals.numberOfSizePlaylist, newSize, newSize)
+    }
+
     private fun setTracksVolume(volume: Int?) {
         var result: Date? = volume?.let { Date(it.toLong()) }
         binding.playlistTime.text = simpleDateFormat.format(result) + " минут"
     }
 
     private fun setTracksSize(newSize: Int) {
-        val sizeStr = resources.getQuantityString(R.plurals.numberOfSizePlaylist, newSize, newSize)
+        val sizeStr = getFormatSizeStr(newSize)
         binding.playlistCount.text = " $sizeStr"
         binding.playlistFramecount.text = " $sizeStr"
     }

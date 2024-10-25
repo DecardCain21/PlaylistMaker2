@@ -19,6 +19,9 @@ import com.marat.hvatit.playlistmaker2.presentation.settings.IntentNavigator
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 import java.io.File
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
 
 class PlaylistScreenViewModel(
     private val intentNavigator: IntentNavigator,
@@ -30,6 +33,8 @@ class PlaylistScreenViewModel(
     private val getPlaylistByIdUseCase: GetPlaylistByIdUseCase
 ) :
     ViewModel() {
+    private val simpleDateFormat: SimpleDateFormat =
+        SimpleDateFormat("mm", Locale.getDefault())
 
     private var tracksState: PlaylistTracksState = PlaylistTracksState.Data(emptyList())
     private var loadingTracksData = MutableLiveData(tracksState)
@@ -52,12 +57,17 @@ class PlaylistScreenViewModel(
     fun setShare(
         playlistName: String,
         playlistDescription: String,
+        playlistCount: String,
         onError: () -> Unit
     ) {
         if (saveTracks.isNotEmpty()) {
             intentNavigator.createIntent(
                 ActionFilter.SHARE,
-                message = createMessage(playlistName, playlistDescription)
+                message = createMessage(
+                    playlistName,
+                    playlistDescription,
+                    playlistCount = playlistCount
+                )
             )
         } else {
             onError()
@@ -115,17 +125,20 @@ class PlaylistScreenViewModel(
     }
 
     private fun deleteImage(fileName: String) {
-        val filePath = File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES),"Myalbum")
+        val filePath = File(
+            Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES),
+            "Myalbum"
+        )
         val fileToDelete = File(filePath, "$fileName.jpg")
         if (fileToDelete.exists()) {
             val deleted = fileToDelete.delete()
             if (deleted) {
                 // Успешное удаление
                 //Toast.makeText(requireContext(), "Изображение удалено", Toast.LENGTH_SHORT).show()
-                Log.e("fileDeleted","$deleted")
+                Log.e("fileDeleted", "$deleted")
             } else {
                 // Ошибка при удалении
-                Log.e("fileDeleted","$deleted")
+                Log.e("fileDeleted", "$deleted")
                 //Toast.makeText(requireContext(), "Ошибка при удалении изображения", Toast.LENGTH_SHORT).show()
             }
         }
@@ -155,16 +168,24 @@ class PlaylistScreenViewModel(
     }
 
     private fun createMessage(
-        playlistName: String, playlistDescription: String,
+        playlistName: String, playlistDescription: String, playlistCount: String
     ): String {
-        val trackCount = saveTracks.size
+        //var result: Date? = volume?.let { Date(it.toLong()) }
         val tracksList = saveTracks.joinToString("\n") {
-            "${saveTracks.indexOf(it) + 1}. ${it.artistName} - ${it.trackName} (${it.trackTimeMillis})"
+            "${saveTracks.indexOf(it) + 1}. ${it.artistName} - ${it.trackName} (${
+                simpleDateFormat.format(
+                    Date(it.trackTimeMillis.toLong())
+                )
+            })"
         }
+        Log.e(
+            "message",
+            "\"\"\"\n" + "$playlistName\n" + "$playlistDescription\n" + "[$playlistCount]\n" + "$tracksList\n" + "\"\"\"".trimIndent()
+        )
         return """
         $playlistName
         $playlistDescription
-        [$trackCount треков]
+        [$playlistCount]
         $tracksList
         """.trimIndent()
     }

@@ -6,6 +6,7 @@ import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.OnBackPressedCallback
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.os.bundleOf
 import androidx.navigation.fragment.findNavController
@@ -27,6 +28,12 @@ class EditPlaylistFragment : NewPlaylistFragment() {
     override var saveEditTextName: String? = null
     override var saveEditTextDescription: String? = null
     override var coverUri: Uri? = null
+    override var callback: OnBackPressedCallback = object : OnBackPressedCallback(false) {
+        override fun handleOnBackPressed() {
+            findNavController().navigateUp()
+        }
+
+    }
 
 
     companion object {
