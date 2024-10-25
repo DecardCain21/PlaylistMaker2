@@ -4,6 +4,7 @@ import android.content.Context
 import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.os.Environment
+import android.util.Log
 import android.widget.ImageView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
@@ -43,6 +44,7 @@ class GlideHelperImpl : GlideHelper {
             imageView,
             file = file,
             roundedCornersImage = roundedCornersImage,
+            placeholder = placeholder
         )
     }
 
@@ -57,6 +59,7 @@ class GlideHelperImpl : GlideHelper {
             imageView,
             uri = file,
             roundedCornersImage = roundedCornersImage,
+            placeholder = placeholder
         )
     }
 
@@ -65,16 +68,26 @@ class GlideHelperImpl : GlideHelper {
         file: File? = null,
         uri: Uri? = null,
         roundedCornersImage: Int,
+        placeholder: Int
     ) {
-        var placeholder =
+        Log.e("loadImage","$placeholder")
+        var result = 0
+        if (placeholder != 0) {
+            result = R.drawable.placeholder230
+        } else {
             when (roundedCornersImage) {
-            GlideHelper.HORIZONTAL_PLAYLIST_CORNER_RADIUS -> R.drawable.placeholder
-            else -> R.drawable.placeholder_big
+                GlideHelper.HORIZONTAL_PLAYLIST_CORNER_RADIUS -> result = R.drawable.placeholder
+                else -> result = R.drawable.placeholder_big
+            }
         }
+        /*var result = when (roundedCornersImage) {
+            GlideHelper.HORIZONTAL_PLAYLIST_CORNER_RADIUS ->  R.drawable.placeholder
+            else -> R.drawable.placeholder_big
+        }*/
 
         Glide.with(imageView.context)
             .load(file ?: uri) // Загружаем либо file, либо uri
-            .placeholder(placeholder)
+            .placeholder(result)
             .transform(RoundedCorners(roundedCornersImage))
             .into(imageView)
     }

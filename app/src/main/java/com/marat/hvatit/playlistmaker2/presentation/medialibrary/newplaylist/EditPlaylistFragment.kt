@@ -50,11 +50,12 @@ class EditPlaylistFragment : NewPlaylistFragment() {
         super.onViewCreated(view, savedInstanceState)
         val args = arguments?.getString(ARGS_KEY) ?: "error"
         result = gsonParser.jsonToObject(args, Playlist::class.java)
-        glide.setImage(
+        glide.setImageDb(
             requireContext(),
             result.playlistCoverUrl,
             binding.cover,
-            GlideHelper.VERTICAL_PLAYLIST_CORNER_RADIUS
+            GlideHelper.VERTICAL_PLAYLIST_CORNER_RADIUS,
+            placeholder = R.drawable.placeholder_big
         )
         //binding.cover.isEnabled = false
         binding.etName.setText(result.playlistName)

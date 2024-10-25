@@ -206,6 +206,7 @@ class PlaylistScreenFragment : Fragment() {
     private fun setTracksSize(newSize: Int) {
         val sizeStr = resources.getQuantityString(R.plurals.numberOfSizePlaylist, newSize, newSize)
         binding.playlistCount.text = " $sizeStr"
+        binding.playlistFramecount.text = " $sizeStr"
     }
 
     private fun deleteTrack(playlist: Playlist, trackId: String) {
@@ -240,8 +241,16 @@ class PlaylistScreenFragment : Fragment() {
             imageView = binding.playlistCover,
             GlideHelper.DEFAULT_CORNER_RADIUS
         )
+        glide.setImageDb(
+            context = requireContext(),
+            covername = playlist.playlistCoverUrl,
+            imageView = binding.framecover,
+            GlideHelper.HORIZONTAL_PLAYLIST_CORNER_RADIUS
+        )
         binding.playlistName.text = playlist.playlistName
         binding.playlistDescription.text = playlist.playlistDescription
+        binding.playlistFramename.text = playlist.playlistName
+
     }
 
 }

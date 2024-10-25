@@ -245,7 +245,6 @@
                     android:layout_height="45dp"
                     android:layout_gravity="start|center_vertical"
                     android:layout_marginStart="13dp"
-                    android:background="@drawable/zloy"
                     android:scaleType="center" />
 
                 <TextView

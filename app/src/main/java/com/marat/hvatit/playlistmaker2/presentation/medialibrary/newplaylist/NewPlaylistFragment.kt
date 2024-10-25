@@ -66,6 +66,7 @@ open class NewPlaylistFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         binding.etName.addTextChangedListener(textWatcherName())
         binding.etDescription.addTextChangedListener(textWatcherDescription())
+        binding.cover.setImageResource(R.drawable.choice_photo)
         val pickMedia =
             registerForActivityResult(ActivityResultContracts.PickVisualMedia()) { uri ->
                 if (uri != null) {
@@ -104,7 +105,7 @@ open class NewPlaylistFragment : Fragment() {
             playlistCover?.let {
                 viewModel.createPlaylist(
                     covername = it,
-                    playlistId="0",
+                    playlistId = "0",
                     saveEditTextName = saveEditTextName!!,
                     saveEditTextDescription = saveEditTextDescription ?: "",
                     playlistSize = "0",

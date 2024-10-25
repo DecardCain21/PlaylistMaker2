@@ -55,9 +55,9 @@
                 android:layout_height="312dp"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="42dp"
+                android:adjustViewBounds="true"
                 android:background="@drawable/newplaylist_line"
-                android:scaleType="center"
-                android:src="@drawable/stub_addphoto"
+                android:scaleType="centerInside"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/tittle" />
