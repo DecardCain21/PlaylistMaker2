@@ -34,7 +34,7 @@ class PlaylistScreenViewModel(
 ) :
     ViewModel() {
     private val simpleDateFormat: SimpleDateFormat =
-        SimpleDateFormat("mm", Locale.getDefault())
+        SimpleDateFormat("mm:ss", Locale.getDefault())
 
     private var tracksState: PlaylistTracksState = PlaylistTracksState.Data(emptyList())
     private var loadingTracksData = MutableLiveData(tracksState)
