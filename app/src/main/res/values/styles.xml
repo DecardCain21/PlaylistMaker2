@@ -85,6 +85,11 @@
         <item name="backgroundTint">@color/button_create_edit_selector</item>
     </style>
 
+    <style name="custom_cursor_stule">
+        <item name="cursorColor">@color/main_primary</item>
+        <item name="android:textCursorDrawable">@drawable/cursor_color</item>
+    </style>
+
 
 
 
