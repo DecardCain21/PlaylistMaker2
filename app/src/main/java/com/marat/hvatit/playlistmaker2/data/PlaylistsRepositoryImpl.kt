@@ -18,14 +18,12 @@ class PlaylistsRepositoryImpl(
 
     override suspend fun getPlaylistsWithTrack(playlistId: String): List<Track> {
         val playlistsWithTrack = appDatabase.trackDao().getPlaylistWorker(playlistId.toInt())
-        Log.e("Playlists", "getMedialibPlaylists:${playlistsWithTrack.tracks}")
         return convertFromPlaylistWithTrack(playlistsWithTrack)
     }
 
 
     override fun getPlaylists(): Flow<List<Playlist>> = flow {
         val playlists = appDatabase.trackDao().getPlaylists()
-        Log.e("Playlists", "Repository,getPlaylists:$playlists")
         emit(convertFromPlaylistEntity(playlists))
     }
 
@@ -45,7 +43,6 @@ class PlaylistsRepositoryImpl(
 
     override suspend fun savePlaylist(playlist: Playlist) {
         appDatabase.trackDao().insertPlaylist(convertToPlaylistEntity(playlist))
-        Log.e("savePlaylist", "$playlist")
     }
 
     override suspend fun savePlaylistTrack(track: Track) {

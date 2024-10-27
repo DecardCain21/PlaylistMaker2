@@ -30,7 +30,6 @@ class PlaylistViewHolder(itemView: View, private val glide: GlideHelper) :
             ItemPlaylist.TYPE_HORIZONTAL -> GlideHelper.HORIZONTAL_PLAYLIST_CORNER_RADIUS
             else -> GlideHelper.DEFAULT_CORNER_RADIUS
         }
-        Log.e("bindModel","cornerRadius:$cornerRadius")
         glide.setImageDb(
             context = itemView.context,
             covername = model.playlistCoverUrl,

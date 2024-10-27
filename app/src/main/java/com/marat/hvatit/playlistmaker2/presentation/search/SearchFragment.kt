@@ -274,16 +274,10 @@ class SearchFragment : Fragment() {
     override fun onResume() {
         super.onResume()
         isClickAllowed = true
-        if (!saveEditText.isNullOrEmpty()) {
-            //viewModel.searchCoroutine(saveEditText!!)
-            //viewModel.restoreSaveFragmentState()
-        }
-
     }
 
     override fun onStop() {
         super.onStop()
-        //треклист из ласт запроса
         viewModel.setSaveFragmentState(layoutManager.findFirstCompletelyVisibleItemPosition())
     }
 

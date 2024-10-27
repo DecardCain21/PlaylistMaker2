@@ -43,11 +43,6 @@ class MainActivity : AppCompatActivity() {
 
     private fun initButtonSearch() {
         val buttonSearch = findViewById<Button>(R.id.button_bigOne)
-        /*buttonSearch.setOnClickListener {
-            SearchFragment.getIntent(this@MainActivity, this.getString(R.string.android)).apply {
-                startActivity(this)
-            }
-        }*/
     }
 
     private fun setThemePref() {

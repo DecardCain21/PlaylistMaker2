@@ -15,7 +15,6 @@ class FavoritesRepositoryImpl(
 ) : FavoritesRepository {
     override fun medialibTracks(): Flow<List<Track>> = flow {
         val tracks = appDatabase.trackDao().getTracks()
-        Log.e("test1","medialibTracks:$tracks")
         emit(convertFromTrackEntity(tracks))
     }
 

@@ -47,8 +47,7 @@ class PlaylistScreenViewModel(
     private var saveTracks: List<Track> = emptyList()
 
     private var loadingSaveState = MutableLiveData(Playlist("", "", "", "", ""))
-    fun setSaveState(playlist: Playlist) {
-        Log.e("setSaveState", "$playlist")
+    private fun setSaveState(playlist: Playlist) {
         loadingSaveState.postValue(playlist)
     }
 
@@ -80,7 +79,6 @@ class PlaylistScreenViewModel(
                 playlistId = id
             )
             setState(result)
-            Log.e("getTracks", "getTracksById$result")
         }
     }
 
@@ -170,7 +168,6 @@ class PlaylistScreenViewModel(
     private fun createMessage(
         playlistName: String, playlistDescription: String, playlistCount: String
     ): String {
-        //var result: Date? = volume?.let { Date(it.toLong()) }
         val tracksList = saveTracks.joinToString("\n") {
             "${saveTracks.indexOf(it) + 1}. ${it.artistName} - ${it.trackName} (${
                 simpleDateFormat.format(

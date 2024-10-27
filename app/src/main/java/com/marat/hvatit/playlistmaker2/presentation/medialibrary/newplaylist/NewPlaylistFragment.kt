@@ -169,10 +169,6 @@ open class NewPlaylistFragment : Fragment() {
     }
 
     private fun getFieldsIsEmpty(): Boolean {
-        Log.e(
-            "getFieldsIsEmpty",
-            "${!saveEditTextName.isNullOrEmpty() || !saveEditTextDescription.isNullOrEmpty()}"
-        )
         return !saveEditTextName.isNullOrEmpty() || !saveEditTextDescription.isNullOrEmpty()
     }
 

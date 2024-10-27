@@ -24,7 +24,6 @@ class PlaylistMakerApp : Application() {
             androidContext(this@PlaylistMakerApp)
             modules(dataModule, repositoryModule, interactorModule, viewModelModule, utilModule)
         }
-        val database = Room.databaseBuilder(this,AppDatabase::class.java,"database.db")
     }
 
     companion object {

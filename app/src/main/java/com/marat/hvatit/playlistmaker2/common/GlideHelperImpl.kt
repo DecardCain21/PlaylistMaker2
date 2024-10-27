@@ -70,7 +70,6 @@ class GlideHelperImpl : GlideHelper {
         roundedCornersImage: Int,
         placeholder: Int
     ) {
-        Log.e("loadImage","$placeholder")
         var result = 0
         if (placeholder != 0) {
             result = R.drawable.placeholder230
@@ -80,11 +79,6 @@ class GlideHelperImpl : GlideHelper {
                 else -> result = R.drawable.placeholder_big
             }
         }
-        /*var result = when (roundedCornersImage) {
-            GlideHelper.HORIZONTAL_PLAYLIST_CORNER_RADIUS ->  R.drawable.placeholder
-            else -> R.drawable.placeholder_big
-        }*/
-
         Glide.with(imageView.context)
             .load(file ?: uri) // Загружаем либо file, либо uri
             .placeholder(result)

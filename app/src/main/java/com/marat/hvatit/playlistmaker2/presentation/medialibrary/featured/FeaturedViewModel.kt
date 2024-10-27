@@ -32,7 +32,6 @@ class FeaturedViewModel(private val interactorDb: FavoritesInteractor) : ViewMod
             loadingFeaturedData.postValue(FeaturedState.EmptyState)
         } else {
             loadingFeaturedData.postValue(FeaturedState.Data(data.reversed()))
-            Log.e("setDataState","$data")
         }
     }
 }

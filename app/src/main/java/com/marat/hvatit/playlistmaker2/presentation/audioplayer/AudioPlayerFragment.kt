@@ -41,7 +41,6 @@ class AudioPlayerFragment : Fragment() {
     private val gsonParser: JsonParserImpl by inject()
     private val glide: GlideHelper by inject()
     private val playlistAdapter = PlaylistAdapter()
-    //private lateinit var recyclerView: RecyclerView
     private lateinit var result : Track
 
 
@@ -72,11 +71,6 @@ class AudioPlayerFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val args = arguments?.getString(ARGS_KEY) ?: "error"
-        /*result = if(savedInstanceState!=null){
-            gsonParser.jsonToObject(savedInstanceState.getString("saveState")!!,Track::class.java)
-        }else{
-            gsonParser.jsonToObject(args, Track::class.java)
-        }*/
         result = gsonParser.jsonToObject(args, Track::class.java)
         priviewUrl = result.previewUrl
         setTextContent(result)
@@ -110,20 +104,12 @@ class AudioPlayerFragment : Fragment() {
                 }
             }
 
-            override fun onSlide(bottomSheet: View, slideOffset: Float) {
-                //backgroundBottomSheet.isVisible = slideOffset > 0
-                //Log.e("SlideOffset", "${abs(slideOffset)}")
-                //Неверно указываю смещение?
-            }
+            override fun onSlide(bottomSheet: View, slideOffset: Float) {}
         })
         binding.back.setOnClickListener {
             findNavController().navigateUp()
-            //requireActivity().onBackPressed()
         }
 
-        //binding.actplayerButtonplay.isEnabled = false
-
-        //viewModel.playbackControl()
         binding.actplayerButtonplay.setOnClickListener {
             viewModel.playbackControl()
         }
@@ -213,12 +199,6 @@ class AudioPlayerFragment : Fragment() {
 
 
     }
-
-    override fun onSaveInstanceState(outState: Bundle) {
-        super.onSaveInstanceState(outState)
-        //outState.putString("saveState",gsonParser.objectToJson(result))
-    }
-
     private fun stateFavorite(state: FavoriteState) {
         if (state is FavoriteState.IsFavorite && state.favorite) {
             binding.buttonFavorite.setBackgroundResource(R.drawable.favorite_button_active)

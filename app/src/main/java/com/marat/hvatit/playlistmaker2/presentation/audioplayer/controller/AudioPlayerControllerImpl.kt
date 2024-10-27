@@ -57,7 +57,6 @@ class AudioPlayerControllerImpl : AudioPlayerController {
                 //nothing
             }
         }
-        Log.e("MediaState", "stateControl():$playerState")
         return playerState
     }
 
@@ -90,8 +89,6 @@ class AudioPlayerControllerImpl : AudioPlayerController {
     }
 
     override fun getCurrentTime(): String {
-        //Log.e("MediaState", "getCurrentTime:${this.mediaPlayer.currentPosition}")
-        //Log.e("MediaState", "getCurrentTime,mediaplayer hashcode${mediaPlayer.hashCode()}")
         return SimpleDateFormat("mm:ss", Locale.getDefault()).format(mediaPlayer.currentPosition)
     }
 

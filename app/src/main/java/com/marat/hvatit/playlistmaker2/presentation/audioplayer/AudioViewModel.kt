@@ -149,7 +149,6 @@ class AudioViewModel(
         viewModelScope.launch(Dispatchers.IO) {
             getPlaylistsUseCase.execute().collect { playlists ->
                 setDataState(playlists)
-                Log.e("Playlists", "ViewModel,getPlaylists:$playlists")
             }
         }
     }
@@ -163,13 +162,10 @@ class AudioViewModel(
         viewModelScope.launch(Dispatchers.IO) {
             val isTrackExist = getPlaylistTracksUseCase.execute(playlistId = playlist.playlistId)
                 .any { it.trackId == track.trackId }
-            Log.e("CrossRef", "Track:$isTrackExist")
             if (isTrackExist) {
                 onError()
-                Log.e("CrossRef", "postValue${addToPlaylist.value}")
             } else {
                 Log.e("CrossRef", "postValue${addToPlaylist.value}")
-                track.dateAdd = System.currentTimeMillis().toString()
                 updatePlaylists(playlist, track.trackId)
                 addPlaylistTrack(track)
                 onSuccess()

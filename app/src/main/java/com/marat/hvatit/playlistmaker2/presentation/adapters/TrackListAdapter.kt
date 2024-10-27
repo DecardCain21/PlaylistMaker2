@@ -14,8 +14,6 @@ class TrackListAdapter(
     var longClickTrackListener: LongClickTrackListener? = null
     private var tracklist: List<Track> = emptyList()
     private val glide: GlideHelper by inject(GlideHelper::class.java)
-    //Почему в адаптере требуется указать джава класс?
-    //import org.koin.java.KoinJavaComponent.inject потому что RecyclerView класс Android написанный на Java?
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TrackViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.search_cell, parent, false)

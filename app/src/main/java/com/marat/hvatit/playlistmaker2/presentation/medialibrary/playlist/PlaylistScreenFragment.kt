@@ -103,7 +103,6 @@ class PlaylistScreenFragment : Fragment() {
                     }
 
                     else -> {
-                        Log.e("overlayState", "callback,false")
                         binding.overlay.isVisible = false
                     }
                 }

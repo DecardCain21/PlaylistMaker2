@@ -21,7 +21,6 @@ class PlaylistsViewModel(private val interactor: PlaylistsInteractor) : ViewMode
         viewModelScope.launch(Dispatchers.IO) {
             interactor.getPlaylists().collect { playlists ->
                 setDataState(playlists)
-                Log.e("Playlists", "ViewModel,getPlaylists:$playlists")
             }
         }
     }

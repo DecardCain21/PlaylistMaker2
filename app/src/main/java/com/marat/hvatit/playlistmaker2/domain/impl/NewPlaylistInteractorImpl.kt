@@ -26,12 +26,7 @@ class NewPlaylistInteractorImpl(private val playlistsRepository: PlaylistsReposi
         var listIds = mutableListOf<Int>()
         withContext(Dispatchers.IO) {
             playlistsRepository.getPlaylistsIds().collect { ids -> listIds.addAll(ids) }
-            Log.e("listId", "$listIds")
         }
-        /*val result = listIds.maxOrNull()
-        if (result != null) {
-            return generateId(result)
-        }*/
         return 0
     }
 

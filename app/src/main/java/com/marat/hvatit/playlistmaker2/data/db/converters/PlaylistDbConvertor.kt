@@ -61,23 +61,6 @@ class PlaylistDbConvertor {
     fun convertToCrossRef(playlistId: String, trackId: String): PlaylistCrossRefEntity {
         return PlaylistCrossRefEntity(id = playlistId.toInt(), trackId = trackId)
     }
-
-    fun convertToTrack(track: PlaylistTrackEntity): Track {
-        return Track(
-            track.trackId,
-            track.trackName,
-            track.artistName,
-            track.trackTimeMillis,
-            track.artworkUrl100,
-            track.country,
-            track.genre,
-            track.year,
-            track.album,
-            track.previewUrl,
-            track.dateAdd
-        )
-    }
-
     fun convertToEntity(playlist: Playlist): PlaylistEntity {
         return PlaylistEntity(
             playlist.playlistId.toInt(),
