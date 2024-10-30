@@ -1,6 +1,5 @@
 package com.marat.hvatit.playlistmaker2.data
 
-import android.util.Log
 import com.marat.hvatit.playlistmaker2.data.db.AppDatabase
 import com.marat.hvatit.playlistmaker2.data.db.converters.PlaylistDbConvertor
 import com.marat.hvatit.playlistmaker2.data.db.entity.PlaylistEntity

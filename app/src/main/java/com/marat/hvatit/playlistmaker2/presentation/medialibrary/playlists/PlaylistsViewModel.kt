@@ -1,16 +1,15 @@
 package com.marat.hvatit.playlistmaker2.presentation.medialibrary.playlists
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.marat.hvatit.playlistmaker2.domain.api.usecase.GetPlaylistsUseCase
 import com.marat.hvatit.playlistmaker2.domain.models.Playlist
-import com.marat.hvatit.playlistmaker2.domain.playlists.PlaylistsInteractor
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-class PlaylistsViewModel(private val interactor: PlaylistsInteractor) : ViewModel() {
+class PlaylistsViewModel(private val getPlaylistsUseCase: GetPlaylistsUseCase) : ViewModel() {
 
     private var playlistsState: PlaylistsState = PlaylistsState.Data(emptyList())
     private var loadingPlaylistsData = MutableLiveData(playlistsState)
@@ -19,7 +18,7 @@ class PlaylistsViewModel(private val interactor: PlaylistsInteractor) : ViewMode
 
     fun getPlaylists() {
         viewModelScope.launch(Dispatchers.IO) {
-            interactor.getPlaylists().collect { playlists ->
+            getPlaylistsUseCase.execute().collect { playlists ->
                 setDataState(playlists)
             }
         }
