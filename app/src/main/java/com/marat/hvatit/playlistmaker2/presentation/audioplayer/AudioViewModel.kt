@@ -12,8 +12,9 @@ import com.marat.hvatit.playlistmaker2.domain.api.usecase.AddPlaylistTrackUseCas
 import com.marat.hvatit.playlistmaker2.domain.api.usecase.GetPlaylistTracksUseCase
 import com.marat.hvatit.playlistmaker2.domain.api.usecase.GetPlaylistsUseCase
 import com.marat.hvatit.playlistmaker2.domain.api.usecase.UpdatePlaylistUseCase
-import com.marat.hvatit.playlistmaker2.domain.favorites.FavoritesInteractor
-import com.marat.hvatit.playlistmaker2.domain.impl.GetFavoriteTracksUseCase
+import com.marat.hvatit.playlistmaker2.domain.api.usecase.tracks.AddTrackUseCase
+import com.marat.hvatit.playlistmaker2.domain.api.usecase.tracks.DeleteTrackUseCase
+import com.marat.hvatit.playlistmaker2.domain.api.usecase.tracks.GetFavoriteTracksUseCase
 import com.marat.hvatit.playlistmaker2.domain.models.Playlist
 import com.marat.hvatit.playlistmaker2.domain.models.Track
 import kotlinx.coroutines.Dispatchers
@@ -26,13 +27,14 @@ import kotlinx.coroutines.launch
 class AudioViewModel(
     previewUrl: String,
     private val interactor: AudioPlayerInteractor,
-    private val interactorDb: FavoritesInteractor,
     private val getPlaylistsUseCase: GetPlaylistsUseCase,
     private val addCrossRefUseCase: AddCrossRefUseCase,
     private val getPlaylistTracksUseCase: GetPlaylistTracksUseCase,
     private val addPlaylistTrackUseCase: AddPlaylistTrackUseCase,
     private val updatePlaylistUseCase: UpdatePlaylistUseCase,
-    private val getFavoriteTracksUseCase: GetFavoriteTracksUseCase
+    private val getFavoriteTracksUseCase: GetFavoriteTracksUseCase,
+    private val addTrackUseCase: AddTrackUseCase,
+    private val deleteTrackUseCase: DeleteTrackUseCase
 ) :
     ViewModel(),
     AudioPlayerCallback {
@@ -140,11 +142,13 @@ class AudioViewModel(
     }
 
     private suspend fun deleteTrackDb(track: Track) {
-        interactorDb.deleteFavorite(track)
+        //interactorDb.deleteFavorite(track)
+        deleteTrackUseCase.execute(track)
     }
 
     private suspend fun saveTrackDb(track: Track) {
-        interactorDb.saveFavoriteTrack(track)
+        //interactorDb.saveFavoriteTrack(track)
+        addTrackUseCase.execute(track)
     }
 
     fun getPlaylists() {

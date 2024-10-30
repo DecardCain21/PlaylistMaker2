@@ -1,4 +1,4 @@
-package com.marat.hvatit.playlistmaker2.domain.impl
+package com.marat.hvatit.playlistmaker2.domain.api.usecase.tracks
 
 import com.marat.hvatit.playlistmaker2.domain.favorites.FavoritesRepository
 import com.marat.hvatit.playlistmaker2.domain.models.Track

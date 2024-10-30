@@ -1,19 +1,16 @@
 package com.marat.hvatit.playlistmaker2.presentation.medialibrary.featured
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.marat.hvatit.playlistmaker2.domain.favorites.FavoritesInteractor
-import com.marat.hvatit.playlistmaker2.domain.impl.GetFavoriteTracksUseCase
+import com.marat.hvatit.playlistmaker2.domain.api.usecase.tracks.GetFavoriteTracksUseCase
 import com.marat.hvatit.playlistmaker2.domain.models.Track
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.launch
 
 class FeaturedViewModel(
-    private val interactorDb: FavoritesInteractor,
     private val getFavoriteTracksUseCase: GetFavoriteTracksUseCase
 ) : ViewModel() {
 

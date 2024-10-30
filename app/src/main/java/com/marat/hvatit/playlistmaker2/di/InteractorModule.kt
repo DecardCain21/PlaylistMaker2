@@ -15,10 +15,10 @@ import com.marat.hvatit.playlistmaker2.domain.api.usecase.GetPlaylistByIdUseCase
 import com.marat.hvatit.playlistmaker2.domain.api.usecase.GetPlaylistTracksUseCase
 import com.marat.hvatit.playlistmaker2.domain.api.usecase.GetPlaylistsUseCase
 import com.marat.hvatit.playlistmaker2.domain.api.usecase.UpdatePlaylistUseCase
-import com.marat.hvatit.playlistmaker2.domain.favorites.FavoritesInteractor
+import com.marat.hvatit.playlistmaker2.domain.api.usecase.tracks.AddTrackUseCase
 import com.marat.hvatit.playlistmaker2.domain.impl.AudioPlayerInteractorImpl
-import com.marat.hvatit.playlistmaker2.domain.impl.FavoritesInteractorImpl
-import com.marat.hvatit.playlistmaker2.domain.impl.GetFavoriteTracksUseCase
+import com.marat.hvatit.playlistmaker2.domain.api.usecase.tracks.DeleteTrackUseCase
+import com.marat.hvatit.playlistmaker2.domain.api.usecase.tracks.GetFavoriteTracksUseCase
 import com.marat.hvatit.playlistmaker2.domain.impl.MainInteractorImpl
 import com.marat.hvatit.playlistmaker2.domain.impl.NewPlaylistInteractorImpl
 import com.marat.hvatit.playlistmaker2.domain.impl.PlaylistsInteractorImpl
@@ -48,10 +48,6 @@ val interactorModule = module {
 
     single<MainInteractor> {
         MainInteractorImpl(get())
-    }
-
-    single<FavoritesInteractor> {
-        FavoritesInteractorImpl(get())
     }
 
     single<PlaylistsInteractor> {
@@ -99,6 +95,14 @@ val interactorModule = module {
 
     single {
         GetFavoriteTracksUseCase(get())
+    }
+
+    single {
+        AddTrackUseCase(get())
+    }
+
+    single {
+        DeleteTrackUseCase(get())
     }
 
 }
