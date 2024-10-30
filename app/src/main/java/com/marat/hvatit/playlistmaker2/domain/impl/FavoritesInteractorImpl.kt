@@ -10,10 +10,6 @@ import kotlinx.coroutines.withContext
 
 class FavoritesInteractorImpl(private val repositoryImpl: FavoritesRepository) :
     FavoritesInteractor {
-    override fun addFavorite(): Flow<List<Track>> {
-        return repositoryImpl.medialibTracks()
-    }
-
     override suspend fun saveFavoriteTrack(track: Track) {
         repositoryImpl.saveFavoriteTrack(track)
     }
@@ -22,17 +18,4 @@ class FavoritesInteractorImpl(private val repositoryImpl: FavoritesRepository) :
         repositoryImpl.deleteTrack(track)
     }
 
-     override suspend fun isFavorite(track: Track): Boolean {
-        val trackId = track.trackId
-        var result: Boolean = false
-        withContext(Dispatchers.IO) {
-            addFavorite()
-                .map { tracks -> tracks.any { it.trackId == trackId } }
-                .collect { isFavorite ->
-                    result = isFavorite
-                }
-
-        }
-        return result
-    }
 }

@@ -6,12 +6,16 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.marat.hvatit.playlistmaker2.domain.favorites.FavoritesInteractor
+import com.marat.hvatit.playlistmaker2.domain.impl.GetFavoriteTracksUseCase
 import com.marat.hvatit.playlistmaker2.domain.models.Track
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.launch
 
-class FeaturedViewModel(private val interactorDb: FavoritesInteractor) : ViewModel() {
+class FeaturedViewModel(
+    private val interactorDb: FavoritesInteractor,
+    private val getFavoriteTracksUseCase: GetFavoriteTracksUseCase
+) : ViewModel() {
 
     private var featuredState: FeaturedState = FeaturedState.Data(emptyList())
     private var loadingFeaturedData = MutableLiveData(featuredState)
@@ -20,7 +24,7 @@ class FeaturedViewModel(private val interactorDb: FavoritesInteractor) : ViewMod
 
     fun getFeaturedTracks() {
         viewModelScope.launch(Dispatchers.IO) {
-            interactorDb.addFavorite().catch { exception -> }
+            getFavoriteTracksUseCase.execute().catch { _ -> }
                 .collect { tracks ->
                     setDataState(tracks)
                 }

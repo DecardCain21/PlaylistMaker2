@@ -30,7 +30,6 @@ import java.util.Locale
 
 class AudioPlayerFragment : Fragment() {
 
-    private lateinit var intent: Intent
     private val simpleDateFormat: SimpleDateFormat =
         SimpleDateFormat("mm:ss", Locale.getDefault())
 

@@ -18,6 +18,7 @@ import com.marat.hvatit.playlistmaker2.domain.api.usecase.UpdatePlaylistUseCase
 import com.marat.hvatit.playlistmaker2.domain.favorites.FavoritesInteractor
 import com.marat.hvatit.playlistmaker2.domain.impl.AudioPlayerInteractorImpl
 import com.marat.hvatit.playlistmaker2.domain.impl.FavoritesInteractorImpl
+import com.marat.hvatit.playlistmaker2.domain.impl.GetFavoriteTracksUseCase
 import com.marat.hvatit.playlistmaker2.domain.impl.MainInteractorImpl
 import com.marat.hvatit.playlistmaker2.domain.impl.NewPlaylistInteractorImpl
 import com.marat.hvatit.playlistmaker2.domain.impl.PlaylistsInteractorImpl
@@ -94,6 +95,10 @@ val interactorModule = module {
 
     single {
         GetPlaylistByIdUseCase(get())
+    }
+
+    single {
+        GetFavoriteTracksUseCase(get())
     }
 
 }

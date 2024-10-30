@@ -186,7 +186,6 @@ class SearchFragment : Fragment() {
 
         binding.clearhistory.isVisible = true
         binding.headerhistory.isVisible = true
-        trackListAdapter.notifyDataSetChanged()
     }
 
     private fun nothingToShowState(searchState: SearchState.NothingToShow) {

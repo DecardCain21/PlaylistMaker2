@@ -13,6 +13,7 @@ import com.marat.hvatit.playlistmaker2.domain.api.usecase.GetPlaylistTracksUseCa
 import com.marat.hvatit.playlistmaker2.domain.api.usecase.GetPlaylistsUseCase
 import com.marat.hvatit.playlistmaker2.domain.api.usecase.UpdatePlaylistUseCase
 import com.marat.hvatit.playlistmaker2.domain.favorites.FavoritesInteractor
+import com.marat.hvatit.playlistmaker2.domain.impl.GetFavoriteTracksUseCase
 import com.marat.hvatit.playlistmaker2.domain.models.Playlist
 import com.marat.hvatit.playlistmaker2.domain.models.Track
 import kotlinx.coroutines.Dispatchers
@@ -30,7 +31,8 @@ class AudioViewModel(
     private val addCrossRefUseCase: AddCrossRefUseCase,
     private val getPlaylistTracksUseCase: GetPlaylistTracksUseCase,
     private val addPlaylistTrackUseCase: AddPlaylistTrackUseCase,
-    private val updatePlaylistUseCase: UpdatePlaylistUseCase
+    private val updatePlaylistUseCase: UpdatePlaylistUseCase,
+    private val getFavoriteTracksUseCase: GetFavoriteTracksUseCase
 ) :
     ViewModel(),
     AudioPlayerCallback {
@@ -112,7 +114,7 @@ class AudioViewModel(
     fun setFavoriteState(track: Track) {
         val trackId = track.trackId
         viewModelScope.launch(Dispatchers.IO) {
-            interactorDb.addFavorite().catch { exception -> changeFavorite(false) }
+            getFavoriteTracksUseCase.execute().catch { exception -> changeFavorite(false) }
                 .map { tracks -> tracks.any { it.trackId == trackId } }
                 .collect { isFavorite ->
                     if (isFavorite) {
@@ -129,7 +131,7 @@ class AudioViewModel(
 
     fun defaultFavoriteState(track: Track) {
         viewModelScope.launch {
-            changeFavorite(interactorDb.isFavorite(track))
+            changeFavorite(getFavoriteTracksUseCase.isFavorite(track))
         }
     }
 
