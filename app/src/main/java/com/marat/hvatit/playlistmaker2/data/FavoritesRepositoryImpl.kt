@@ -3,7 +3,7 @@ package com.marat.hvatit.playlistmaker2.data
 import com.marat.hvatit.playlistmaker2.data.db.AppDatabase
 import com.marat.hvatit.playlistmaker2.data.db.converters.TrackDbConvertor
 import com.marat.hvatit.playlistmaker2.data.db.entity.TrackEntity
-import com.marat.hvatit.playlistmaker2.domain.favorites.FavoritesRepository
+import com.marat.hvatit.playlistmaker2.domain.api.repository.FavoritesRepository
 import com.marat.hvatit.playlistmaker2.domain.models.Track
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow

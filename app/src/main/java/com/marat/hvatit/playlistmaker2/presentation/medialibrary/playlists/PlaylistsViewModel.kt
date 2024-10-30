@@ -4,7 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.marat.hvatit.playlistmaker2.domain.api.usecase.GetPlaylistsUseCase
+import com.marat.hvatit.playlistmaker2.domain.api.usecase.playlists.GetPlaylistsUseCase
 import com.marat.hvatit.playlistmaker2.domain.models.Playlist
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch

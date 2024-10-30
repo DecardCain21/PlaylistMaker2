@@ -6,7 +6,7 @@ import com.marat.hvatit.playlistmaker2.data.db.entity.PlaylistEntity
 import com.marat.hvatit.playlistmaker2.data.db.entity.PlaylistWithTrack
 import com.marat.hvatit.playlistmaker2.domain.models.Playlist
 import com.marat.hvatit.playlistmaker2.domain.models.Track
-import com.marat.hvatit.playlistmaker2.domain.playlists.PlaylistsRepository
+import com.marat.hvatit.playlistmaker2.domain.api.repository.PlaylistsRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 

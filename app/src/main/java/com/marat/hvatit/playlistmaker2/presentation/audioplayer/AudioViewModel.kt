@@ -7,11 +7,11 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.marat.hvatit.playlistmaker2.domain.api.AudioPlayerCallback
 import com.marat.hvatit.playlistmaker2.domain.api.interactors.AudioPlayerInteractor
-import com.marat.hvatit.playlistmaker2.domain.api.usecase.AddCrossRefUseCase
-import com.marat.hvatit.playlistmaker2.domain.api.usecase.AddPlaylistTrackUseCase
-import com.marat.hvatit.playlistmaker2.domain.api.usecase.GetPlaylistTracksUseCase
-import com.marat.hvatit.playlistmaker2.domain.api.usecase.GetPlaylistsUseCase
-import com.marat.hvatit.playlistmaker2.domain.api.usecase.UpdatePlaylistUseCase
+import com.marat.hvatit.playlistmaker2.domain.api.usecase.playlists.AddCrossRefUseCase
+import com.marat.hvatit.playlistmaker2.domain.api.usecase.playlisttracks.AddPlaylistTrackUseCase
+import com.marat.hvatit.playlistmaker2.domain.api.usecase.playlisttracks.GetPlaylistTracksUseCase
+import com.marat.hvatit.playlistmaker2.domain.api.usecase.playlists.GetPlaylistsUseCase
+import com.marat.hvatit.playlistmaker2.domain.api.usecase.playlists.UpdatePlaylistUseCase
 import com.marat.hvatit.playlistmaker2.domain.api.usecase.tracks.AddTrackUseCase
 import com.marat.hvatit.playlistmaker2.domain.api.usecase.tracks.DeleteTrackUseCase
 import com.marat.hvatit.playlistmaker2.domain.api.usecase.tracks.GetFavoriteTracksUseCase

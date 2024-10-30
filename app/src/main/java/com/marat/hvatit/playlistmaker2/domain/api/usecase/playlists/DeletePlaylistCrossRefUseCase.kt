@@ -1,6 +1,6 @@
-package com.marat.hvatit.playlistmaker2.domain.api.usecase
+package com.marat.hvatit.playlistmaker2.domain.api.usecase.playlists
 
-import com.marat.hvatit.playlistmaker2.domain.playlists.PlaylistsRepository
+import com.marat.hvatit.playlistmaker2.domain.api.repository.PlaylistsRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 

@@ -1,4 +1,4 @@
-package com.marat.hvatit.playlistmaker2.domain.playlists
+package com.marat.hvatit.playlistmaker2.domain.api.repository
 
 import com.marat.hvatit.playlistmaker2.domain.models.Playlist
 import com.marat.hvatit.playlistmaker2.domain.models.Track
