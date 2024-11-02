@@ -142,12 +142,10 @@ class AudioViewModel(
     }
 
     private suspend fun deleteTrackDb(track: Track) {
-        //interactorDb.deleteFavorite(track)
         deleteTrackUseCase.execute(track)
     }
 
     private suspend fun saveTrackDb(track: Track) {
-        //interactorDb.saveFavoriteTrack(track)
         addTrackUseCase.execute(track)
     }
 
@@ -165,7 +163,7 @@ class AudioViewModel(
         onSuccess: () -> Unit,
         onError: () -> Unit
     ) {
-        viewModelScope.launch(Dispatchers.IO) {
+        viewModelScope.launch{
             val isTrackExist = getPlaylistTracksUseCase.execute(playlistId = playlist.playlistId)
                 .any { it.trackId == track.trackId }
             if (isTrackExist) {
